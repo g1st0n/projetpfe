@@ -1,0 +1,85 @@
+/* Styling for Section Titles */
+h3 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* Card Styling */
+.example-card {
+  position: relative;
+}
+
+.mat-card-header {
+  align-items: center;
+}
+
+.mat-card-title {
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.mat-card-subtitle {
+  font-size: 16px;
+  color: #666;
+}
+
+.mat-card-content p {
+  font-size: 16px;
+  color: #444;
+  line-height: 1.5;
+}
+
+.mat-card-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Styling for Buttons */
+button[mat-button] {
+  background-color: #1976d2;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  font-weight: bold;
+  margin-right: 10px;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #1565c0;
+  }
+}
+
+/* Status Labels */
+.card-label {
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.mat-light-bg-red {
+  background-color: #ffebee;
+}
+
+.mat-light-bg-green {
+  background-color: #e8f5e9;
+}
+
+.text-red {
+  color: #d32f2f;
+  font-weight: bold;
+}
+
+.text-green {
+  color: #388e3c;
+  font-weight: bold;
+}
+
+/* Responsive Spacing */
+@media (max-width: 767px) {
+  .row-cols-lg-3 > * {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}

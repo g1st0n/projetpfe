@@ -1,0 +1,104 @@
+.product-details {
+  display: flex;
+  gap: 30px;
+  padding: 20px;
+  max-width: 100%;
+  margin: 0 auto;
+  background-color: white;
+  border-radius: 8px;
+}
+
+.product-image {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.product-image img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.product-info {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.product-row {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.label {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.value {
+  font-size: 16px;
+  color: #555;
+}
+
+.action-row {
+  display: flex;
+  justify-content: center; /* Centers the buttons */
+  gap: 20px; /* Adds space between the buttons */
+  padding: 20px 0;
+}
+
+button[mat-button] {
+  background-color: #1976d2;
+  color: white;
+  padding: 10px 20px;
+  text-transform: uppercase;
+  font-weight: bold;
+  border-radius: 4px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease;
+}
+
+button[mat-button]:hover {
+  background-color: #1565c0;
+}
+.product-details {
+  display: flex;
+  gap: 30px;
+  padding: 20px;
+  max-width: 100%;
+  margin: 0 auto;
+  background-color: white;
+  border-radius: 8px;
+  overflow-y: auto; /* Allows scrolling */
+}
+
+.product-info {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  max-height: 400px; /* Set max-height to enable scroll if needed */
+  overflow-y: auto; /* Allows vertical scrolling */
+}
+
+/* Hide scrollbar for Chrome, Safari, and Edge */
+.product-info::-webkit-scrollbar {
+  width: 0px;
+  background: transparent; /* Hide scrollbar track */
+}
+
+/* Hide scrollbar for Firefox */
+.product-info {
+  scrollbar-width: none; /* Firefox */
+}
+
+/* Hide scrollbar for Internet Explorer and Edge */
+.product-info {
+  -ms-overflow-style: none; /* IE and Edge */
+}
