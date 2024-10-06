@@ -5,7 +5,8 @@ import {MatTableDataSource} from '@angular/material/table'
 import { CommonModule, formatDate } from '@angular/common';
 import { MatModule } from 'src/app/appModules/mat.module';
 import { MatDialog } from '@angular/material/dialog';
-import { DialogComponentComponent } from 'src/app/dialog-component/dialog-component.component';
+import { DialogComponentComponent } from 'src/app/dialogPop/dialog-component/dialog-component.component';
+import { DialogAddProductComponent } from 'src/app/dialogPop/dialog-add-product/dialog-add-product.component';
 
 
 export interface UserData {
@@ -78,7 +79,19 @@ export class SortingTableComponent implements AfterViewInit {
       panelClass: 'custom-dialog-container'
     });
   }
+  openAddDialog(): void {
+    const dialogRef = this.dialog.open(DialogAddProductComponent, {
+      width: '400px'
+    });
 
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        // Handle the form result here
+        console.log('Form Data:', result); 
+        // You can also update the dataSource to add the new product here
+      }
+    });
+  }
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
