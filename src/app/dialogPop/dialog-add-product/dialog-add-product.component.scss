@@ -1,0 +1,32 @@
+.w-100 {
+    width: 100%;
+  }
+  
+  .action-row {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+  }
+/* Hide scrollbar but still allow scrolling */
+mat-dialog-content {
+    overflow-y: auto;  /* Allows vertical scrolling */
+    max-height: 400px; /* Limit the height to control scroll area */
+  }
+  
+  /* Hide scrollbar for Chrome, Safari, and Edge */
+  mat-dialog-content::-webkit-scrollbar {
+    width: 0px;
+    background: transparent; /* Make the scrollbar track invisible */
+  }
+  
+  /* Hide scrollbar for Firefox */
+  mat-dialog-content {
+    scrollbar-width: none; /* Firefox */
+  }
+  
+  /* Hide scrollbar for Internet Explorer and Edge */
+  mat-dialog-content {
+    -ms-overflow-style: none; /* IE and Edge */
+  }
+    
