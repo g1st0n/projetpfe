@@ -13,24 +13,39 @@ import { MatModule } from 'src/app/appModules/mat.module';
 })
 export class DialogAddProductComponent {
 
-  
-  formGroup: FormGroup;
-  constructor(
-    private fb: FormBuilder,
-    public dialogRef: MatDialogRef<DialogAddProductComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any
-  ) {
-    this.formGroup = this.fb.group({
+  imagePreview: string | ArrayBuffer | null = null;
+  form: FormGroup;
+  constructor(private fb: FormBuilder) {
+    this.form = this.fb.group({
       name: ['', Validators.required],
       description: ['', Validators.required],
-      quantity: ['', [Validators.required, Validators.min(1)]],
-      price: ['', [Validators.required, Validators.min(0)]]
+      quantity: [null, Validators.required],
+      price: [null, Validators.required]
     });
   }
+  onImageSelected(event: Event): void {
+    const file = (event.target as HTMLInputElement).files![0];
 
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.imagePreview = reader.result;
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+  triggerFileInput(): void {
+    const fileInput = document.getElementById('image-upload') as HTMLInputElement;
+    fileInput.click();
+  }
+  deleteImage(): void {
+    this.imagePreview = null; // Clear the image preview
+    const fileInput = document.getElementById('image-upload') as HTMLInputElement;
+    fileInput.value = ''; // Clear the file input so the user can select a new file if needed
+  }
   onSubmit(): void {
-    if (this.formGroup.valid) {
-      this.dialogRef.close(this.formGroup.value);  // Pass the form data back on close
+    if (this.form.valid) {
+      console.log(this.form.value);  // Pass the form data back on close
     }
   }
 }

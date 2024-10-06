@@ -81,7 +81,12 @@ export class SortingTableComponent implements AfterViewInit {
   }
   openAddDialog(): void {
     const dialogRef = this.dialog.open(DialogAddProductComponent, {
-      width: '400px'
+      width: 'auto', 
+      maxWidth: '90vw', 
+      height: 'auto',
+      maxHeight: '90vh', 
+     
+      panelClass: 'custom-dialog-container'
     });
 
     dialogRef.afterClosed().subscribe(result => {
