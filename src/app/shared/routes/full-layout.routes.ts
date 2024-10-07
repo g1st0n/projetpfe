@@ -49,6 +49,10 @@ export const Full_ROUTES: Routes = [
     {
         path: 'downloads',
         loadChildren: () => import('../../downloads/downloads.module').then(m => m.DownloadsModule)
+    },
+    {
+        path: 'dialogPop',
+        loadChildren: () => import('../../dialogPop/dialog.module').then(m => m.dialogPopModule)
     }
     
 ];

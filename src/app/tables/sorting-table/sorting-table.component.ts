@@ -7,6 +7,7 @@ import { MatModule } from 'src/app/appModules/mat.module';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogComponentComponent } from 'src/app/dialogPop/dialog-component/dialog-component.component';
 import { DialogAddProductComponent } from 'src/app/dialogPop/dialog-add-product/dialog-add-product.component';
+import { SelectionModel } from '@angular/cdk/collections';
 
 
 export interface UserData {
@@ -55,6 +56,7 @@ const NAMES: string[] = [
 
 
 export class SortingTableComponent implements AfterViewInit {
+  selection = new SelectionModel<UserData>(true, []);
   displayedColumns: string[] = ['id', 'name', 'progress', 'fruit' , 'temps'];
   dataSource: MatTableDataSource<UserData>;
 
@@ -110,7 +112,24 @@ export class SortingTableComponent implements AfterViewInit {
       this.dataSource.paginator.firstPage();
     }
   }
+  toggleRow(row: UserData) {
+    this.selection.toggle(row);
+  }
+  toggleAllRows(event: any) {
+    if (event.checked) {
+      this.selection.select(...this.dataSource.data);
+    } else {
+      this.selection.clear();
+    }
+  }
+  deleteSelectedRows() {
+    const selectedRows = this.selection.selected;
+    this.dataSource.data = this.dataSource.data.filter(row => !selectedRows.includes(row));
+    this.selection.clear(); // Clear selection after deletion
+  }
 }
+
+
 
 /** Builds and returns a new User. */
 function createNewUser(id: number): UserData {
@@ -128,6 +147,7 @@ function createNewUser(id: number): UserData {
  temps :formatDate(new Date(), 'yyyy/MM/dd', 'en'),
  
   };
+  
 }
 
 

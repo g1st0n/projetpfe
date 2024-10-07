@@ -1,0 +1,90 @@
+<h6 class="mb-0 text-uppercase">Sous-catégorie de matières</h6>  
+<hr>
+
+<mat-card>
+    <mat-card-content>
+
+        <!-- Delete Button (Visible when rows are selected) -->
+        <div *ngIf="selection.hasValue()" class="d-flex flex-row justify-content-end mb-2">
+          <button mat-raised-button color="warn" (click)="deleteSelectedRows()">
+            Supprimer sélectionné(s) ({{selection.selected.length}})
+          </button>
+        </div>
+
+        <div class="d-flex flex-row gap-3 align-items-center justify-content-between">
+            <div class="">
+              <h5 class="">Sous-catégories</h5>
+            </div>
+            
+            <div>
+              <button mat-icon-button [matMenuTriggerFor]="menu">
+                <mat-icon>more_vert</mat-icon>
+              </button>
+              <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="openAddDialog()">
+                  <mat-icon class="material-icons-outlined">add</mat-icon>
+                  <span>Ajouter</span>
+                </button>
+                <button mat-menu-item (click)="toggleDeleteMode()">
+                  <mat-icon class="material-icons-outlined">delete</mat-icon>
+                  <span>Supprimer</span>
+                </button>
+              </mat-menu>
+            </div>
+        </div>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Filter</mat-label>
+          <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Matière" #input>
+        </mat-form-field>
+
+        <div class="sorting-table">
+          <table mat-table [dataSource]="dataSource" matSort>
+
+            <!-- Checkbox Column (Visible in delete mode) -->
+            <ng-container *ngIf="deleteMode" matColumnDef="select">
+              <th mat-header-cell *matHeaderCellDef>
+                <mat-checkbox (change)="toggleAllRows($event)" [checked]="isAllSelected()" [indeterminate]="isIndeterminate()"></mat-checkbox>
+              </th>
+              <td mat-cell *matCellDef="let row">
+                <mat-checkbox (click)="$event.stopPropagation()" (change)="toggleRow(row)" [checked]="selection.isSelected(row)"></mat-checkbox>
+              </td>
+            </ng-container>
+
+            <!-- ID Column -->
+            <ng-container matColumnDef="id">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
+              <td mat-cell *matCellDef="let row" (click)="openDialog(row)"> {{row.id}} </td>
+            </ng-container>
+
+            <!-- Type de Matière Column -->
+            <ng-container matColumnDef="typeMatiere">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Type de Matière </th>
+              <td mat-cell *matCellDef="let row" (click)="openDialog(row)"> {{row.typeMatiere}} </td>
+            </ng-container>
+
+            <!-- Nom Column -->
+            <ng-container matColumnDef="nom">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Nom </th>
+              <td mat-cell *matCellDef="let row" (click)="openDialog(row)"> {{row.nom}} </td>
+            </ng-container>
+
+            <!-- Reference Column -->
+            <ng-container matColumnDef="reference">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Référence </th>
+              <td mat-cell *matCellDef="let row" (click)="openDialog(row)"> {{row.reference}} </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+            <!-- Row shown when there is no matching data. -->
+            <tr class="mat-row" *matNoDataRow>
+              <td class="mat-cell" colspan="4">Aucune donnée correspondant au filtre "{{input.value}}"</td>
+            </tr>
+          </table>
+
+          <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+        </div>
+    </mat-card-content>
+</mat-card>
