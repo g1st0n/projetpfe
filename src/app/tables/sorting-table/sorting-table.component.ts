@@ -67,6 +67,7 @@ export class SortingTableComponent implements AfterViewInit, OnInit {
       })
       .catch(error => {
         console.error('Error fetching products:', error);
+        
       });
   }
   
