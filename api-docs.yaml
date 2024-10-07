@@ -1,0 +1,640 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI definition
+  version: v0
+servers:
+- url: http://localhost:8080
+  description: Generated server url
+paths:
+  /editCat:
+    put:
+      tags:
+      - categorie-controller
+      operationId: editcat
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Famille_Product'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Famille_Product'
+  /api/products/{id}:
+    get:
+      tags:
+      - product-controller
+      operationId: getById_1
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProductResponse'
+    put:
+      tags:
+      - product-controller
+      operationId: editProduct
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProductResponse'
+    delete:
+      tags:
+      - product-controller
+      operationId: deleteProduct
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+  /saveCat:
+    post:
+      tags:
+      - categorie-controller
+      operationId: SaveCat
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Famille_Product'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Famille_Product'
+  /api/products/add:
+    post:
+      tags:
+      - product-controller
+      operationId: saveProduct
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProductResponse'
+  /api/auth/login:
+    post:
+      tags:
+      - auth-controller
+      operationId: login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JwtRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/JwtResponse'
+  /cats:
+    get:
+      tags:
+      - categorie-controller
+      operationId: getAllcat
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Famille_Product'
+  /cat/{id}:
+    get:
+      tags:
+      - categorie-controller
+      operationId: getById
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Famille_Product'
+  /api/products:
+    get:
+      tags:
+      - product-controller
+      operationId: getProducts
+      parameters:
+      - name: pageable
+        in: query
+        required: true
+        schema:
+          $ref: '#/components/schemas/Pageable'
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PageProduct'
+  /api/products/showAll:
+    get:
+      tags:
+      - product-controller
+      operationId: getAllProduct
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProductResponse'
+  /api/auth/logout:
+    get:
+      tags:
+      - auth-controller
+      operationId: logout
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+  /deleteCat/{id}:
+    delete:
+      tags:
+      - categorie-controller
+      operationId: getCat
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+components:
+  schemas:
+    Famille_Product:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        designation:
+          type: string
+    ProductRequest:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        reference:
+          type: string
+        designation:
+          type: string
+        color:
+          type: string
+        weight:
+          type: number
+          format: float
+        dimension:
+          type: number
+          format: float
+        productionDuration:
+          type: integer
+          format: int32
+        price:
+          type: number
+          format: float
+        quantity:
+          type: integer
+          format: int32
+        productionCost:
+          type: number
+          format: float
+        logo:
+          type: string
+          format: binary
+        subCategory:
+          type: integer
+          format: int64
+        rawMaterial:
+          type: integer
+          format: int64
+    ProductResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        reference:
+          type: string
+        designation:
+          type: string
+        color:
+          type: string
+        weight:
+          type: number
+          format: float
+        dimension:
+          type: number
+          format: float
+        productionDuration:
+          type: integer
+          format: int32
+        price:
+          type: number
+          format: float
+        quantity:
+          type: integer
+          format: int32
+        productionCost:
+          type: number
+          format: float
+        logo:
+          type: string
+        logoName:
+          type: string
+        logoType:
+          type: string
+        subCategory:
+          type: string
+        rawMaterial:
+          type: string
+    JwtRequest:
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+    JwtResponse:
+      type: object
+      properties:
+        jwtToken:
+          type: string
+        username:
+          type: string
+    Pageable:
+      type: object
+      properties:
+        page:
+          minimum: 0
+          type: integer
+          format: int32
+        size:
+          minimum: 1
+          type: integer
+          format: int32
+        sort:
+          type: array
+          items:
+            type: string
+    Client:
+      type: object
+      properties:
+        idClient:
+          type: integer
+          format: int64
+        fullName:
+          type: string
+        clientType:
+          type: string
+        email:
+          type: string
+        address:
+          type: string
+        orders:
+          type: array
+          items:
+            $ref: '#/components/schemas/Order'
+        user:
+          $ref: '#/components/schemas/User'
+    FileStorage:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        fileName:
+          type: string
+        fileType:
+          type: string
+        fileSize:
+          type: integer
+          format: int64
+        data:
+          type: string
+          format: byte
+        creationDate:
+          type: string
+          format: date-time
+    LocalTime:
+      type: object
+      properties:
+        hour:
+          type: integer
+          format: int32
+        minute:
+          type: integer
+          format: int32
+        second:
+          type: integer
+          format: int32
+        nano:
+          type: integer
+          format: int32
+    Order:
+      type: object
+      properties:
+        idOrder:
+          type: integer
+          format: int64
+        client:
+          $ref: '#/components/schemas/Client'
+        product:
+          $ref: '#/components/schemas/Product'
+        date:
+          type: string
+          format: date-time
+        quantity:
+          type: integer
+          format: int32
+    PageProduct:
+      type: object
+      properties:
+        totalPages:
+          type: integer
+          format: int32
+        totalElements:
+          type: integer
+          format: int64
+        first:
+          type: boolean
+        last:
+          type: boolean
+        size:
+          type: integer
+          format: int32
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/Product'
+        number:
+          type: integer
+          format: int32
+        sort:
+          type: array
+          items:
+            $ref: '#/components/schemas/SortObject'
+        numberOfElements:
+          type: integer
+          format: int32
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
+        empty:
+          type: boolean
+    PageableObject:
+      type: object
+      properties:
+        offset:
+          type: integer
+          format: int64
+        sort:
+          type: array
+          items:
+            $ref: '#/components/schemas/SortObject'
+        paged:
+          type: boolean
+        unpaged:
+          type: boolean
+        pageSize:
+          type: integer
+          format: int32
+        pageNumber:
+          type: integer
+          format: int32
+    Product:
+      type: object
+      properties:
+        idProduct:
+          type: integer
+          format: int64
+        reference:
+          type: string
+        designation:
+          type: string
+        color:
+          type: string
+        weight:
+          type: number
+          format: float
+        dimension:
+          type: number
+          format: float
+        productionDuration:
+          type: integer
+          format: int32
+        price:
+          type: number
+          format: float
+        quantity:
+          type: integer
+          format: int32
+        productionCost:
+          type: number
+          format: float
+        subCategory:
+          $ref: '#/components/schemas/SubCategory'
+        orders:
+          type: array
+          items:
+            $ref: '#/components/schemas/Order'
+        productionPlans:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductionPlan'
+        rawMaterial:
+          $ref: '#/components/schemas/RawMaterial'
+        logo:
+          $ref: '#/components/schemas/FileStorage'
+    ProductionPlan:
+      type: object
+      properties:
+        idPlanning:
+          type: integer
+          format: int64
+        date:
+          type: string
+          format: date-time
+        quantity:
+          type: integer
+          format: int32
+        duration:
+          $ref: '#/components/schemas/LocalTime'
+        product:
+          $ref: '#/components/schemas/Product'
+        workshop:
+          $ref: '#/components/schemas/Workshop'
+        workforce:
+          type: integer
+          format: int32
+        comment:
+          type: string
+    RawMaterial:
+      type: object
+      properties:
+        idMaterial:
+          type: integer
+          format: int64
+        name:
+          type: string
+        materialType:
+          type: string
+        supplier:
+          type: string
+        availableQuantity:
+          type: integer
+          format: int32
+        unit:
+          type: string
+        color:
+          type: string
+        origin:
+          type: string
+        unitPrice:
+          type: number
+          format: float
+        products:
+          type: array
+          items:
+            $ref: '#/components/schemas/Product'
+    SortObject:
+      type: object
+      properties:
+        direction:
+          type: string
+        nullHandling:
+          type: string
+        ascending:
+          type: boolean
+        property:
+          type: string
+        ignoreCase:
+          type: boolean
+    SubCategory:
+      type: object
+      properties:
+        idSubCategory:
+          type: integer
+          format: int64
+        name:
+          type: string
+        reference:
+          type: string
+        products:
+          type: array
+          items:
+            $ref: '#/components/schemas/Product'
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        firstName:
+          type: string
+        lastName:
+          type: string
+        address:
+          type: string
+        phoneNumber:
+          type: integer
+          format: int64
+        password:
+          type: string
+        role:
+          type: string
+        status:
+          type: string
+        lastAccess:
+          type: string
+          format: date-time
+        clients:
+          type: array
+          items:
+            $ref: '#/components/schemas/Client'
+        enabled:
+          type: boolean
+        profileImage:
+          $ref: '#/components/schemas/FileStorage'
+    Workshop:
+      type: object
+      properties:
+        idWorkshop:
+          type: integer
+          format: int64
+        workshopNumber:
+          type: integer
+          format: int32
+        productionCapacity:
+          type: integer
+          format: int64
+        machineCount:
+          type: integer
+          format: int32
+        machineCost:
+          type: number
+          format: float
+        productionPlans:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductionPlan'
