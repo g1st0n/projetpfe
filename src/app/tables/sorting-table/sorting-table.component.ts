@@ -6,8 +6,8 @@ import { CommonModule } from '@angular/common';
 import { MatModule } from 'src/app/appModules/mat.module';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogComponentComponent } from 'src/app/dialogPop/dialog-component/dialog-component.component';
-import { ProductControllerApi } from 'C:/Users/extreme pc/Documents/GhassenPFEFront/projetpfe/src/network/openapi/apis/';  // Import the API service
-import { ProductResponse } from 'C:/Users/extreme pc/Documents/GhassenPFEFront/projetpfe/src/network/openapi/models/';
+import { ProductControllerApi } from 'src/network/openapi/apis/';  // Import the API service
+import { ProductResponse } from 'src/network/openapi/models/';
 import { DialogAddProductComponent } from 'src/app/dialogPop/dialog-add-product/dialog-add-product.component';
 import { SelectionModel } from '@angular/cdk/collections';
 
@@ -134,19 +134,5 @@ export class SortingTableComponent implements AfterViewInit, OnInit {
       this.dataSource.paginator.firstPage();
     }
   }
-  toggleRow(row: UserData) {
-    this.selection.toggle(row);
-  }
-  toggleAllRows(event: any) {
-    if (event.checked) {
-      this.selection.select(...this.dataSource.data);
-    } else {
-      this.selection.clear();
-    }
-  }
-  deleteSelectedRows() {
-    const selectedRows = this.selection.selected;
-    this.dataSource.data = this.dataSource.data.filter(row => !selectedRows.includes(row));
-    this.selection.clear(); // Clear selection after deletion
-  }
+  
 }

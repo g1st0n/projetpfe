@@ -3,85 +3,12 @@
     <button mat-icon-button (click)="toggleSidebar()" >
       <mat-icon class="material-icons-outlined">menu</mat-icon>
     </button>
-    <button mat-icon-button (click)="openSearch()">
-      <mat-icon class="material-icons-outlined">search</mat-icon>
-    </button>
+
   </div>
 
   <div class="d-flex align-items-center gap-1">
-    <button mat-icon-button [matMenuTriggerFor]="language" class="d-none d-sm-flex">
-      <img src="assets/images/county/02.png" alt="">
-    </button>
-    <mat-menu #language class="rounded-4">
-      <button mat-menu-item>
-        <div class="d-flex align-items-center gap-2">
-          <img src="assets/images/county/01.png" width="24" alt="">
-          <span>English</span>
-        </div>
-      </button>
-      <button mat-menu-item>
-        <div class="d-flex align-items-center gap-2">
-          <img src="assets/images/county/02.png" width="24" alt="">
-          <span>Catalan</span>
-        </div>
-      </button>
-      <button mat-menu-item>
-        <div class="d-flex align-items-center gap-2">
-          <img src="assets/images/county/03.png" width="24" alt="">
-          <span>French</span>
-        </div>
-      </button>
-      <button mat-menu-item>
-        <div class="d-flex align-items-center gap-2">
-          <img src="assets/images/county/04.png" width="24" alt="">
-          <span>Belize</span>
-        </div>
-      </button>
-      <button mat-menu-item>
-        <div class="d-flex align-items-center gap-2">
-          <img src="assets/images/county/05.png" width="24" alt="">
-          <span>Colombia</span>
-        </div>
-      </button>
-      <button mat-menu-item>
-        <div class="d-flex align-items-center gap-2">
-          <img src="assets/images/county/06.png" width="24" alt="">
-          <span>Spanish</span>
-        </div>
-      </button>
-      <button mat-menu-item>
-        <div class="d-flex align-items-center gap-2">
-          <img src="assets/images/county/07.png" width="24" alt="">
-          <span>Georgian</span>
-        </div>
-      </button>
-      <button mat-menu-item>
-        <div class="d-flex align-items-center gap-2">
-          <img src="assets/images/county/08.png" width="24" alt="">
-          <span>Hindi</span>
-        </div>
-      </button>
-    </mat-menu>
-    <button mat-icon-button (click)="darkMode()">
-      <mat-icon class="material-icons-outlined">{{ theme_name }}</mat-icon>
-    </button>
-    <button mat-icon-button [matMenuTriggerFor]="Appmenu">
-      <mat-icon class="material-icons-outlined">apps</mat-icon>
-    </button>
-    <mat-menu #Appmenu class="dropdown-apps rounded-4">
-      <mat-grid-list cols="3" rowHeight="4:4">
-        <mat-grid-tile *ngFor="let item of appIcon">
-          <div class="app-box text-center">
-            <div class="app-icon">
-              <img src="{{item.src}}" width="30" alt="">
-            </div>
-            <div class="app-name">
-              <p>{{item.name}}</p>
-            </div>
-          </div>
-        </mat-grid-tile>
-      </mat-grid-list>
-    </mat-menu>
+  
+    
 
     <button mat-icon-button [matMenuTriggerFor]="Notification">
       <mat-icon class="material-icons-outlined" matBadge="7" matBadgePosition="after"
