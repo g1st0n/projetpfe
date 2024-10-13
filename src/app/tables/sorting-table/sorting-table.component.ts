@@ -13,7 +13,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 
 
 export interface UserData {
-  id: string;
+  id: number;
   name: string;
   progress: string;
   fruit: number;
@@ -39,6 +39,7 @@ export class SortingTableComponent implements AfterViewInit, OnInit {
   pageSize = 10; // Default page size
   pageIndex = 0; // Default to the first page
 
+  selection = new SelectionModel<ProductResponse>(true, []);
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
