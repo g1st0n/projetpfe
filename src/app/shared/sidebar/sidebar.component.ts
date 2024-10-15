@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { SidebarService } from './../sidebar/sidebar.service'
+import { AuthServiceService } from 'src/app/AuthService/auth-service.service';
 
 
 @Component({
@@ -10,9 +11,9 @@ import { SidebarService } from './../sidebar/sidebar.service'
 })
 
 export class SidebarComponent implements OnInit {
-
+    role: string;
   
-    constructor(public sidebarservice: SidebarService
+    constructor(public sidebarservice: SidebarService ,private authService: AuthServiceService
       ) { }
 
       getSideBarSate() {
@@ -20,6 +21,7 @@ export class SidebarComponent implements OnInit {
       }
   
     ngOnInit() {
+        this.role = this.authService.getUserRole();
     }
 
 }
