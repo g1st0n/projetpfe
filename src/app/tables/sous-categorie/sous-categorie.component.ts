@@ -4,7 +4,8 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { MatModule } from 'src/app/appModules/mat.module';
-
+import { SubCategoryResponse } from 'src/network/openapi/models/';
+import { SubCategoryControllerApi } from 'src/network/openapi/apis/';
 import { SelectionModel } from '@angular/cdk/collections';
 import { DialogAddProductComponent } from 'src/app/dialogPop/dialog-add-product/dialog-add-product.component';
 import { DialogsouscategorieComponent } from 'src/app/dialogPop/dialogsouscategorie/dialogsouscategorie.component';
@@ -22,6 +23,7 @@ const SOUS_CATEGORIES = [
   selector: 'app-sous-categorie',
   standalone: true,
   imports: [CommonModule, MatModule, MatSortModule, MatPaginatorModule],
+  providers: [SubCategoryControllerApi],
   templateUrl: './sous-categorie.component.html',
   
   styleUrls: ['./sous-categorie.component.scss']
@@ -31,6 +33,10 @@ export class SousCategorieComponent implements AfterViewInit {
   dataSource: MatTableDataSource<any>;
   selection = new SelectionModel<any>(true, []); // To handle multi-selection
   deleteMode = false; // Track if we are in delete mode
+  subCategories: SubCategoryResponse[] = [];
+  totalItems = 0; // To store the total number of products (for paginator)
+  pageSize = 10; // Default page size
+  pageIndex = 0; // Default to the first page
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -38,11 +44,20 @@ export class SousCategorieComponent implements AfterViewInit {
   constructor(public dialog: MatDialog) {
     // Initialize with static data
     this.dataSource = new MatTableDataSource(SOUS_CATEGORIES);
+    private subCategoryService: SubCategoryControllerApi
   }
 
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+  ngAfterViewInit(): void {
+    this.paginator.page.subscribe(() => {
+      this.pageIndex = this.paginator.pageIndex;
+      this.pageSize = this.paginator.pageSize;
+      this.fetchSubCategories(); // Fetch products on page change
+    });
+
+    this.sort.sortChange.subscribe(() => {
+      this.pageIndex = 0; // Reset page index on sort change
+      this.fetchSubCategories(); // Fetch products on sort change
+    });
   }
 
   // Toggle the delete mode to show checkboxes
@@ -125,5 +140,34 @@ export class SousCategorieComponent implements AfterViewInit {
       data: row,
       panelClass: 'custom-dialog-container'
     });
+  }
+
+
+  // Fetch products with pagination and sorting parameters
+  fetchSubCategories(): void {
+    const sortField = this.sort?.active || 'name'; // Default to sorting by 'name'
+    const sortDirection = this.sort?.direction || 'asc'; // Default to ascending sort
+
+    // Construct the pageable parameters
+    const pageable = {
+      page: this.pageIndex,
+      size: this.pageSize,
+      sort: [`${sortField},${sortDirection}`]
+    };
+
+    // Send pageable object to the getProducts method
+    this.productService.getProducts({ pageable })
+      .then((response: any) => {
+        this.products = response.content; // Assuming backend returns { content, totalElements }
+        this.totalItems = response.totalElements; // Total number of products
+
+        // Assign data to the table data source
+        this.dataSource = new MatTableDataSource(this.products);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+      })
+      .catch(error => {
+        console.error('Error fetching products:', error);
+      });
   }
 }
