@@ -13,81 +13,68 @@
  */
 
 import { mapValues } from '../runtime';
-import type { User } from './User';
-import {
-    UserFromJSON,
-    UserFromJSONTyped,
-    UserToJSON,
-} from './User';
-import type { CustomerOrder } from './CustomerOrder';
-import {
-    CustomerOrderFromJSON,
-    CustomerOrderFromJSONTyped,
-    CustomerOrderToJSON,
-} from './CustomerOrder';
-
 /**
  * 
  * @export
- * @interface Client
+ * @interface ClientResponseDTO
  */
-export interface Client {
+export interface ClientResponseDTO {
     /**
      * 
      * @type {number}
-     * @memberof Client
+     * @memberof ClientResponseDTO
      */
     idClient?: number;
     /**
      * 
      * @type {string}
-     * @memberof Client
+     * @memberof ClientResponseDTO
      */
     fullName?: string;
     /**
      * 
      * @type {string}
-     * @memberof Client
+     * @memberof ClientResponseDTO
      */
     clientType?: string;
     /**
      * 
      * @type {string}
-     * @memberof Client
+     * @memberof ClientResponseDTO
      */
     email?: string;
     /**
      * 
      * @type {string}
-     * @memberof Client
+     * @memberof ClientResponseDTO
      */
     address?: string;
     /**
      * 
-     * @type {Array<CustomerOrder>}
-     * @memberof Client
+     * @type {number}
+     * @memberof ClientResponseDTO
      */
-    orders?: Array<CustomerOrder>;
+    userId?: number;
     /**
      * 
-     * @type {User}
-     * @memberof Client
+     * @type {string}
+     * @memberof ClientResponseDTO
      */
-    user?: User;
+    userFullName?: string;
 }
 
 /**
- * Check if a given object implements the Client interface.
+ * Check if a given object implements the ClientResponseDTO interface.
  */
-export function instanceOfClient(value: object): value is Client {
+export function instanceOfClientResponseDTO(value: object): value is ClientResponseDTO {
     return true;
 }
 
-export function ClientFromJSON(json: any): Client {
-    return ClientFromJSONTyped(json, false);
+export function ClientResponseDTOFromJSON(json: any): ClientResponseDTO {
+    return ClientResponseDTOFromJSONTyped(json, false);
 }
 
-export function ClientFromJSONTyped(json: any, ignoreDiscriminator: boolean): Client {
+export function ClientResponseDTOFromJSONTyped(json: any, ignoreDiscriminator: boolean): ClientResponseDTO {
     if (json == null) {
         return json;
     }
@@ -98,12 +85,12 @@ export function ClientFromJSONTyped(json: any, ignoreDiscriminator: boolean): Cl
         'clientType': json['clientType'] == null ? undefined : json['clientType'],
         'email': json['email'] == null ? undefined : json['email'],
         'address': json['address'] == null ? undefined : json['address'],
-        'orders': json['orders'] == null ? undefined : ((json['orders'] as Array<any>).map(CustomerOrderFromJSON)),
-        'user': json['user'] == null ? undefined : UserFromJSON(json['user']),
+        'userId': json['userId'] == null ? undefined : json['userId'],
+        'userFullName': json['userFullName'] == null ? undefined : json['userFullName'],
     };
 }
 
-export function ClientToJSON(value?: Client | null): any {
+export function ClientResponseDTOToJSON(value?: ClientResponseDTO | null): any {
     if (value == null) {
         return value;
     }
@@ -114,8 +101,8 @@ export function ClientToJSON(value?: Client | null): any {
         'clientType': value['clientType'],
         'email': value['email'],
         'address': value['address'],
-        'orders': value['orders'] == null ? undefined : ((value['orders'] as Array<any>).map(CustomerOrderToJSON)),
-        'user': UserToJSON(value['user']),
+        'userId': value['userId'],
+        'userFullName': value['userFullName'],
     };
 }
 

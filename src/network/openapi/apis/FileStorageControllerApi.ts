@@ -15,14 +15,14 @@
 
 import * as runtime from '../runtime';
 import type {
-  FileStorageRequest,
   FileStorageResponse,
+  UploadFileRequest,
 } from '../models/index';
 import {
-    FileStorageRequestFromJSON,
-    FileStorageRequestToJSON,
     FileStorageResponseFromJSON,
     FileStorageResponseToJSON,
+    UploadFileRequestFromJSON,
+    UploadFileRequestToJSON,
 } from '../models/index';
 
 export interface DeleteFileRequest {
@@ -33,8 +33,8 @@ export interface GetFileRequest {
     id: number;
 }
 
-export interface UploadFileRequest {
-    fileStorageRequest: FileStorageRequest;
+export interface UploadFileOperationRequest {
+    uploadFileRequest?: UploadFileRequest;
 }
 
 /**
@@ -138,27 +138,19 @@ export class FileStorageControllerApi extends runtime.BaseAPI {
 
     /**
      */
-    async uploadFileRaw(requestParameters: UploadFileRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<FileStorageResponse>> {
-        if (requestParameters['fileStorageRequest'] == null) {
-            throw new runtime.RequiredError(
-                'fileStorageRequest',
-                'Required parameter "fileStorageRequest" was null or undefined when calling uploadFile().'
-            );
-        }
-
+    async uploadFileRaw(requestParameters: UploadFileOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<FileStorageResponse>> {
         const queryParameters: any = {};
 
-        if (requestParameters['fileStorageRequest'] != null) {
-            queryParameters['fileStorageRequest'] = requestParameters['fileStorageRequest'];
-        }
-
         const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
 
         const response = await this.request({
             path: `/api/files/upload`,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
+            body: UploadFileRequestToJSON(requestParameters['uploadFileRequest']),
         }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => FileStorageResponseFromJSON(jsonValue));
@@ -166,7 +158,7 @@ export class FileStorageControllerApi extends runtime.BaseAPI {
 
     /**
      */
-    async uploadFile(requestParameters: UploadFileRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<FileStorageResponse> {
+    async uploadFile(requestParameters: UploadFileOperationRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<FileStorageResponse> {
         const response = await this.uploadFileRaw(requestParameters, initOverrides);
         return await response.value();
     }

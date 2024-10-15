@@ -150,7 +150,7 @@ export function PageProductResponseToJSON(value?: PageProductResponse | null): a
         'size': value['size'],
         'content': value['content'] == null ? undefined : ((value['content'] as Array<any>).map(ProductResponseToJSON)),
         'number': value['number'],
-        'sort': value['sort'] == null ? undefined :SortObjectToJSON(value['sort']),
+        'sort': value['sort'] == null ? undefined : SortObjectToJSON(value['sort']),
         'numberOfElements': value['numberOfElements'],
         'pageable': PageableObjectToJSON(value['pageable']),
         'empty': value['empty'],

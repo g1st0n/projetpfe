@@ -17,16 +17,26 @@ import * as runtime from '../runtime';
 import type {
   JwtRequest,
   JwtResponse,
+  User,
+  UserRegistrationDto,
 } from '../models/index';
 import {
     JwtRequestFromJSON,
     JwtRequestToJSON,
     JwtResponseFromJSON,
     JwtResponseToJSON,
+    UserFromJSON,
+    UserToJSON,
+    UserRegistrationDtoFromJSON,
+    UserRegistrationDtoToJSON,
 } from '../models/index';
 
 export interface LoginRequest {
     jwtRequest: JwtRequest;
+}
+
+export interface RegisterUserRequest {
+    registrationDto: UserRegistrationDto;
 }
 
 /**
@@ -89,6 +99,41 @@ export class AuthControllerApi extends runtime.BaseAPI {
      */
     async logout(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<object> {
         const response = await this.logoutRaw(initOverrides);
+        return await response.value();
+    }
+
+    /**
+     */
+    async registerUserRaw(requestParameters: RegisterUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<User>> {
+        if (requestParameters['registrationDto'] == null) {
+            throw new runtime.RequiredError(
+                'registrationDto',
+                'Required parameter "registrationDto" was null or undefined when calling registerUser().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters['registrationDto'] != null) {
+            queryParameters['registrationDto'] = requestParameters['registrationDto'];
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/api/auth/register`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => UserFromJSON(jsonValue));
+    }
+
+    /**
+     */
+    async registerUser(requestParameters: RegisterUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<User> {
+        const response = await this.registerUserRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

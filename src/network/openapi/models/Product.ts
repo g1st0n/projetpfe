@@ -13,18 +13,18 @@
  */
 
 import { mapValues } from '../runtime';
-import type { Order } from './Order';
-import {
-    OrderFromJSON,
-    OrderFromJSONTyped,
-    OrderToJSON,
-} from './Order';
 import type { ProductionPlan } from './ProductionPlan';
 import {
     ProductionPlanFromJSON,
     ProductionPlanFromJSONTyped,
     ProductionPlanToJSON,
 } from './ProductionPlan';
+import type { CustomerOrder } from './CustomerOrder';
+import {
+    CustomerOrderFromJSON,
+    CustomerOrderFromJSONTyped,
+    CustomerOrderToJSON,
+} from './CustomerOrder';
 import type { SubCategory } from './SubCategory';
 import {
     SubCategoryFromJSON,
@@ -118,10 +118,10 @@ export interface Product {
     subCategory?: SubCategory;
     /**
      * 
-     * @type {Array<Order>}
+     * @type {Array<CustomerOrder>}
      * @memberof Product
      */
-    orders?: Array<Order>;
+    orders?: Array<CustomerOrder>;
     /**
      * 
      * @type {Array<ProductionPlan>}
@@ -170,7 +170,7 @@ export function ProductFromJSONTyped(json: any, ignoreDiscriminator: boolean): P
         'quantity': json['quantity'] == null ? undefined : json['quantity'],
         'productionCost': json['productionCost'] == null ? undefined : json['productionCost'],
         'subCategory': json['subCategory'] == null ? undefined : SubCategoryFromJSON(json['subCategory']),
-        'orders': json['orders'] == null ? undefined : ((json['orders'] as Array<any>).map(OrderFromJSON)),
+        'orders': json['orders'] == null ? undefined : ((json['orders'] as Array<any>).map(CustomerOrderFromJSON)),
         'productionPlans': json['productionPlans'] == null ? undefined : ((json['productionPlans'] as Array<any>).map(ProductionPlanFromJSON)),
         'rawMaterial': json['rawMaterial'] == null ? undefined : RawMaterialFromJSON(json['rawMaterial']),
         'logo': json['logo'] == null ? undefined : FileStorageFromJSON(json['logo']),
@@ -194,7 +194,7 @@ export function ProductToJSON(value?: Product | null): any {
         'quantity': value['quantity'],
         'productionCost': value['productionCost'],
         'subCategory': SubCategoryToJSON(value['subCategory']),
-        'orders': value['orders'] == null ? undefined : ((value['orders'] as Array<any>).map(OrderToJSON)),
+        'orders': value['orders'] == null ? undefined : ((value['orders'] as Array<any>).map(CustomerOrderToJSON)),
         'productionPlans': value['productionPlans'] == null ? undefined : ((value['productionPlans'] as Array<any>).map(ProductionPlanToJSON)),
         'rawMaterial': RawMaterialToJSON(value['rawMaterial']),
         'logo': FileStorageToJSON(value['logo']),

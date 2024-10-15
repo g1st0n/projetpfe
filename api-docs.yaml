@@ -24,6 +24,234 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/Famille_Product'
+  /api/workshops/{idWorkshop}:
+    get:
+      tags:
+      - workshop-controller
+      operationId: getWorkshopById
+      parameters:
+      - name: idWorkshop
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/WorkshopResponseDTO'
+    put:
+      tags:
+      - workshop-controller
+      operationId: updateWorkshop
+      parameters:
+      - name: idWorkshop
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WorkshopRequestDTO'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/WorkshopResponseDTO'
+    delete:
+      tags:
+      - workshop-controller
+      operationId: deleteWorkshop
+      parameters:
+      - name: idWorkshop
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+  /api/users/{id}:
+    get:
+      tags:
+      - user-controller
+      operationId: getUserById
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/UserResponseDTO'
+    put:
+      tags:
+      - user-controller
+      operationId: updateUser
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRequestDTO'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/UserResponseDTO'
+    delete:
+      tags:
+      - user-controller
+      operationId: deleteUser
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+  /api/subcategories/{id}:
+    get:
+      tags:
+      - sub-category-controller
+      operationId: getSubCategoryById
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/SubCategoryResponseDTO'
+    put:
+      tags:
+      - sub-category-controller
+      operationId: updateSubCategory
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SubCategoryRequestDTO'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/SubCategoryResponseDTO'
+    delete:
+      tags:
+      - sub-category-controller
+      operationId: deleteSubCategory
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+  /api/raw-materials/{idMaterial}:
+    get:
+      tags:
+      - raw-material-controller
+      operationId: getRawMaterialById
+      parameters:
+      - name: idMaterial
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/RawMaterialResponseDTO'
+    put:
+      tags:
+      - raw-material-controller
+      operationId: updateRawMaterial
+      parameters:
+      - name: idMaterial
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RawMaterialRequestDTO'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/RawMaterialResponseDTO'
+    delete:
+      tags:
+      - raw-material-controller
+      operationId: deleteRawMaterial
+      parameters:
+      - name: idMaterial
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
   /api/products/{id}:
     get:
       tags:
@@ -47,12 +275,12 @@ paths:
       tags:
       - product-controller
       operationId: editProduct
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ProductRequest'
+      parameters:
+      - name: productRequest
+        in: query
         required: true
+        schema:
+          $ref: '#/components/schemas/ProductRequest'
       responses:
         "200":
           description: OK
@@ -66,6 +294,120 @@ paths:
       operationId: deleteProduct
       parameters:
       - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+  /api/production-plans/{idPlanning}:
+    get:
+      tags:
+      - production-plan-controller
+      operationId: getProductionPlanById
+      parameters:
+      - name: idPlanning
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProductionPlanResponseDTO'
+    put:
+      tags:
+      - production-plan-controller
+      operationId: updateProductionPlan
+      parameters:
+      - name: idPlanning
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductionPlanRequestDTO'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProductionPlanResponseDTO'
+    delete:
+      tags:
+      - production-plan-controller
+      operationId: deleteProductionPlan
+      parameters:
+      - name: idPlanning
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+  /api/orders/{idOrder}:
+    get:
+      tags:
+      - order-controller
+      operationId: getOrderById
+      parameters:
+      - name: idOrder
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/OrderResponseDTO'
+    put:
+      tags:
+      - order-controller
+      operationId: updateOrder
+      parameters:
+      - name: idOrder
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderRequestDTO'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/OrderResponseDTO'
+    delete:
+      tags:
+      - order-controller
+      operationId: deleteOrder
+      parameters:
+      - name: idOrder
         in: path
         required: true
         schema:
@@ -92,16 +434,102 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/Famille_Product'
+  /api/workshops/add:
+    post:
+      tags:
+      - workshop-controller
+      operationId: createWorkshop
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WorkshopRequestDTO'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/WorkshopResponseDTO'
+  /api/users/add:
+    post:
+      tags:
+      - user-controller
+      operationId: createUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRequestDTO'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/UserResponseDTO'
+  /api/subcategories:
+    get:
+      tags:
+      - sub-category-controller
+      operationId: getAllSubCategories
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SubCategoryResponseDTO'
+    post:
+      tags:
+      - sub-category-controller
+      operationId: createSubCategory
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SubCategoryRequestDTO'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/SubCategoryResponseDTO'
+  /api/raw-materials/add:
+    post:
+      tags:
+      - raw-material-controller
+      operationId: createRawMaterial
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RawMaterialRequestDTO'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/RawMaterialResponseDTO'
   /api/products/add:
     post:
       tags:
       - product-controller
       operationId: saveProduct
-      requestBody:
-        content:
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/ProductRequest'
+      parameters:
+      - name: productRequest
+        in: query
+        required: true
+        schema:
+          $ref: '#/components/schemas/ProductRequest'
       responses:
         "200":
           description: OK
@@ -109,17 +537,58 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/ProductResponse'
+  /api/production-plans/add:
+    post:
+      tags:
+      - production-plan-controller
+      operationId: createProductionPlan
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductionPlanRequestDTO'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProductionPlanResponseDTO'
+  /api/orders/add:
+    post:
+      tags:
+      - order-controller
+      operationId: createOrder
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderRequestDTO'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/OrderResponseDTO'
   /api/files/upload:
     post:
       tags:
       - file-storage-controller
       operationId: uploadFile
-      parameters:
-      - name: fileStorageRequest
-        in: query
-        required: true
-        schema:
-          $ref: '#/components/schemas/FileStorageRequest'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              required:
+              - file
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
       responses:
         "200":
           description: OK
@@ -127,6 +596,42 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/FileStorageResponse'
+  /api/clients/add:
+    post:
+      tags:
+      - client-controller
+      operationId: createClient
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClientRequestDTO'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ClientResponseDTO'
+  /api/auth/register:
+    post:
+      tags:
+      - auth-controller
+      operationId: registerUser
+      parameters:
+      - name: registrationDto
+        in: query
+        required: true
+        schema:
+          $ref: '#/components/schemas/UserRegistrationDto'
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/User'
   /api/auth/login:
     post:
       tags:
@@ -178,6 +683,48 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/Famille_Product'
+  /api/workshops:
+    get:
+      tags:
+      - workshop-controller
+      operationId: getAllWorkshops
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/WorkshopResponseDTO'
+  /api/users:
+    get:
+      tags:
+      - user-controller
+      operationId: getAllUsers
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserResponseDTO'
+  /api/raw-materials:
+    get:
+      tags:
+      - raw-material-controller
+      operationId: getAllRawMaterials
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RawMaterialResponseDTO'
   /api/products:
     get:
       tags:
@@ -210,6 +757,34 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/ProductResponse'
+  /api/production-plans:
+    get:
+      tags:
+      - production-plan-controller
+      operationId: getAllProductionPlans
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProductionPlanResponseDTO'
+  /api/orders:
+    get:
+      tags:
+      - order-controller
+      operationId: getAllOrders
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OrderResponseDTO'
   /api/files/{id}:
     get:
       tags:
@@ -262,6 +837,20 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/FileStorageResponse'
+  /api/clients:
+    get:
+      tags:
+      - client-controller
+      operationId: getAllClients
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ClientResponseDTO'
   /api/auth/logout:
     get:
       tags:
@@ -299,6 +888,153 @@ components:
           format: int64
         designation:
           type: string
+    WorkshopRequestDTO:
+      type: object
+      properties:
+        workshopNumber:
+          type: integer
+          format: int32
+        productionCapacity:
+          type: integer
+          format: int64
+        machineCount:
+          type: integer
+          format: int32
+        machineCost:
+          type: number
+          format: float
+    WorkshopResponseDTO:
+      type: object
+      properties:
+        idWorkshop:
+          type: integer
+          format: int64
+        workshopNumber:
+          type: integer
+          format: int32
+        productionCapacity:
+          type: integer
+          format: int64
+        machineCount:
+          type: integer
+          format: int32
+        machineCost:
+          type: number
+          format: float
+    UserRequestDTO:
+      type: object
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        address:
+          type: string
+        phoneNumber:
+          type: integer
+          format: int64
+        password:
+          type: string
+        role:
+          type: string
+        status:
+          type: string
+        lastAccess:
+          type: string
+          format: date-time
+        enabled:
+          type: boolean
+        profileImageId:
+          type: integer
+          format: int64
+    UserResponseDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        firstName:
+          type: string
+        lastName:
+          type: string
+        address:
+          type: string
+        phoneNumber:
+          type: integer
+          format: int64
+        role:
+          type: string
+        status:
+          type: string
+        lastAccess:
+          type: string
+          format: date-time
+        enabled:
+          type: boolean
+        profileImageUrl:
+          type: string
+    SubCategoryRequestDTO:
+      type: object
+      properties:
+        name:
+          type: string
+        reference:
+          type: string
+    SubCategoryResponseDTO:
+      type: object
+      properties:
+        idSubCategory:
+          type: integer
+          format: int64
+        name:
+          type: string
+        reference:
+          type: string
+    RawMaterialRequestDTO:
+      type: object
+      properties:
+        name:
+          type: string
+        materialType:
+          type: string
+        supplier:
+          type: string
+        availableQuantity:
+          type: integer
+          format: int32
+        unit:
+          type: string
+        color:
+          type: string
+        origin:
+          type: string
+        unitPrice:
+          type: number
+          format: float
+    RawMaterialResponseDTO:
+      type: object
+      properties:
+        idMaterial:
+          type: integer
+          format: int64
+        name:
+          type: string
+        materialType:
+          type: string
+        supplier:
+          type: string
+        availableQuantity:
+          type: integer
+          format: int32
+        unit:
+          type: string
+        color:
+          type: string
+        origin:
+          type: string
+        unitPrice:
+          type: number
+          format: float
     ProductRequest:
       type: object
       properties:
@@ -378,16 +1114,101 @@ components:
           type: string
         rawMaterial:
           type: string
-    FileStorageRequest:
+    LocalTime:
       type: object
       properties:
-        file:
+        hour:
+          type: integer
+          format: int32
+        minute:
+          type: integer
+          format: int32
+        second:
+          type: integer
+          format: int32
+        nano:
+          type: integer
+          format: int32
+    ProductionPlanRequestDTO:
+      type: object
+      properties:
+        date:
           type: string
-          format: binary
-        description:
+          format: date-time
+        quantity:
+          type: integer
+          format: int32
+        duration:
+          $ref: '#/components/schemas/LocalTime'
+        productId:
+          type: integer
+          format: int64
+        workshopId:
+          type: integer
+          format: int64
+        workforce:
+          type: integer
+          format: int32
+        comment:
           type: string
-        fileCategory:
+    ProductionPlanResponseDTO:
+      type: object
+      properties:
+        idPlanning:
+          type: integer
+          format: int64
+        date:
           type: string
+          format: date-time
+        quantity:
+          type: integer
+          format: int32
+        duration:
+          $ref: '#/components/schemas/LocalTime'
+        productId:
+          type: integer
+          format: int64
+        workshopId:
+          type: integer
+          format: int64
+        workforce:
+          type: integer
+          format: int32
+        comment:
+          type: string
+    OrderRequestDTO:
+      type: object
+      properties:
+        clientId:
+          type: integer
+          format: int64
+        productId:
+          type: integer
+          format: int64
+        date:
+          type: string
+          format: date-time
+        quantity:
+          type: integer
+          format: int32
+    OrderResponseDTO:
+      type: object
+      properties:
+        idOrder:
+          type: integer
+          format: int64
+        clientId:
+          type: integer
+          format: int64
+        productId:
+          type: integer
+          format: int64
+        date:
+          type: string
+          format: date-time
+        quantity:
+          type: integer
+          format: int32
     FileStorageResponse:
       type: object
       properties:
@@ -401,6 +1222,276 @@ components:
         creationDate:
           type: string
           format: date-time
+    ClientRequestDTO:
+      type: object
+      properties:
+        fullName:
+          type: string
+        clientType:
+          type: string
+        email:
+          type: string
+        address:
+          type: string
+        userId:
+          type: integer
+          format: int64
+    ClientResponseDTO:
+      type: object
+      properties:
+        idClient:
+          type: integer
+          format: int64
+        fullName:
+          type: string
+        clientType:
+          type: string
+        email:
+          type: string
+        address:
+          type: string
+        userId:
+          type: integer
+          format: int64
+        userFullName:
+          type: string
+    UserRegistrationDto:
+      type: object
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        phoneNumber:
+          type: integer
+          format: int64
+        status:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        profileImage:
+          type: string
+          format: binary
+    Client:
+      type: object
+      properties:
+        idClient:
+          type: integer
+          format: int64
+        fullName:
+          type: string
+        clientType:
+          type: string
+        email:
+          type: string
+        address:
+          type: string
+        orders:
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomerOrder'
+        user:
+          $ref: '#/components/schemas/User'
+    CustomerOrder:
+      type: object
+      properties:
+        idOrder:
+          type: integer
+          format: int64
+        client:
+          $ref: '#/components/schemas/Client'
+        product:
+          $ref: '#/components/schemas/Product'
+        date:
+          type: string
+          format: date-time
+        quantity:
+          type: integer
+          format: int32
+    FileStorage:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        fileName:
+          type: string
+        fileType:
+          type: string
+        fileSize:
+          type: integer
+          format: int64
+        data:
+          type: string
+          format: byte
+        creationDate:
+          type: string
+          format: date-time
+    Product:
+      type: object
+      properties:
+        idProduct:
+          type: integer
+          format: int64
+        reference:
+          type: string
+        designation:
+          type: string
+        color:
+          type: string
+        weight:
+          type: number
+          format: float
+        dimension:
+          type: number
+          format: float
+        productionDuration:
+          type: integer
+          format: int32
+        price:
+          type: number
+          format: float
+        quantity:
+          type: integer
+          format: int32
+        productionCost:
+          type: number
+          format: float
+        subCategory:
+          $ref: '#/components/schemas/SubCategory'
+        orders:
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomerOrder'
+        productionPlans:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductionPlan'
+        rawMaterial:
+          $ref: '#/components/schemas/RawMaterial'
+        logo:
+          $ref: '#/components/schemas/FileStorage'
+    ProductionPlan:
+      type: object
+      properties:
+        idPlanning:
+          type: integer
+          format: int64
+        date:
+          type: string
+          format: date-time
+        quantity:
+          type: integer
+          format: int32
+        duration:
+          $ref: '#/components/schemas/LocalTime'
+        product:
+          $ref: '#/components/schemas/Product'
+        workshop:
+          $ref: '#/components/schemas/Workshop'
+        workforce:
+          type: integer
+          format: int32
+        comment:
+          type: string
+    RawMaterial:
+      type: object
+      properties:
+        idMaterial:
+          type: integer
+          format: int64
+        name:
+          type: string
+        materialType:
+          type: string
+        supplier:
+          type: string
+        availableQuantity:
+          type: integer
+          format: int32
+        unit:
+          type: string
+        color:
+          type: string
+        origin:
+          type: string
+        unitPrice:
+          type: number
+          format: float
+        products:
+          type: array
+          items:
+            $ref: '#/components/schemas/Product'
+    SubCategory:
+      type: object
+      properties:
+        idSubCategory:
+          type: integer
+          format: int64
+        name:
+          type: string
+        reference:
+          type: string
+        products:
+          type: array
+          items:
+            $ref: '#/components/schemas/Product'
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        firstName:
+          type: string
+        lastName:
+          type: string
+        address:
+          type: string
+        phoneNumber:
+          type: integer
+          format: int64
+        password:
+          type: string
+        role:
+          type: string
+        status:
+          type: string
+        lastAccess:
+          type: string
+          format: date-time
+        clients:
+          type: array
+          items:
+            $ref: '#/components/schemas/Client'
+        enabled:
+          type: boolean
+        profileImage:
+          $ref: '#/components/schemas/FileStorage'
+    Workshop:
+      type: object
+      properties:
+        idWorkshop:
+          type: integer
+          format: int64
+        workshopNumber:
+          type: integer
+          format: int32
+        productionCapacity:
+          type: integer
+          format: int64
+        machineCount:
+          type: integer
+          format: int32
+        machineCost:
+          type: number
+          format: float
+        productionPlans:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductionPlan'
     JwtRequest:
       type: object
       properties:
@@ -474,16 +1565,16 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/SortObject'
+        paged:
+          type: boolean
+        unpaged:
+          type: boolean
         pageSize:
           type: integer
           format: int32
         pageNumber:
           type: integer
           format: int32
-        unpaged:
-          type: boolean
-        paged:
-          type: boolean
     SortObject:
       type: object
       properties:
