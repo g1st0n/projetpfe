@@ -64,8 +64,6 @@ export class SortingTableComponent implements AfterViewInit, OnInit {
       size: this.pageSize,
       sort: [`${sortField},${sortDirection}`]  // Combine field and direction
     };
-    
-    console.log(pageable);
     // Send pageable object to the OpenAPI-generated getProducts method
     this.productService.getProducts({ pageable })
       .then((response: any) => {
@@ -101,7 +99,7 @@ export class SortingTableComponent implements AfterViewInit, OnInit {
 
   openDialog(row: any): void {
     this.dialog.open(DialogComponentComponent, {
-      width: 'auto',
+      width: '80vw',
       maxWidth: '90vw',
       height: 'auto',
       maxHeight: '90vh',

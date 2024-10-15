@@ -37,7 +37,7 @@ export interface PageableObject {
      * @type {Array<SortObject>}
      * @memberof PageableObject
      */
-    sort?: Array<SortObject>;
+    sort?: SortObject;
     /**
      * 
      * @type {number}
@@ -82,7 +82,7 @@ export function PageableObjectFromJSONTyped(json: any, ignoreDiscriminator: bool
     return {
         
         'offset': json['offset'] == null ? undefined : json['offset'],
-        'sort': json['sort'] == null ? undefined : ((json['sort'] as Array<any>).map(SortObjectFromJSON)),
+        'sort': json['sort'] == null ? undefined : SortObjectFromJSON(json['sort']),
         'pageSize': json['pageSize'] == null ? undefined : json['pageSize'],
         'pageNumber': json['pageNumber'] == null ? undefined : json['pageNumber'],
         'unpaged': json['unpaged'] == null ? undefined : json['unpaged'],
@@ -97,7 +97,7 @@ export function PageableObjectToJSON(value?: PageableObject | null): any {
     return {
         
         'offset': value['offset'],
-        'sort': value['sort'] == null ? undefined : ((value['sort'] as Array<any>).map(SortObjectToJSON)),
+        'sort': value['sort'] == null ? undefined : SortObjectToJSON(value['sort']),
         'pageSize': value['pageSize'],
         'pageNumber': value['pageNumber'],
         'unpaged': value['unpaged'],
