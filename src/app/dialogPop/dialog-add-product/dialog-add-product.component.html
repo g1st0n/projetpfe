@@ -1,72 +1,73 @@
-<h1 mat-dialog-title class="dialog-title">Add New Item</h1>
+<h1 mat-dialog-title class="dialog-title">Ajouter un Nouvel Article</h1>
 
 <mat-dialog-content class="dialog-content">
-  <form (ngSubmit)="onSubmit()" class="form-grid" enctype="multipart/form-data">
+  <!-- Bind formGroup to the form -->
+  <form [formGroup]="formGroup" (ngSubmit)="onSubmit()" class="form-grid" enctype="multipart/form-data">
     <!-- Image Upload Section -->
     <div class="form-field full-width image-upload">
-      <label for="image-upload">Upload Image</label>
-      <button mat-raised-button color="primary" (click)="triggerFileInput()">Choose Image</button>
+      <label for="image-upload">Télécharger l'image</label>
+      <button mat-raised-button color="primary" type="button" (click)="triggerFileInput()">Choisir une Image</button>
       <input id="image-upload" type="file" (change)="onImageSelected($event)" accept="image/*" hidden>
-      
+    
       <!-- Display image preview with delete option -->
       <div *ngIf="imagePreview" class="image-preview">
-        <img [src]="imagePreview" alt="Image Preview" />
+        <img [src]="imagePreview" alt="Aperçu de l'image" />
         <button mat-icon-button color="warn" class="delete-icon" (click)="deleteImage()">
           <mat-icon>close</mat-icon>
         </button>
       </div>
     </div>
 
-
-
+    <!-- Form Fields -->
     <mat-form-field appearance="fill" class="form-field">
-      <mat-label>Reference</mat-label>
-      <input matInput type="string" formControlName="name" required>
+      <mat-label>Référence</mat-label>
+      <input matInput type="text" formControlName="reference" required>
     </mat-form-field>
 
     <mat-form-field appearance="fill" class="form-field">
       <mat-label>Désignation</mat-label>
-      <input matInput type="string" formControlName="description" required>
+      <input matInput type="text" formControlName="designation" required>
     </mat-form-field>
 
     <mat-form-field appearance="fill" class="form-field">
       <mat-label>Couleur</mat-label>
-      <input matInput type="string" formControlName="description" required>
+      <input matInput type="text" formControlName="color" required>
     </mat-form-field>
 
     <mat-form-field appearance="fill" class="form-field">
-      <mat-label>Poids</mat-label>
-      <input matInput type="number" formControlName="price" required>
+      <mat-label>Poids (g)</mat-label>
+      <input matInput type="number" formControlName="weight" required>
     </mat-form-field>
 
     <mat-form-field appearance="fill" class="form-field">
       <mat-label>Dimensions</mat-label>
-      <input matInput type="number" formControlName="price" required>
+      <input matInput type="text" formControlName="dimensions" required>
     </mat-form-field>
 
     <mat-form-field appearance="fill" class="form-field">
-      <mat-label>Durée Fabrication</mat-label>
-      <input matInput type="number" formControlName="price" required>
+      <mat-label>Durée de Fabrication</mat-label>
+      <input matInput type="text" formControlName="productionTime" required>
     </mat-form-field>
 
     <mat-form-field appearance="fill" class="form-field">
-      <mat-label>Prix</mat-label>
-      <input matInput type="number" formControlName="quantity" required>
+      <mat-label>Prix (€)</mat-label>
+      <input matInput type="number" formControlName="price" required>
     </mat-form-field>
 
     <mat-form-field appearance="fill" class="form-field">
       <mat-label>Quantité</mat-label>
-      <input matInput type="number" formControlName="price" required>
+      <input matInput type="number" formControlName="quantity" required>
     </mat-form-field>
 
     <mat-form-field appearance="fill" class="form-field">
-      <mat-label>Coût de Production</mat-label>
-      <input matInput type="number" formControlName="price" required>
+      <mat-label>Coût de Production (€)</mat-label>
+      <input matInput type="number" formControlName="productionCost" required>
     </mat-form-field>
 
+    <!-- Dialog Actions -->
     <div mat-dialog-actions class="action-row full-width">
-      <button mat-button mat-dialog-close class="btn-cancel">Cancel</button>
-      <button mat-button type="submit" color="primary" class="btn-submit">Add</button>
+      <button mat-button mat-dialog-close class="btn-cancel">Annuler</button>
+      <button mat-button type="submit" color="primary" class="btn-submit">Ajouter</button>
     </div>
   </form>
 </mat-dialog-content>

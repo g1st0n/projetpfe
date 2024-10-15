@@ -99,10 +99,9 @@ paths:
       operationId: saveProduct
       requestBody:
         content:
-          application/json:
+          multipart/form-data:
             schema:
               $ref: '#/components/schemas/ProductRequest'
-        required: true
       responses:
         "200":
           description: OK
@@ -110,6 +109,24 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/ProductResponse'
+  /api/files/upload:
+    post:
+      tags:
+      - file-storage-controller
+      operationId: uploadFile
+      parameters:
+      - name: fileStorageRequest
+        in: query
+        required: true
+        schema:
+          $ref: '#/components/schemas/FileStorageRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/FileStorageResponse'
   /api/auth/login:
     post:
       tags:
@@ -178,7 +195,7 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/PageProduct'
+                $ref: '#/components/schemas/PageProductResponse'
   /api/products/showAll:
     get:
       tags:
@@ -193,6 +210,58 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/ProductResponse'
+  /api/files/{id}:
+    get:
+      tags:
+      - file-storage-controller
+      operationId: getFile
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+                format: byte
+    delete:
+      tags:
+      - file-storage-controller
+      operationId: deleteFile
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+  /api/files/list:
+    get:
+      tags:
+      - file-storage-controller
+      operationId: listAllFiles
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FileStorageResponse'
   /api/auth/logout:
     get:
       tags:
@@ -309,6 +378,29 @@ components:
           type: string
         rawMaterial:
           type: string
+    FileStorageRequest:
+      type: object
+      properties:
+        file:
+          type: string
+          format: binary
+        description:
+          type: string
+        fileCategory:
+          type: string
+    FileStorageResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        fileName:
+          type: string
+        fileType:
+          type: string
+        creationDate:
+          type: string
+          format: date-time
     JwtRequest:
       type: object
       properties:
@@ -338,85 +430,15 @@ components:
           type: array
           items:
             type: string
-    Client:
+    PageProductResponse:
       type: object
       properties:
-        idClient:
-          type: integer
-          format: int64
-        fullName:
-          type: string
-        clientType:
-          type: string
-        email:
-          type: string
-        address:
-          type: string
-        orders:
-          type: array
-          items:
-            $ref: '#/components/schemas/Order'
-        user:
-          $ref: '#/components/schemas/User'
-    FileStorage:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        fileName:
-          type: string
-        fileType:
-          type: string
-        fileSize:
-          type: integer
-          format: int64
-        data:
-          type: string
-          format: byte
-        creationDate:
-          type: string
-          format: date-time
-    LocalTime:
-      type: object
-      properties:
-        hour:
-          type: integer
-          format: int32
-        minute:
-          type: integer
-          format: int32
-        second:
-          type: integer
-          format: int32
-        nano:
-          type: integer
-          format: int32
-    Order:
-      type: object
-      properties:
-        idOrder:
-          type: integer
-          format: int64
-        client:
-          $ref: '#/components/schemas/Client'
-        product:
-          $ref: '#/components/schemas/Product'
-        date:
-          type: string
-          format: date-time
-        quantity:
-          type: integer
-          format: int32
-    PageProduct:
-      type: object
-      properties:
-        totalPages:
-          type: integer
-          format: int32
         totalElements:
           type: integer
           format: int64
+        totalPages:
+          type: integer
+          format: int32
         first:
           type: boolean
         last:
@@ -427,7 +449,7 @@ components:
         content:
           type: array
           items:
-            $ref: '#/components/schemas/Product'
+            $ref: '#/components/schemas/ProductResponse'
         number:
           type: integer
           format: int32
@@ -452,111 +474,16 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/SortObject'
-        paged:
-          type: boolean
-        unpaged:
-          type: boolean
         pageSize:
           type: integer
           format: int32
         pageNumber:
           type: integer
           format: int32
-    Product:
-      type: object
-      properties:
-        idProduct:
-          type: integer
-          format: int64
-        reference:
-          type: string
-        designation:
-          type: string
-        color:
-          type: string
-        weight:
-          type: number
-          format: float
-        dimension:
-          type: number
-          format: float
-        productionDuration:
-          type: integer
-          format: int32
-        price:
-          type: number
-          format: float
-        quantity:
-          type: integer
-          format: int32
-        productionCost:
-          type: number
-          format: float
-        subCategory:
-          $ref: '#/components/schemas/SubCategory'
-        orders:
-          type: array
-          items:
-            $ref: '#/components/schemas/Order'
-        productionPlans:
-          type: array
-          items:
-            $ref: '#/components/schemas/ProductionPlan'
-        rawMaterial:
-          $ref: '#/components/schemas/RawMaterial'
-        logo:
-          $ref: '#/components/schemas/FileStorage'
-    ProductionPlan:
-      type: object
-      properties:
-        idPlanning:
-          type: integer
-          format: int64
-        date:
-          type: string
-          format: date-time
-        quantity:
-          type: integer
-          format: int32
-        duration:
-          $ref: '#/components/schemas/LocalTime'
-        product:
-          $ref: '#/components/schemas/Product'
-        workshop:
-          $ref: '#/components/schemas/Workshop'
-        workforce:
-          type: integer
-          format: int32
-        comment:
-          type: string
-    RawMaterial:
-      type: object
-      properties:
-        idMaterial:
-          type: integer
-          format: int64
-        name:
-          type: string
-        materialType:
-          type: string
-        supplier:
-          type: string
-        availableQuantity:
-          type: integer
-          format: int32
-        unit:
-          type: string
-        color:
-          type: string
-        origin:
-          type: string
-        unitPrice:
-          type: number
-          format: float
-        products:
-          type: array
-          items:
-            $ref: '#/components/schemas/Product'
+        unpaged:
+          type: boolean
+        paged:
+          type: boolean
     SortObject:
       type: object
       properties:
@@ -570,71 +497,3 @@ components:
           type: string
         ignoreCase:
           type: boolean
-    SubCategory:
-      type: object
-      properties:
-        idSubCategory:
-          type: integer
-          format: int64
-        name:
-          type: string
-        reference:
-          type: string
-        products:
-          type: array
-          items:
-            $ref: '#/components/schemas/Product'
-    User:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        firstName:
-          type: string
-        lastName:
-          type: string
-        address:
-          type: string
-        phoneNumber:
-          type: integer
-          format: int64
-        password:
-          type: string
-        role:
-          type: string
-        status:
-          type: string
-        lastAccess:
-          type: string
-          format: date-time
-        clients:
-          type: array
-          items:
-            $ref: '#/components/schemas/Client'
-        enabled:
-          type: boolean
-        profileImage:
-          $ref: '#/components/schemas/FileStorage'
-    Workshop:
-      type: object
-      properties:
-        idWorkshop:
-          type: integer
-          format: int64
-        workshopNumber:
-          type: integer
-          format: int32
-        productionCapacity:
-          type: integer
-          format: int64
-        machineCount:
-          type: integer
-          format: int32
-        machineCost:
-          type: number
-          format: float
-        productionPlans:
-          type: array
-          items:
-            $ref: '#/components/schemas/ProductionPlan'

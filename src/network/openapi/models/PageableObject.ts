@@ -40,18 +40,6 @@ export interface PageableObject {
     sort?: Array<SortObject>;
     /**
      * 
-     * @type {boolean}
-     * @memberof PageableObject
-     */
-    paged?: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof PageableObject
-     */
-    unpaged?: boolean;
-    /**
-     * 
      * @type {number}
      * @memberof PageableObject
      */
@@ -62,6 +50,18 @@ export interface PageableObject {
      * @memberof PageableObject
      */
     pageNumber?: number;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof PageableObject
+     */
+    unpaged?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof PageableObject
+     */
+    paged?: boolean;
 }
 
 /**
@@ -82,11 +82,11 @@ export function PageableObjectFromJSONTyped(json: any, ignoreDiscriminator: bool
     return {
         
         'offset': json['offset'] == null ? undefined : json['offset'],
-        'sort': json['sort'] == null ? undefined : [SortObjectFromJSON(json['sort'])],
-        'paged': json['paged'] == null ? undefined : json['paged'],
-        'unpaged': json['unpaged'] == null ? undefined : json['unpaged'],
+        'sort': json['sort'] == null ? undefined : ((json['sort'] as Array<any>).map(SortObjectFromJSON)),
         'pageSize': json['pageSize'] == null ? undefined : json['pageSize'],
         'pageNumber': json['pageNumber'] == null ? undefined : json['pageNumber'],
+        'unpaged': json['unpaged'] == null ? undefined : json['unpaged'],
+        'paged': json['paged'] == null ? undefined : json['paged'],
     };
 }
 
@@ -98,10 +98,10 @@ export function PageableObjectToJSON(value?: PageableObject | null): any {
         
         'offset': value['offset'],
         'sort': value['sort'] == null ? undefined : ((value['sort'] as Array<any>).map(SortObjectToJSON)),
-        'paged': value['paged'],
-        'unpaged': value['unpaged'],
         'pageSize': value['pageSize'],
         'pageNumber': value['pageNumber'],
+        'unpaged': value['unpaged'],
+        'paged': value['paged'],
     };
 }
 

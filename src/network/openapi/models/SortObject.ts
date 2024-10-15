@@ -49,24 +49,6 @@ export interface SortObject {
      * @memberof SortObject
      */
     ignoreCase?: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof SortObject
-     */
-    empty?: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof SortObject
-     */
-    unsorted?: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof SortObject
-     */
-    sorted?: boolean;
 }
 
 /**
@@ -85,14 +67,12 @@ export function SortObjectFromJSONTyped(json: any, ignoreDiscriminator: boolean)
         return json;
     }
     return {
-        'empty': json['empty'] == null ? undefined : json['empty'],
-        'sorted': json['sorted'] == null ? undefined : json['sorted'],
-        'unsorted': json['unsorted'] == null ? undefined : json['unsorted'],
-        // 'direction': json['direction'] == null ? undefined : json['direction'],
-        // 'nullHandling': json['nullHandling'] == null ? undefined : json['nullHandling'],
-        // 'ascending': json['ascending'] == null ? undefined : json['ascending'],
-        // 'property': json['property'] == null ? undefined : json['property'],
-        // 'ignoreCase': json['ignoreCase'] == null ? undefined : json['ignoreCase'],
+        
+        'direction': json['direction'] == null ? undefined : json['direction'],
+        'nullHandling': json['nullHandling'] == null ? undefined : json['nullHandling'],
+        'ascending': json['ascending'] == null ? undefined : json['ascending'],
+        'property': json['property'] == null ? undefined : json['property'],
+        'ignoreCase': json['ignoreCase'] == null ? undefined : json['ignoreCase'],
     };
 }
 

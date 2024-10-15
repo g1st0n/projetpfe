@@ -15,14 +15,14 @@
 
 import * as runtime from '../runtime';
 import type {
-  PageProduct,
+  PageProductResponse,
   Pageable,
   ProductRequest,
   ProductResponse,
 } from '../models/index';
 import {
-    PageProductFromJSON,
-    PageProductToJSON,
+    PageProductResponseFromJSON,
+    PageProductResponseToJSON,
     PageableFromJSON,
     PageableToJSON,
     ProductRequestFromJSON,
@@ -48,7 +48,19 @@ export interface GetProductsRequest {
 }
 
 export interface SaveProductRequest {
-    productRequest: ProductRequest;
+    id?: number;
+    reference?: string;
+    designation?: string;
+    color?: string;
+    weight?: number;
+    dimension?: number;
+    productionDuration?: number;
+    price?: number;
+    quantity?: number;
+    productionCost?: number;
+    logo?: Blob;
+    subCategory?: number;
+    rawMaterial?: number;
 }
 
 /**
@@ -177,7 +189,7 @@ export class ProductControllerApi extends runtime.BaseAPI {
 
     /**
      */
-    async getProductsRaw(requestParameters: GetProductsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PageProduct>> {
+    async getProductsRaw(requestParameters: GetProductsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PageProductResponse>> {
         if (requestParameters['pageable'] == null) {
             throw new runtime.RequiredError(
                 'pageable',
@@ -200,12 +212,12 @@ export class ProductControllerApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => PageProductFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => PageProductResponseFromJSON(jsonValue));
     }
 
     /**
      */
-    async getProducts(requestParameters: GetProductsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PageProduct> {
+    async getProducts(requestParameters: GetProductsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PageProductResponse> {
         const response = await this.getProductsRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -213,25 +225,84 @@ export class ProductControllerApi extends runtime.BaseAPI {
     /**
      */
     async saveProductRaw(requestParameters: SaveProductRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ProductResponse>> {
-        if (requestParameters['productRequest'] == null) {
-            throw new runtime.RequiredError(
-                'productRequest',
-                'Required parameter "productRequest" was null or undefined when calling saveProduct().'
-            );
-        }
-
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        headerParameters['Content-Type'] = 'application/json';
+        const consumes: runtime.Consume[] = [
+            { contentType: 'multipart/form-data' },
+        ];
+        // @ts-ignore: canConsumeForm may be unused
+        const canConsumeForm = runtime.canConsumeForm(consumes);
+
+        let formParams: { append(param: string, value: any): any };
+        let useForm = false;
+        // use FormData to transmit files using content-type "multipart/form-data"
+        useForm = canConsumeForm;
+        if (useForm) {
+            formParams = new FormData();
+        } else {
+            formParams = new URLSearchParams();
+        }
+
+        if (requestParameters['id'] != null) {
+            formParams.append('id', requestParameters['id'] as any);
+        }
+
+        if (requestParameters['reference'] != null) {
+            formParams.append('reference', requestParameters['reference'] as any);
+        }
+
+        if (requestParameters['designation'] != null) {
+            formParams.append('designation', requestParameters['designation'] as any);
+        }
+
+        if (requestParameters['color'] != null) {
+            formParams.append('color', requestParameters['color'] as any);
+        }
+
+        if (requestParameters['weight'] != null) {
+            formParams.append('weight', requestParameters['weight'] as any);
+        }
+
+        if (requestParameters['dimension'] != null) {
+            formParams.append('dimension', requestParameters['dimension'] as any);
+        }
+
+        if (requestParameters['productionDuration'] != null) {
+            formParams.append('productionDuration', requestParameters['productionDuration'] as any);
+        }
+
+        if (requestParameters['price'] != null) {
+            formParams.append('price', requestParameters['price'] as any);
+        }
+
+        if (requestParameters['quantity'] != null) {
+            formParams.append('quantity', requestParameters['quantity'] as any);
+        }
+
+        if (requestParameters['productionCost'] != null) {
+            formParams.append('productionCost', requestParameters['productionCost'] as any);
+        }
+
+        if (requestParameters['logo'] != null) {
+            formParams.append('logo', requestParameters['logo'] as any);
+        }
+
+        if (requestParameters['subCategory'] != null) {
+            formParams.append('subCategory', requestParameters['subCategory'] as any);
+        }
+
+        if (requestParameters['rawMaterial'] != null) {
+            formParams.append('rawMaterial', requestParameters['rawMaterial'] as any);
+        }
 
         const response = await this.request({
             path: `/api/products/add`,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: ProductRequestToJSON(requestParameters['productRequest']),
+            body: formParams,
         }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ProductResponseFromJSON(jsonValue));
@@ -239,7 +310,7 @@ export class ProductControllerApi extends runtime.BaseAPI {
 
     /**
      */
-    async saveProduct(requestParameters: SaveProductRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ProductResponse> {
+    async saveProduct(requestParameters: SaveProductRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ProductResponse> {
         const response = await this.saveProductRaw(requestParameters, initOverrides);
         return await response.value();
     }

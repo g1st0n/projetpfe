@@ -70,6 +70,7 @@ export class SortingTableComponent implements AfterViewInit, OnInit {
     this.productService.getProducts({ pageable })
       .then((response: any) => {
         this.products = response.content; // Assuming backend returns { content, totalElements }
+        console.log(response.content);
         this.totalItems = response.totalElements; // The total number of products
   
         // Assign data to the table data source and update paginator and sorter
