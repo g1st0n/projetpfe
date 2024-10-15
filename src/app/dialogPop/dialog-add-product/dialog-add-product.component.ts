@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';  
 import { MatInputModule } from '@angular/material/input';  
@@ -31,6 +31,7 @@ import { HttpClient } from '@angular/common/http';  // Import HttpClient
 })
 
 export class DialogAddProductComponent {
+  @Output() productSaved = new EventEmitter<void>();
   imagePreview: string | ArrayBuffer | null = null;
   selectedFile: File | null = null;  // Store the selected image file
   formGroup: FormGroup;
@@ -43,18 +44,25 @@ export class DialogAddProductComponent {
     private http: HttpClient,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
-    // Initialize the form group with required fields
+    // Initialize the form
     this.formGroup = this.fb.group({
-      reference: ['', Validators.required],
-      designation: ['', Validators.required],
-      color: ['', Validators.required],
-      weight: ['', Validators.required],
-      dimensions: ['', Validators.required],
-      productionTime: ['', Validators.required],
-      price: ['', [Validators.required, Validators.min(0)]],
-      quantity: ['', [Validators.required, Validators.min(1)]],
-      productionCost: ['', [Validators.required, Validators.min(0)]]
+      reference: [data?.reference || '', Validators.required],
+      designation: [data?.designation || '', Validators.required],
+      subCategory: [data?.subCategory || '', Validators.required],
+      rawMaterial: [data?.rawMaterial || '', Validators.required],
+      color: [data?.color || '', Validators.required],
+      weight: [data?.weight || '', Validators.required],
+      dimensions: [data?.dimension || '', Validators.required],
+      productionTime: [data?.productionDuration || '', Validators.required],
+      price: [data?.price || '', Validators.required],
+      quantity: [data?.quantity || '', Validators.required],
+      productionCost: [data?.productionCost || '', Validators.required]
     });
+
+    // If editing and the product has a logo, initialize the image preview
+    if (data?.logo && data?.logoType) {
+      this.imagePreview = `data:${data.logoType};base64,${data.logo}`;
+    }
   }
 
   // Handle image file selection
@@ -104,15 +112,29 @@ export class DialogAddProductComponent {
       formData.append('logo', this.selectedFile);  // Append the file
     }
 
-    // Send the form data as a multipart/form-data request
-    this.http.post('http://localhost:8080/api/products/add', formData).subscribe(
-      (response: any) => {
-        console.log('Product saved successfully:', response);
-        this.dialogRef.close(response);  // Close the dialog
-      },
-      (error) => {
-        console.error('Error saving product:', error);
-      }
-    );
+    // Determine if this is an update or a new product
+    if (this.data?.id) {
+      // If updating, use PUT method and send the product ID
+      this.http.put(`http://localhost:8080/api/products/${this.data.id}`, formData).subscribe(
+        (response: any) => {
+          console.log('Product updated successfully:', response);
+          this.dialogRef.close({ success: true, data: response });  
+        },
+        (error) => {
+          console.error('Error updating product:', error);
+        }
+      );
+    } else {
+      // If adding a new product, use POST method
+      this.http.post('http://localhost:8080/api/products/add', formData).subscribe(
+        (response: any) => {
+          console.log('Product saved successfully:', response);
+          this.dialogRef.close({ success: true, data: response });  // Pass the response back to the parent component
+        },
+        (error) => {
+          console.error('Error saving product:', error);
+        }
+      );
+    }
   }
 }

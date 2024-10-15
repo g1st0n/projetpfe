@@ -6,28 +6,16 @@ import { CommonModule } from '@angular/common';
 import { MatModule } from 'src/app/appModules/mat.module';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogComponentComponent } from 'src/app/dialogPop/dialog-component/dialog-component.component';
-import { ProductControllerApi } from 'src/network/openapi/apis/';  // Import the API service
+import { ProductControllerApi } from 'src/network/openapi/apis/';
 import { ProductResponse } from 'src/network/openapi/models/';
 import { DialogAddProductComponent } from 'src/app/dialogPop/dialog-add-product/dialog-add-product.component';
 import { SelectionModel } from '@angular/cdk/collections';
-
-
-export interface UserData {
-  id: number;
-  name: string;
-  progress: string;
-  fruit: number;
-  temps: string ,
- 
-}
 
 @Component({
   selector: 'app-sorting-table',
   standalone: true,
   imports: [CommonModule, MatModule, MatSortModule, MatPaginatorModule],
-  providers: [
-    ProductControllerApi
-  ],
+  providers: [ProductControllerApi],
   templateUrl: './sorting-table.component.html',
   styleUrls: ['./sorting-table.component.scss']
 })
@@ -45,60 +33,57 @@ export class SortingTableComponent implements AfterViewInit, OnInit {
 
   constructor(
     public dialog: MatDialog,
-    private productService: ProductControllerApi // Inject the product service
+    private productService: ProductControllerApi
   ) {}
 
-  // Fetch the data when the component initializes
   ngOnInit(): void {
-    this.fetchProducts();
+    this.fetchProducts(); // Load products when the component initializes
+  }
+
+  ngAfterViewInit(): void {
+    this.paginator.page.subscribe(() => {
+      this.pageIndex = this.paginator.pageIndex;
+      this.pageSize = this.paginator.pageSize;
+      this.fetchProducts(); // Fetch products on page change
+    });
+
+    this.sort.sortChange.subscribe(() => {
+      this.pageIndex = 0; // Reset page index on sort change
+      this.fetchProducts(); // Fetch products on sort change
+    });
   }
 
   // Fetch products with pagination and sorting parameters
   fetchProducts(): void {
     const sortField = this.sort?.active || 'name'; // Default to sorting by 'name'
     const sortDirection = this.sort?.direction || 'asc'; // Default to ascending sort
-  
+
     // Construct the pageable parameters
     const pageable = {
       page: this.pageIndex,
       size: this.pageSize,
-      sort: [`${sortField},${sortDirection}`]  // Combine field and direction
+      sort: [`${sortField},${sortDirection}`]
     };
-    // Send pageable object to the OpenAPI-generated getProducts method
+
+    // Send pageable object to the getProducts method
     this.productService.getProducts({ pageable })
       .then((response: any) => {
         this.products = response.content; // Assuming backend returns { content, totalElements }
-        console.log(response.content);
-        this.totalItems = response.totalElements; // The total number of products
-  
-        // Assign data to the table data source and update paginator and sorter
+        this.totalItems = response.totalElements; // Total number of products
+
+        // Assign data to the table data source
         this.dataSource = new MatTableDataSource(this.products);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
       })
       .catch(error => {
         console.error('Error fetching products:', error);
-        
       });
   }
-  
 
-  // Listen to paginator changes
-  ngAfterViewInit() {
-    this.paginator.page.subscribe(() => {
-      this.pageIndex = this.paginator.pageIndex;
-      this.pageSize = this.paginator.pageSize;
-      this.fetchProducts(); // Fetch the data again with new pageIndex and pageSize
-    });
-
-    this.sort.sortChange.subscribe(() => {
-      this.pageIndex = 0; // Reset page index on sort change
-      this.fetchProducts(); // Fetch the data again with new sort settings
-    });
-  }
-
+  // Open dialog to edit product
   openDialog(row: any): void {
-    this.dialog.open(DialogComponentComponent, {
+    const dialogRef = this.dialog.open(DialogComponentComponent, {
       width: '80vw',
       maxWidth: '90vw',
       height: 'auto',
@@ -106,26 +91,34 @@ export class SortingTableComponent implements AfterViewInit, OnInit {
       data: row,
       panelClass: 'custom-dialog-container'
     });
-  }
-
-  openAddDialog(): void {
-    const dialogRef = this.dialog.open(DialogAddProductComponent, {
-      width: 'auto', 
-      maxWidth: '90vw', 
-      height: 'auto',
-      maxHeight: '90vh', 
-     
-      panelClass: 'custom-dialog-container'
-    });
 
     dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        // Handle the form result here, update the product list if necessary
-        this.fetchProducts(); // Optionally refresh the data after adding a product
+      if (result && result.success) {
+        console.log("Product was saved or updated:", result.data);
+        this.fetchProducts(); // Fetch products after the dialog is closed and changes have been made
       }
     });
   }
 
+  // Open dialog to add product
+  openAddDialog(): void {
+    const dialogRef = this.dialog.open(DialogAddProductComponent, {
+      width: 'auto',
+      maxWidth: '90vw',
+      height: 'auto',
+      maxHeight: '90vh',
+      panelClass: 'custom-dialog-container'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result && result.success) {
+        console.log("Product was added:", result.data);
+        this.fetchProducts(); // Fetch products after a new product is added
+      }
+    });
+  }
+
+  // Apply filter to search products in the table
   applyFilter(event: Event): void {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -134,5 +127,4 @@ export class SortingTableComponent implements AfterViewInit, OnInit {
       this.dataSource.paginator.firstPage();
     }
   }
-  
 }

@@ -79,7 +79,6 @@ export function SortObjectFromJSONTyped(json: any, ignoreDiscriminator: boolean)
     if (json == null) {
         return json;
     }
-    console.log(json);
     return {
         
         'direction': json['direction'] == null ? undefined : json['direction'],
