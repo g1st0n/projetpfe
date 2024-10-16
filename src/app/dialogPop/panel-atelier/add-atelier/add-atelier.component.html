@@ -1,0 +1,38 @@
+<h1 mat-dialog-title class="dialog-title">{{data ? 'Modifier un atelier' : 'Ajouter un Nouveau atelier'}}</h1>
+
+<mat-dialog-content class="dialog-content">
+  <!-- Bind formGroup to the form -->
+  <form [formGroup]="formGroup" (ngSubmit)="onSubmit()" class="form-grid" enctype="multipart/form-data">
+
+    <!-- Image Upload Section -->
+   
+    <!-- Form Fields -->
+    <mat-form-field appearance="fill" class="form-field">
+      <mat-label>numéro atelier</mat-label>
+      <input matInput type="text" formControlName="NumAtelier" required>
+    </mat-form-field>
+
+
+    <mat-form-field appearance="fill" class="form-field">
+      <mat-label>Capacité</mat-label>
+      <input matInput type="text" formControlName="Capacite" required>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="form-field">
+      <mat-label>Nombre de Machine</mat-label>
+      <input matInput type="text" formControlName="NbMachine" required>
+    </mat-form-field>
+ 
+    <mat-form-field appearance="fill" class="form-field">
+        <mat-label>Coût Machine</mat-label>
+        <input matInput type="text" formControlName="CoutMachine" required>
+      </mat-form-field>
+
+      
+      
+    <div mat-dialog-actions class="action-row full-width">
+      <button mat-button mat-dialog-close class="btn-cancel">Annuler</button>
+      <button mat-button type="submit" color="primary" class="btn-submit">{{data ? 'Modifier' : 'Ajouter'}}</button>
+    </div>
+  </form>
+</mat-dialog-content>

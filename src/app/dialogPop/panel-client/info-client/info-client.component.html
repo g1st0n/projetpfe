@@ -1,0 +1,31 @@
+
+<h1 mat-dialog-title  class="dialog-title">Client Details</h1>
+<div mat-dialog-content class="product-details">
+
+  <div class="product-info">
+
+    <!-- Identification -->
+    <div class="product-row">
+      <span class="label">TypeClient:</span> <span class="value">{{data?.TypeClient}}</span>
+    </div>
+    <div class="product-row">
+      <span class="label">Nom:</span> <span class="value">{{data?.Nom}}</span>
+    </div>
+    <div class="product-row">
+      <span class="label">E-mail:</span> <span class="value">{{data?.Email}}</span>
+    </div>
+    <div class="product-row">
+        <span class="label">Adresse:</span> <span class="value">{{data?.Adresse}}</span>
+      </div>
+     
+   
+
+  </div>
+</div>
+
+<!-- Dialog actions -->
+<div mat-dialog-actions class="action-row">
+  <button mat-button (click)="onDownload(data?.id)">Imprimer</button>
+  <button mat-button (click)="onEdit()">Modifier</button>
+  <button mat-button (click)="onClose()">Fermer</button>
+</div>

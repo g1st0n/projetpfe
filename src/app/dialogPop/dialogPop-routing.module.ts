@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { DialogAddProductComponent } from './dialog-add-product/dialog-add-product.component';
-import { DialogsouscategorieComponent } from './dialogsouscategorie/dialogsouscategorie.component';
+import { DialogAddProductComponent } from './panel-product/add-product/dialog-add-product.component';
+import { DialogsouscategorieComponent } from './panel-sous-produit/info-sous-categorie/dialogsouscategorie.component';
+import { AddClientComponent } from './panel-client/add-client/add-client.component';
 
 const routes: Routes = [
   {
@@ -14,7 +15,11 @@ const routes: Routes = [
   {
     path: 'dialogsouscategorie' , 
     component: DialogsouscategorieComponent
-  }
+  },
+  {
+    path: 'dialog-Add-Client' , 
+    component: AddClientComponent
+  },
     ]
 }
 

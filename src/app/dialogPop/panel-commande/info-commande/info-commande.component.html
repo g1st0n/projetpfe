@@ -1,0 +1,34 @@
+
+<h1 mat-dialog-title  class="dialog-title">sous categorie Details</h1>
+<div mat-dialog-content class="product-details">
+
+  <div class="product-info">
+
+    <!-- Identification -->
+    <div class="product-row">
+      <span class="label">Client:</span> <span class="value">{{data?.Client}}</span>
+    </div>
+    <div class="product-row">
+      <span class="label">Produit:</span> <span class="value">{{data?.Produit}}</span>
+    </div>
+    <div class="product-row">
+      <span class="label">Date Commande:</span> <span class="value">{{data?.DateCommande}}</span>
+    </div>
+    <div class="product-row">
+        <span class="label">Date Limite:</span> <span class="value">{{data?.DateLimite}}</span>
+    </div>
+    <div class="product-row">
+        <span class="label">Quantité:</span> <span class="value">{{data?.Quantite}}</span>
+      </div>
+    
+   
+
+  </div>
+</div>
+
+<!-- Dialog actions -->
+<div mat-dialog-actions class="action-row">
+  <button mat-button (click)="onDownload(data?.id)">Imprimer</button>
+  <button mat-button (click)="onEdit()">Modifier</button>
+  <button mat-button (click)="onClose()">Fermer</button>
+</div>

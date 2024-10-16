@@ -7,58 +7,60 @@
 
     <mat-accordion class="example-headers-align" multi>
       
-      <!-- Commerce Section -->
-      <mat-expansion-panel [class.mat-elevation-z0]="true" expanded="true">
+      <!-- Commerce Section (Visible for Responsable Financier) -->
+      <mat-expansion-panel *ngIf="role === 'responsable-financier'|| role === 'administrator'" expanded="false" [class.mat-elevation-z0]="true">
         <mat-expansion-panel-header>
           <mat-icon class="material-icons-outlined">dashboard</mat-icon>Commerce
         </mat-expansion-panel-header>
-
-        <!-- Commerce Navigation for Responsable Production -->
-        <mat-nav-list *ngIf="role === 'responsable-production' || role === 'administrator'">
-          <a mat-list-item routerLink="tables/sorting-table"><mat-icon>arrow_right</mat-icon>Produit</a>
-          <a mat-list-item routerLink="tables/sous-categorie"><mat-icon>arrow_right</mat-icon>Sous-Catégorie</a>
-          <a mat-list-item routerLink="tables/client"><mat-icon>arrow_right</mat-icon>Client</a>
-          <a mat-list-item routerLink="tables/commande"><mat-icon>arrow_right</mat-icon>Commande</a>
-        </mat-nav-list>
-
-        <!-- Commerce Navigation for Responsable Financier -->
-        <mat-nav-list *ngIf="role === 'responsable-financier' || role === 'administrator'">
-          <a mat-list-item routerLink="tables/factures"><mat-icon>arrow_right</mat-icon>Factures</a>
-          <a mat-list-item routerLink="tables/transactions"><mat-icon>arrow_right</mat-icon>Transactions</a>
-        </mat-nav-list>
-      </mat-expansion-panel>
-      
-      <!-- Production Section for Responsable Production -->
-      <mat-expansion-panel *ngIf="role === 'responsable-production' || role === 'administrator'" [class.mat-elevation-z0]="true">
-        <mat-expansion-panel-header>
-          <mat-icon class="material-icons-outlined">dashboard</mat-icon>Production
-        </mat-expansion-panel-header>
         <mat-nav-list>
-          <a mat-list-item routerLink="tables/atelier"><mat-icon>arrow_right</mat-icon>Atelier</a>
-          <a mat-list-item routerLink="tables/matiere-premiere"><mat-icon>arrow_right</mat-icon>Matière Première</a>
-          <a mat-list-item routerLink="tables/planning"><mat-icon>arrow_right</mat-icon>Planning</a>
+          <a mat-list-item routerLink="tables/table-produit"><mat-icon>arrow_right</mat-icon>produit</a>
+          <a mat-list-item routerLink="tables/Sous-categorie"><mat-icon>arrow_right</mat-icon>sous-categorie</a>
+          <a mat-list-item routerLink="tables/table-client"><mat-icon>arrow_right</mat-icon>client</a>
+          <a mat-list-item routerLink="tables/table-commande"><mat-icon>arrow_right</mat-icon>commande</a>
+
         </mat-nav-list>
       </mat-expansion-panel>
 
-      <!-- Financier Section for Responsable Financier -->
-      <mat-expansion-panel *ngIf="role === 'responsable-financier' || role === 'administrator'" [class.mat-elevation-z0]="true">
+      <!-- Financier Analysis Section (Visible for Responsable Financier) -->
+      <mat-expansion-panel *ngIf="role === 'responsable-financier'|| role === 'administrator'" expanded="false" [class.mat-elevation-z0]="true">
         <mat-expansion-panel-header>
-          <mat-icon class="material-icons-outlined">money</mat-icon>Financier
-        </mat-expansion-panel-header>
-        <mat-nav-list>
-          <a mat-list-item routerLink="tables/budget"><mat-icon>arrow_right</mat-icon>Budget</a>
-          <a mat-list-item routerLink="tables/couts"><mat-icon>arrow_right</mat-icon>Coûts</a>
-        </mat-nav-list>
-      </mat-expansion-panel>
-
-      <!-- Analytics Section for Administrator -->
-      <mat-expansion-panel *ngIf="role === 'administrator'" [class.mat-elevation-z0]="true">
-        <mat-expansion-panel-header>
-          <mat-icon class="material-icons-outlined">redeem</mat-icon>Analyse
+          <mat-icon class="material-icons-outlined">money</mat-icon>Analyse Financier
         </mat-expansion-panel-header>
         <mat-nav-list>
           <a mat-list-item routerLink="dashboard/analytics"><mat-icon>arrow_right</mat-icon>Analyse Financier</a>
+        </mat-nav-list>
+      </mat-expansion-panel>
+
+      <!-- Production Section (Visible for Responsable Production) -->
+      <mat-expansion-panel *ngIf="role === 'responsable-production'|| role === 'administrator'" expanded="false" [class.mat-elevation-z0]="true">
+        <mat-expansion-panel-header>
+          <mat-icon class="material-icons-outlined">build</mat-icon>Production
+        </mat-expansion-panel-header>
+        <mat-nav-list>
+          <a mat-list-item routerLink="tables/table-atelier"><mat-icon>arrow_right</mat-icon>Atelier</a>
+          <a mat-list-item routerLink="tables/table-Matiere-Premier"><mat-icon>arrow_right</mat-icon>Matière Première</a>
+          <a mat-list-item routerLink="pricing/pricing"><mat-icon>arrow_right</mat-icon>Planning</a>
+          <a mat-list-item routerLink="components/cards"><mat-icon>arrow_right</mat-icon>suivi production</a>
+
+        </mat-nav-list>
+      </mat-expansion-panel>
+
+      <!-- Production Analysis Section (Visible for Responsable Production) -->
+      <mat-expansion-panel *ngIf="role === 'responsable-production'|| role === 'administrator'" expanded="false" [class.mat-elevation-z0]="true">
+        <mat-expansion-panel-header>
+          <mat-icon class="material-icons-outlined">analytics</mat-icon>Analyse Production
+        </mat-expansion-panel-header>
+        <mat-nav-list>
           <a mat-list-item routerLink="charts/apex-chart"><mat-icon>arrow_right</mat-icon>Analyse Production</a>
+        </mat-nav-list>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel *ngIf="role === 'administrator'" expanded="false" [class.mat-elevation-z0]="true">
+        <mat-expansion-panel-header>
+          <mat-icon class="material-icons-outlined">analytics</mat-icon>Responsables
+        </mat-expansion-panel-header>
+        <mat-nav-list>
+          <a mat-list-item routerLink="tables/table-Responsable"><mat-icon>arrow_right</mat-icon>Responsables</a>
         </mat-nav-list>
       </mat-expansion-panel>
 
@@ -66,4 +68,3 @@
 
   </nav>
 </aside>
-

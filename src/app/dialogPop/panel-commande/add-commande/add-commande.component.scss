@@ -1,0 +1,22 @@
+/* Hide the scrollbar while allowing scrolling */
+.dialog-content {
+    max-height: 80vh; /* Adjust height as necessary */
+    overflow-y: auto; /* Allow vertical scrolling */
+  }
+  
+  /* For Chrome, Safari, and Edge */
+  .dialog-content::-webkit-scrollbar {
+    width: 0px;
+    background: transparent; /* Hide scrollbar track */
+  }
+  
+  /* For Firefox */
+  .dialog-content {
+    scrollbar-width: none; /* Firefox */
+  }
+  
+  /* For Internet Explorer and Edge */
+  .dialog-content {
+    -ms-overflow-style: none; /* IE and Edge */
+  }
+  

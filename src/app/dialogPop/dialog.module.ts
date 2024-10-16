@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatModule } from '../appModules/mat.module';
 import { MatDialogModule } from '@angular/material/dialog';
-import { DialogComponentComponent } from './dialog-component/dialog-component.component';
-import { DialogAddProductComponent } from './dialog-add-product/dialog-add-product.component';
+import { DialogComponentComponent } from './panel-product/info-product/dialog-component.component';
+import { DialogAddProductComponent } from './panel-product/add-product/dialog-add-product.component';
 
 
 

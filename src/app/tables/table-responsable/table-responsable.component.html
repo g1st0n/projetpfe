@@ -1,0 +1,77 @@
+<h6 class="mb-0 text-uppercase">Responsable</h6>  
+<hr>
+
+<mat-card>
+  <mat-card-content>
+    <div class="d-flex flex-row gap-3 align-items-center justify-content-between">
+      <div class="">
+        <h5 class="">Responsable</h5>
+      </div>
+      <div>
+        <button mat-icon-button [matMenuTriggerFor]="menu">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item (click)="openAddDialog()">
+            <mat-icon class="material-icons-outlined">add</mat-icon>
+            <span>Ajouter</span>
+          </button>
+        </mat-menu>
+      </div>
+    </div>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Filtrer</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Pantalon ..." #input>
+    </mat-form-field>
+    
+    <div class="sorting-table">
+      <table mat-table [dataSource]="dataSource" matSort>
+        <!-- ID Column -->
+        <ng-container matColumnDef="image">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Image </th>
+          <td mat-cell *matCellDef="let row" (click)="openDialog(row)">
+            <!-- Conditionally display the image if both logo and logoType are defined -->
+            <img *ngIf="row.logo && row.logoType" 
+                 [src]="'data:' + row.logoType + ';base64,' + row.logo" 
+                 [alt]="row.logoName" width="80" />
+          </td>
+        </ng-container>
+
+        <!-- Progress Column -->
+        <ng-container matColumnDef="Nom">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Nom </th>
+          <td mat-cell *matCellDef="let row" (click)="openDialog(row)"> {{row.Nom}} </td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="Prenom">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Prénom </th>
+          <td mat-cell *matCellDef="let row" (click)="openDialog(row)"> {{row.Prenom}} </td>
+        </ng-container>
+
+        <!-- Fruit Column -->
+        <ng-container matColumnDef="Email">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> E-mail </th>
+          <td mat-cell *matCellDef="let row" (click)="openDialog(row)"> {{row.Email}}$</td>
+        </ng-container>
+
+        <!-- Temps Column -->
+        <ng-container matColumnDef="tel">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Télephone</th>
+          <td mat-cell *matCellDef="let row" (click)="openDialog(row)"> {{row.tel}}min </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+        <!-- Row shown when there is no matching data. -->
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" colspan="5">No data matching the filter "{{input.value}}"</td>
+        </tr>
+      </table>
+
+      <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+    </div>
+  </mat-card-content>
+</mat-card>

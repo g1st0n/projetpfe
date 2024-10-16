@@ -1,0 +1,39 @@
+
+<h1 mat-dialog-title  class="dialog-title">Matiére Premiére Details</h1>
+<div mat-dialog-content class="product-details">
+
+  <div class="product-info">
+
+    <!-- Identification -->
+    <div class="product-row">
+      <span class="label">Nom:</span> <span class="value">{{data?.Nom}}</span>
+    </div>
+    <div class="product-row">
+      <span class="label">Type de Matiére:</span> <span class="value">{{data?.TypeMatiere}}</span>
+    </div>
+    <div class="product-row">
+        <span class="label">Prix unitaire: </span> <span class="value">{{data?.PrixUni}}</span>
+      </div>
+      <div class="product-row">
+        <span class="label">Origine:</span> <span class="value">{{data?.Origine}}</span>
+      </div>
+      <div class="product-row">
+        <span class="label">couleur: </span> <span class="value">{{data?.Couleur}}</span>
+      </div>
+      <div class="product-row">
+        <span class="label">unité:</span> <span class="value">{{data?.unite}}</span>
+      </div>
+      <div class="product-row">
+        <span class="label">Quantité Disponible:</span> <span class="value">{{data?.QuantiteDispo}}</span>
+      </div>
+   
+
+  </div>
+</div>
+
+<!-- Dialog actions -->
+<div mat-dialog-actions class="action-row">
+  <button mat-button (click)="onDownload(data?.id)">Imprimer</button>
+  <button mat-button (click)="onEdit()">Modifier</button>
+  <button mat-button (click)="onClose()">Fermer</button>
+</div>

@@ -1,0 +1,28 @@
+
+<h1 mat-dialog-title  class="dialog-title">sous categorie Details</h1>
+<div mat-dialog-content class="product-details">
+
+  <div class="product-info">
+
+    <!-- Identification -->
+    <div class="product-row">
+      <span class="label">Référence:</span> <span class="value">TXT12345</span>
+    </div>
+    <div class="product-row">
+      <span class="label">Nom:</span> <span class="value">Robe en Soie</span>
+    </div>
+    <div class="product-row">
+      <span class="label">Type de Matiére:</span> <span class="value">Vêtements</span>
+    </div>
+    
+   
+
+  </div>
+</div>
+
+<!-- Dialog actions -->
+<div mat-dialog-actions class="action-row">
+  <button mat-button (click)="onDownload(data?.id)">Imprimer</button>
+  <button mat-button (click)="onEdit()">Modifier</button>
+  <button mat-button (click)="onClose()">Fermer</button>
+</div>

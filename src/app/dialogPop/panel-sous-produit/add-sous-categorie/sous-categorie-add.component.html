@@ -1,0 +1,33 @@
+<h1 mat-dialog-title class="dialog-title">{{data ? 'Modifier la catégorie' : 'Ajouter une Nouvelle Catégorie'}}</h1>
+
+<mat-dialog-content class="dialog-content">
+  <!-- Bind formGroup to the form -->
+  <form [formGroup]="formGroup" (ngSubmit)="onSubmit()" class="form-grid" enctype="multipart/form-data">
+
+    <!-- Image Upload Section -->
+   
+    <!-- Form Fields -->
+    <mat-form-field appearance="fill" class="form-field">
+      <mat-label>Type Matiére</mat-label>
+      <input matInput type="text" formControlName="TypeMatiere" required>
+    </mat-form-field>
+
+
+    <mat-form-field appearance="fill" class="form-field">
+      <mat-label>Nom</mat-label>
+      <input matInput type="text" formControlName="subCategory" required>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="form-field">
+      <mat-label>Référence</mat-label>
+      <input matInput type="text" formControlName="reference" required>
+    </mat-form-field>
+ 
+
+    <!-- Dialog Actions -->
+    <div mat-dialog-actions class="action-row full-width">
+      <button mat-button mat-dialog-close class="btn-cancel">Annuler</button>
+      <button mat-button type="submit" color="primary" class="btn-submit">{{data ? 'Modifier' : 'Ajouter'}}</button>
+    </div>
+  </form>
+</mat-dialog-content>
