@@ -11,20 +11,6 @@ import { ProductResponse } from 'src/network/openapi/models/';
 import { DialogAddProductComponent } from 'src/app/dialogPop/panel-product/add-product/dialog-add-product.component';
 import { SelectionModel } from '@angular/cdk/collections';
 
-const PRODUCT = [
-
-  { reference:"12tX6ER1",designation:"jean",price:"15" ,productionDuration:"15 jours",
-  },
-  ]
-
-export interface UserData {
-  id: number;
-  name: string;
-  progress: string;
-  fruit: number;
-  temps: string ,
- 
-}
 
 @Component({
   selector: 'app-sorting-table',
@@ -38,7 +24,7 @@ export interface UserData {
 })
 export class SortingTableComponent implements AfterViewInit, OnInit {
   displayedColumns: string[] = ['id', 'designation', 'reference', 'price', 'productionDuration'];
-  dataSource: MatTableDataSource<any>;
+  dataSource: MatTableDataSource<ProductResponse>;
   products: ProductResponse[] = [];
   totalItems = 0; // To store the total number of products (for paginator)
   pageSize = 10; // Default page size
@@ -52,7 +38,7 @@ export class SortingTableComponent implements AfterViewInit, OnInit {
     
     public dialog: MatDialog,
     private productService: ProductControllerApi // Inject the product service
-  ) { this.dataSource = new MatTableDataSource(PRODUCT);}
+  ) { this.dataSource = new MatTableDataSource();}
 
   // Fetch the data when the component initializes
   ngOnInit(): void {
@@ -73,12 +59,15 @@ export class SortingTableComponent implements AfterViewInit, OnInit {
     // Send pageable object to the OpenAPI-generated getProducts method
     this.productService.getProducts({ pageable })
       .then((response: any) => {
-        this.products = response.content; // Assuming backend returns { content, totalElements }
-        this.totalItems = response.totalElements; // The total number of products
-  
-        // Assign data to the table data source and update paginator and sorter
+        this.products = response.content; 
+
+
+        this.totalItems = response.totalElements; 
+
         this.dataSource = new MatTableDataSource(this.products);
+
         this.dataSource.paginator = this.paginator;
+        
         this.dataSource.sort = this.sort;
       })
       .catch(error => {
@@ -104,7 +93,7 @@ export class SortingTableComponent implements AfterViewInit, OnInit {
 
   openDialog(row: any): void {
     const dialogRef = this.dialog.open(DialogComponentComponent, {
-      width: '60vw',
+      width: '30vw',
       maxWidth: '90vw',
       height: 'auto',
       maxHeight: '90vh',
