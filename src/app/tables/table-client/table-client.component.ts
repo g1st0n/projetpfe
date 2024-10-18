@@ -21,7 +21,7 @@ const CLIENT = [
   styleUrl: './table-client.component.scss'
 })
 export class TableClientComponent {
-  displayedColumns: string[] = [ 'TypeClient','Nom','Email','Adresse'];
+  displayedColumns: string[] = [ 'TypeClient','Nom','Email','Adresse','telephone'];
 
   dataSource: MatTableDataSource<any>;
 

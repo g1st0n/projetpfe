@@ -38,6 +38,7 @@ export interface Client {
      * @memberof Client
      */
     idClient?: number;
+   
     /**
      * 
      * @type {string}
@@ -49,6 +50,7 @@ export interface Client {
      * @type {string}
      * @memberof Client
      */
+    
     clientType?: string;
     /**
      * 
@@ -62,6 +64,12 @@ export interface Client {
      * @memberof Client
      */
     address?: string;
+     /**
+     * 
+     * @type {string}
+     * @memberof Client
+     */
+     telephone?: string;
     /**
      * 
      * @type {Array<CustomerOrder>}
@@ -98,6 +106,8 @@ export function ClientFromJSONTyped(json: any, ignoreDiscriminator: boolean): Cl
         'clientType': json['clientType'] == null ? undefined : json['clientType'],
         'email': json['email'] == null ? undefined : json['email'],
         'address': json['address'] == null ? undefined : json['address'],
+        'telephone': json['telephone'] == null ? undefined : json['telephone'],
+
         'orders': json['orders'] == null ? undefined : ((json['orders'] as Array<any>).map(CustomerOrderFromJSON)),
         'user': json['user'] == null ? undefined : UserFromJSON(json['user']),
     };
@@ -114,6 +124,7 @@ export function ClientToJSON(value?: Client | null): any {
         'clientType': value['clientType'],
         'email': value['email'],
         'address': value['address'],
+        'telephone': value['telephone'],
         'orders': value['orders'] == null ? undefined : ((value['orders'] as Array<any>).map(CustomerOrderToJSON)),
         'user': UserToJSON(value['user']),
     };

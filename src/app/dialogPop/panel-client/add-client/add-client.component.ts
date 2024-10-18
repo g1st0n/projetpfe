@@ -27,7 +27,7 @@ import { HttpClient } from '@angular/common/http';  // Import HttpClient
   styleUrl: './add-client.component.scss'
 })
 export class AddClientComponent {
-  @Output() sousCategorieSaved = new EventEmitter<void>();
+  @Output() ClientService = new EventEmitter<void>();
   formGroup: FormGroup;
 
   constructor(
@@ -39,37 +39,56 @@ export class AddClientComponent {
   ) {
     // Initialize the form
     this.formGroup = this.fb.group({
-      reference: [data?.reference || '', Validators.required],
-      subCategory: [data?.subCategory || '', Validators.required],
-      typeMatiere: [data?.typeMatiere || '', Validators.required]
+      telephone: [data?.telephone || '', Validators.required],
+      Nom: [data?.fullName || '', Validators.required],
+      TypeClient: [data?.clientType || '', Validators.required],
+      Email: [data?.email || '', Validators.required],
+      Adresse: [data?.address || '', Validators.required],
+   
     });
   }
 
   // Function to handle sous-categorie submission
-  onSubmit(): void {
-    const sousCategorieData = this.formGroup.value;  // Get form data
+    onSubmit(): void {
+      const formData = new FormData();  // Create FormData to send as multipart/form-data
+  
+      // Append the form fields to FormData
+      formData.append('fullName', this.formGroup.get('Nom')?.value);
+      formData.append('clientType', this.formGroup.get('TypeClient')?.value);
+      formData.append('email', this.formGroup.get('Email')?.value);
+      formData.append('address', this.formGroup.get('Adresse')?.value);
+      formData.append('telephone', this.formGroup.get('telephone')?.value);
 
-    // Determine if this is an update or a new sous-catégorie
+  
+      
+  
     if (this.data?.id) {
       // If updating, use PUT method and send the sous-catégorie ID
-      this.http.put(`http://localhost:8080/api/sous-categories/${this.data.id}`, sousCategorieData).subscribe(
+      this.http.put(`http://localhost:8080/api/clients/${this.data.id}`, formData,{
+        
+      }).subscribe(
         (response: any) => {
+          
           console.log('Sous-catégorie updated successfully:', response);
           this.dialogRef.close({ success: true, data: response });  // Close dialog with success
         },
         (error) => {
-          console.error('Error updating sous-catégorie:', error);
+          console.error('Error updating client:', error);
         }
       );
     } else {
+      console.log('Full API Response:', formData);  // Log the full response
+
       // If adding a new sous-catégorie, use POST method
-      this.http.post('http://localhost:8080/api/sous-categories/add', sousCategorieData).subscribe(
+      this.http.post('http://localhost:8080/api/clients/add', formData).subscribe(
         (response: any) => {
-          console.log('Sous-catégorie saved successfully:', response);
+
+
+          console.log('client saved successfully:', response);
           this.dialogRef.close({ success: true, data: response });  // Close dialog with success
         },
         (error) => {
-          console.error('Error saving sous-catégorie:', error);
+          console.error('Error saving client:', error);
         }
       );
     }

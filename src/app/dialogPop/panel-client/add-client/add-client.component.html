@@ -2,7 +2,7 @@
 
 <mat-dialog-content class="dialog-content">
   <!-- Bind formGroup to the form -->
-  <form [formGroup]="formGroup" (ngSubmit)="onSubmit()" class="form-grid" enctype="multipart/form-data">
+  <form [formGroup]="formGroup" (ngSubmit)="onSubmit()" class="form-grid" >
 
     <!-- Image Upload Section -->
    
@@ -30,8 +30,7 @@
 
       <mat-form-field appearance="fill" class="form-field">
         <mat-label>téléphone</mat-label>
-        <input matInput type="tel" formControlName="telephone" required pattern="[0-9]{8,15}">
-        <mat-error *ngIf="formGroup.get('telephone')?.hasError('pattern')">Veuillez entrer un numéro de téléphone valide</mat-error>
+        <input matInput type="text" formControlName="telephone" required pattern="[0-9]{8,15}">
       </mat-form-field>
       
     <div mat-dialog-actions class="action-row full-width">

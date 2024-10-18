@@ -56,7 +56,6 @@ fetchRaw(): void {
 
   this.RawMaterialservice.getAllRawMaterials({ pageable })
     .then((response: any) => {
-        console.log('Full API Response:', response);  // Log the full response
         
         this.rawMaterial = response;  
 

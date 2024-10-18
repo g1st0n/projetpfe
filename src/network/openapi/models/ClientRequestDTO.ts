@@ -19,6 +19,7 @@ import { mapValues } from '../runtime';
  * @interface ClientRequestDTO
  */
 export interface ClientRequestDTO {
+   
     /**
      * 
      * @type {string}
@@ -43,6 +44,12 @@ export interface ClientRequestDTO {
      * @memberof ClientRequestDTO
      */
     address?: string;
+     /**
+     * 
+     * @type {string}
+     * @memberof ClientRequestDTO
+     */
+     telephone?: string;
     /**
      * 
      * @type {number}
@@ -72,6 +79,7 @@ export function ClientRequestDTOFromJSONTyped(json: any, ignoreDiscriminator: bo
         'clientType': json['clientType'] == null ? undefined : json['clientType'],
         'email': json['email'] == null ? undefined : json['email'],
         'address': json['address'] == null ? undefined : json['address'],
+        'telephone': json['telephone'] == null ? undefined : json['telephone'],
         'userId': json['userId'] == null ? undefined : json['userId'],
     };
 }
@@ -81,11 +89,12 @@ export function ClientRequestDTOToJSON(value?: ClientRequestDTO | null): any {
         return value;
     }
     return {
-        
+
         'fullName': value['fullName'],
         'clientType': value['clientType'],
         'email': value['email'],
         'address': value['address'],
+        'telephone': value['telephone'],
         'userId': value['userId'],
     };
 }

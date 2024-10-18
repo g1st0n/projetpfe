@@ -56,7 +56,9 @@ export class ClientControllerApi extends runtime.BaseAPI {
             headers: headerParameters,
             query: queryParameters,
             body: ClientRequestDTOToJSON(requestParameters['clientRequestDTO']),
+            
         }, initOverrides);
+        console.log('clientRequestDTO:', requestParameters['clientRequestDTO']);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ClientResponseDTOFromJSON(jsonValue));
     }

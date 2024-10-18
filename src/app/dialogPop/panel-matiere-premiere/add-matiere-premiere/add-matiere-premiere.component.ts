@@ -71,8 +71,10 @@ export class AddMatierePremiereComponent {
 
     // Determine if this is an update or a new product
     if (this.data?.id) {
+      console.log(this.data)
       // If updating, use PUT method and send the product ID
       this.http.put(`http://localhost:8080/api/raw-materials/${this.data.id}`, formData).subscribe(
+        
         (response: any) => {
           console.log('Product updated successfully:', response);
           this.dialogRef.close({ success: true, data: response });  
@@ -82,6 +84,8 @@ export class AddMatierePremiereComponent {
         }
       );
     } else {
+      console.log('Full API Response:', formData);  // Log the full response
+
       // If adding a new product, use POST method
       this.http.post('http://localhost:8080/api/raw-materials/add', formData).subscribe(
         (response: any) => {
