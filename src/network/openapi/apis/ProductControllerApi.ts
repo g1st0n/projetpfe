@@ -39,6 +39,10 @@ export interface EditProductRequest {
     productRequest: ProductRequest;
 }
 
+export interface GeneratePdfRequest {
+    productId: number;
+}
+
 export interface GetById1Request {
     id: number;
 }
@@ -118,6 +122,41 @@ export class ProductControllerApi extends runtime.BaseAPI {
      */
     async editProduct(requestParameters: EditProductRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ProductResponse> {
         const response = await this.editProductRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     */
+    async generatePdfRaw(requestParameters: GeneratePdfRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<string>> {
+        if (requestParameters['productId'] == null) {
+            throw new runtime.RequiredError(
+                'productId',
+                'Required parameter "productId" was null or undefined when calling generatePdf().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/api/products/generate/{productId}`.replace(`{${"productId"}}`, encodeURIComponent(String(requestParameters['productId']))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        if (this.isJsonMime(response.headers.get('content-type'))) {
+            return new runtime.JSONApiResponse<string>(response);
+        } else {
+            return new runtime.TextApiResponse(response) as any;
+        }
+    }
+
+    /**
+     */
+    async generatePdf(requestParameters: GeneratePdfRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<string> {
+        const response = await this.generatePdfRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

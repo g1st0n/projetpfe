@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { HttpClient } from '@angular/common/http';
 import { AddClientComponent } from '../add-client/add-client.component';
+import { EditClientComponent } from '../edit-client/edit-client.component';
 
 @Component({
   selector: 'app-info-client',
@@ -22,7 +23,7 @@ export class InfoClientComponent {
   onEdit(): void {
     // Assuming you have the Add Product dialog component as 'DialogAddProductComponent'
     this.dialogRef.close(); // Close the current dialog first
-    const dialogRef = this.dialog.open(AddClientComponent, {
+    const dialogRef = this.dialog.open(EditClientComponent, {
       width: '80vw',
       maxWidth: '90vw',
       height: 'auto',

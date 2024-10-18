@@ -51,6 +51,12 @@ export interface ClientResponseDTO {
     address?: string;
     /**
      * 
+     * @type {string}
+     * @memberof ClientResponseDTO
+     */
+    telephone?: string;
+    /**
+     * 
      * @type {number}
      * @memberof ClientResponseDTO
      */
@@ -85,6 +91,7 @@ export function ClientResponseDTOFromJSONTyped(json: any, ignoreDiscriminator: b
         'clientType': json['clientType'] == null ? undefined : json['clientType'],
         'email': json['email'] == null ? undefined : json['email'],
         'address': json['address'] == null ? undefined : json['address'],
+        'telephone': json['telephone'] == null ? undefined : json['telephone'],
         'userId': json['userId'] == null ? undefined : json['userId'],
         'userFullName': json['userFullName'] == null ? undefined : json['userFullName'],
     };
@@ -101,6 +108,7 @@ export function ClientResponseDTOToJSON(value?: ClientResponseDTO | null): any {
         'clientType': value['clientType'],
         'email': value['email'],
         'address': value['address'],
+        'telephone': value['telephone'],
         'userId': value['userId'],
         'userFullName': value['userFullName'],
     };

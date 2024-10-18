@@ -59,16 +59,17 @@ export class RawMaterialControllerApi extends runtime.BaseAPI {
 
         const queryParameters: any = {};
 
-        const headerParameters: runtime.HTTPHeaders = {};
+        if (requestParameters['rawMaterialRequestDTO'] != null) {
+            queryParameters['rawMaterialRequestDTO'] = requestParameters['rawMaterialRequestDTO'];
+        }
 
-        headerParameters['Content-Type'] = 'application/json';
+        const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
             path: `/api/raw-materials/add`,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: RawMaterialRequestDTOToJSON(requestParameters['rawMaterialRequestDTO']),
         }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RawMaterialResponseDTOFromJSON(jsonValue));

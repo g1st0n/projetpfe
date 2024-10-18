@@ -21,6 +21,12 @@ import { mapValues } from '../runtime';
 export interface ClientRequestDTO {
     /**
      * 
+     * @type {number}
+     * @memberof ClientRequestDTO
+     */
+    clientId?: number;
+    /**
+     * 
      * @type {string}
      * @memberof ClientRequestDTO
      */
@@ -43,6 +49,12 @@ export interface ClientRequestDTO {
      * @memberof ClientRequestDTO
      */
     address?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ClientRequestDTO
+     */
+    telephone?: string;
     /**
      * 
      * @type {number}
@@ -68,10 +80,12 @@ export function ClientRequestDTOFromJSONTyped(json: any, ignoreDiscriminator: bo
     }
     return {
         
+        'clientId': json['clientId'] == null ? undefined : json['clientId'],
         'fullName': json['fullName'] == null ? undefined : json['fullName'],
         'clientType': json['clientType'] == null ? undefined : json['clientType'],
         'email': json['email'] == null ? undefined : json['email'],
         'address': json['address'] == null ? undefined : json['address'],
+        'telephone': json['telephone'] == null ? undefined : json['telephone'],
         'userId': json['userId'] == null ? undefined : json['userId'],
     };
 }
@@ -82,10 +96,12 @@ export function ClientRequestDTOToJSON(value?: ClientRequestDTO | null): any {
     }
     return {
         
+        'clientId': value['clientId'],
         'fullName': value['fullName'],
         'clientType': value['clientType'],
         'email': value['email'],
         'address': value['address'],
+        'telephone': value['telephone'],
         'userId': value['userId'],
     };
 }

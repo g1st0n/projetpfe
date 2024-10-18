@@ -23,6 +23,7 @@ models/JwtResponse.ts
 models/LocalTime.ts
 models/OrderRequestDTO.ts
 models/OrderResponseDTO.ts
+models/PageClientResponseDTO.ts
 models/PageProductResponse.ts
 models/Pageable.ts
 models/PageableObject.ts

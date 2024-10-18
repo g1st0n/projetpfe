@@ -1,11 +1,11 @@
-<h6 class="mb-0 text-uppercase">Client</h6>  
+<h6 class="mb-0 text-uppercase">Clients</h6>
 <hr>
 
 <mat-card>
   <mat-card-content>
     <div class="d-flex flex-row gap-3 align-items-center justify-content-between">
-      <div class="">
-        <h5 class="">Client</h5>
+      <div>
+        <h5 class="mb-0">Client List</h5>
       </div>
       <div>
         <button mat-icon-button [matMenuTriggerFor]="menu">
@@ -14,56 +14,62 @@
         <mat-menu #menu="matMenu">
           <button mat-menu-item (click)="openAddDialog()">
             <mat-icon class="material-icons-outlined">add</mat-icon>
-            <span>Ajouter</span>
+            <span>Add Client</span>
           </button>
         </mat-menu>
       </div>
     </div>
 
-    <mat-form-field appearance="outline">
-      <mat-label>Filtrer</mat-label>
-      <input matInput (keyup)="applyFilter($event)" placeholder="Pantalon ..." #input>
+    <mat-form-field appearance="outline" class="w-100 mt-3">
+      <mat-label>Filter Clients</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Search by client name..." #input>
     </mat-form-field>
-    
-    <div class="sorting-table">
+
+    <div class="sorting-table mt-3">
       <table mat-table [dataSource]="dataSource" matSort>
-        <!-- ID Column -->
-       
 
-        <!-- Progress Column -->
-        <ng-container matColumnDef="Nom">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> Nom </th>
-          <td mat-cell *matCellDef="let row" (click)="openDialog(row)"> {{row.Nom}} </td>
+        <!-- Client Type Column -->
+        <ng-container matColumnDef="clientType">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Client Type </th>
+          <td mat-cell *matCellDef="let row" (click)="openDialog(row)"> {{row.clientType}} </td>
         </ng-container>
 
-        <!-- Name Column -->
-        <ng-container matColumnDef="TypeClient">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> TypeClient </th>
-          <td mat-cell *matCellDef="let row" (click)="openDialog(row)"> {{row.TypeClient}} </td>
+        <!-- Client Full Name Column -->
+        <ng-container matColumnDef="fullName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Full Name </th>
+          <td mat-cell *matCellDef="let row" (click)="openDialog(row)"> {{row.fullName}} </td>
         </ng-container>
 
-        <!-- Fruit Column -->
-        <ng-container matColumnDef="Email">
+        <!-- Client Email Column -->
+        <ng-container matColumnDef="email">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> E-mail </th>
-          <td mat-cell *matCellDef="let row" (click)="openDialog(row)"> {{row.Email}}$</td>
+          <td mat-cell *matCellDef="let row" (click)="openDialog(row)"> {{row.email}} </td>
         </ng-container>
 
-        <ng-container matColumnDef="Adresse">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Adresse </th>
-            <td mat-cell *matCellDef="let row" (click)="openDialog(row)"> {{row.Adresse}}$</td>
-          </ng-container>
-        
+        <!-- Client Address Column -->
+        <ng-container matColumnDef="address">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Address </th>
+          <td mat-cell *matCellDef="let row" (click)="openDialog(row)"> {{row.address}} </td>
+        </ng-container>
 
+        <!-- Client Telephone Column -->
+        <ng-container matColumnDef="telephone">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Telephone </th>
+          <td mat-cell *matCellDef="let row" (click)="openDialog(row)"> {{row.telephone}} </td>
+        </ng-container>
+
+        <!-- Define the row structure -->
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
-        <!-- Row shown when there is no matching data. -->
+        <!-- Row shown when there is no matching data -->
         <tr class="mat-row" *matNoDataRow>
-          <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+          <td class="mat-cell" colspan="5">No data matching the filter "{{input.value}}"</td>
         </tr>
       </table>
 
-      <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+      <!-- Paginator for table -->
+      <mat-paginator [length]="totalItems" [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page"></mat-paginator>
     </div>
   </mat-card-content>
 </mat-card>

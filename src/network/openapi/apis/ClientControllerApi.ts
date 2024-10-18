@@ -17,15 +17,33 @@ import * as runtime from '../runtime';
 import type {
   ClientRequestDTO,
   ClientResponseDTO,
+  PageClientResponseDTO,
+  Pageable,
 } from '../models/index';
 import {
     ClientRequestDTOFromJSON,
     ClientRequestDTOToJSON,
     ClientResponseDTOFromJSON,
     ClientResponseDTOToJSON,
+    PageClientResponseDTOFromJSON,
+    PageClientResponseDTOToJSON,
+    PageableFromJSON,
+    PageableToJSON,
 } from '../models/index';
 
 export interface CreateClientRequest {
+    clientRequestDTO: ClientRequestDTO;
+}
+
+export interface DeleteClientRequest {
+    id: number;
+}
+
+export interface GetClientsRequest {
+    pageable: Pageable;
+}
+
+export interface UpdateClientRequest {
     clientRequestDTO: ClientRequestDTO;
 }
 
@@ -70,13 +88,43 @@ export class ClientControllerApi extends runtime.BaseAPI {
 
     /**
      */
+    async deleteClientRaw(requestParameters: DeleteClientRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['id'] == null) {
+            throw new runtime.RequiredError(
+                'id',
+                'Required parameter "id" was null or undefined when calling deleteClient().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/api/clients/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters['id']))),
+            method: 'DELETE',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     */
+    async deleteClient(requestParameters: DeleteClientRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.deleteClientRaw(requestParameters, initOverrides);
+    }
+
+    /**
+     */
     async getAllClientsRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<ClientResponseDTO>>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/api/clients`,
+            path: `/api/clients/showAll`,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -89,6 +137,75 @@ export class ClientControllerApi extends runtime.BaseAPI {
      */
     async getAllClients(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<ClientResponseDTO>> {
         const response = await this.getAllClientsRaw(initOverrides);
+        return await response.value();
+    }
+
+    /**
+     */
+    async getClientsRaw(requestParameters: GetClientsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PageClientResponseDTO>> {
+        if (requestParameters['pageable'] == null) {
+            throw new runtime.RequiredError(
+                'pageable',
+                'Required parameter "pageable" was null or undefined when calling getClients().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters['pageable'] != null) {
+            queryParameters['pageable'] = requestParameters['pageable'];
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/api/clients`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => PageClientResponseDTOFromJSON(jsonValue));
+    }
+
+    /**
+     */
+    async getClients(requestParameters: GetClientsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PageClientResponseDTO> {
+        const response = await this.getClientsRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     */
+    async updateClientRaw(requestParameters: UpdateClientRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ClientResponseDTO>> {
+        if (requestParameters['clientRequestDTO'] == null) {
+            throw new runtime.RequiredError(
+                'clientRequestDTO',
+                'Required parameter "clientRequestDTO" was null or undefined when calling updateClient().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/api/clients/{id}`,
+            method: 'PUT',
+            headers: headerParameters,
+            query: queryParameters,
+            body: ClientRequestDTOToJSON(requestParameters['clientRequestDTO']),
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => ClientResponseDTOFromJSON(jsonValue));
+    }
+
+    /**
+     */
+    async updateClient(requestParameters: UpdateClientRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ClientResponseDTO> {
+        const response = await this.updateClientRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

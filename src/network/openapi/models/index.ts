@@ -12,6 +12,7 @@ export * from './JwtResponse';
 export * from './LocalTime';
 export * from './OrderRequestDTO';
 export * from './OrderResponseDTO';
+export * from './PageClientResponseDTO';
 export * from './PageProductResponse';
 export * from './Pageable';
 export * from './PageableObject';
