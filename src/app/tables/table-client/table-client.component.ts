@@ -136,7 +136,6 @@ export class TableClientComponent implements AfterViewInit, OnInit {
       })
       .catch(error => {
         console.error('Error fetching products:', error);
-        
       });
   }
   

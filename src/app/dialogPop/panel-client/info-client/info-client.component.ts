@@ -2,7 +2,6 @@ import { Component, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { HttpClient } from '@angular/common/http';
-import { AddClientComponent } from '../add-client/add-client.component';
 import { EditClientComponent } from '../edit-client/edit-client.component';
 
 @Component({
@@ -39,20 +38,21 @@ export class InfoClientComponent {
       }
     });
   }
+  
   onClose(): void {
     this.dialogRef.close();
     this.dialogRef.afterClosed().subscribe(result => {
       this.dialogRef.close({ success: true });
     });
   }
-  onDownload(productId: number): void {
-    const apiUrl = `http://localhost:8080/api/products/generate/${productId}`;
+  onDownload(clientId: number): void {
+    const apiUrl = `http://localhost:8080/api/clients/generate/${clientId}`;
 
     // Make a GET request to the backend API to get the PDF
     this.http.get(apiUrl, { responseType: 'blob' }).subscribe((pdfBlob: Blob) => {
       // Create a URL from the Blob and trigger download
       const fileURL = URL.createObjectURL(pdfBlob);
-      const fileName = `${this.data.designation.replace(/\s+/g, '-')}-details.pdf`;
+      const fileName = `${this.data.fullName.replace(/\s+/g, '-')}-details.pdf`;
       const a = document.createElement('a');
       a.href = fileURL;
       a.download = fileName;

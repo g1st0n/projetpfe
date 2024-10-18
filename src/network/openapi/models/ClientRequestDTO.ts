@@ -86,7 +86,6 @@ export function ClientRequestDTOFromJSONTyped(json: any, ignoreDiscriminator: bo
         'email': json['email'] == null ? undefined : json['email'],
         'address': json['address'] == null ? undefined : json['address'],
         'telephone': json['telephone'] == null ? undefined : json['telephone'],
-        'telephone': json['telephone'] == null ? undefined : json['telephone'],
         'userId': json['userId'] == null ? undefined : json['userId'],
     };
 }
@@ -102,7 +101,6 @@ export function ClientRequestDTOToJSON(value?: ClientRequestDTO | null): any {
         'clientType': value['clientType'],
         'email': value['email'],
         'address': value['address'],
-        'telephone': value['telephone'],
         'telephone': value['telephone'],
         'userId': value['userId'],
     };
