@@ -25,6 +25,7 @@ export interface ClientResponseDTO {
      * @memberof ClientResponseDTO
      */
     idClient?: number;
+   
     /**
      * 
      * @type {string}
@@ -60,6 +61,7 @@ export interface ClientResponseDTO {
      * @type {number}
      * @memberof ClientResponseDTO
      */
+    
     userId?: number;
     /**
      * 

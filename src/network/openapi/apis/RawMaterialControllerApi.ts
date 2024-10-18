@@ -15,6 +15,7 @@
 
 import * as runtime from '../runtime';
 import type {
+    Pageable,
   RawMaterialRequestDTO,
   RawMaterialResponseDTO,
 } from '../models/index';
@@ -42,6 +43,10 @@ export interface UpdateRawMaterialRequest {
     rawMaterialRequestDTO: RawMaterialRequestDTO;
 }
 
+export interface GetAllRawMaterialsRequest {
+    pageable: Pageable;  
+}
+
 /**
  * 
  */
@@ -49,6 +54,43 @@ export class RawMaterialControllerApi extends runtime.BaseAPI {
 
     /**
      */
+    async getAllRawMaterialsRaw(requestParameters: GetAllRawMaterialsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<RawMaterialResponseDTO>>> {
+        if (requestParameters.pageable == null) {
+            throw new runtime.RequiredError(
+                'pageable',
+                'Required parameter "pageable" was null or undefined when calling getAllRawMaterials().'
+            );
+        }
+    
+        // Construct the query parameters from the pageable object
+        const queryParameters: any = {
+            page: requestParameters.pageable.page,
+            size: requestParameters.pageable.size,
+            sort: requestParameters.pageable.sort ? requestParameters.pageable.sort.join(',') : undefined
+        };
+    
+        const headerParameters: runtime.HTTPHeaders = {};
+    
+        const response = await this.request({
+            path: `/api/raw-materials`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,  // Send query params for pagination
+        }, initOverrides);
+    
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(RawMaterialResponseDTOFromJSON));
+    }
+
+    /**
+     */
+    async getAllRawMaterials(requestParameters: GetAllRawMaterialsRequest,initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<RawMaterialResponseDTO>> {
+        const response = await this.getAllRawMaterialsRaw(requestParameters,initOverrides);
+        return await response.value();
+    }
+
+
+
+    
     async createRawMaterialRaw(requestParameters: CreateRawMaterialRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<RawMaterialResponseDTO>> {
         if (requestParameters['rawMaterialRequestDTO'] == null) {
             throw new runtime.RequiredError(
@@ -114,27 +156,7 @@ export class RawMaterialControllerApi extends runtime.BaseAPI {
 
     /**
      */
-    async getAllRawMaterialsRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<RawMaterialResponseDTO>>> {
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        const response = await this.request({
-            path: `/api/raw-materials`,
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(RawMaterialResponseDTOFromJSON));
-    }
-
-    /**
-     */
-    async getAllRawMaterials(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<RawMaterialResponseDTO>> {
-        const response = await this.getAllRawMaterialsRaw(initOverrides);
-        return await response.value();
-    }
+   
 
     /**
      */

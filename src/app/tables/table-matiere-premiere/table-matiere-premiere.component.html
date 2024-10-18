@@ -33,39 +33,39 @@
         <!-- Progress Column -->
         <ng-container matColumnDef="Nom">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> Nom </th>
-          <td mat-cell *matCellDef="let row" (click)="openDialog(row)"> {{row.Nom}} </td>
+          <td mat-cell *matCellDef="let row" (click)="openDialog(row)"> {{row.name}} </td>
         </ng-container>
 
         <!-- Name Column -->
         <ng-container matColumnDef="TypeMatiere">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> Type Matiére </th>
-          <td mat-cell *matCellDef="let row" (click)="openDialog(row)"> {{row.TypeMatiere}} </td>
+          <td mat-cell *matCellDef="let row" (click)="openDialog(row)"> {{row.materialType}} </td>
         </ng-container>
 
         <!-- Fruit Column -->
         <ng-container matColumnDef="PrixUni">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> Prix Unitére </th>
-          <td mat-cell *matCellDef="let row" (click)="openDialog(row)"> {{row.PrixUni}}$</td>
+          <td mat-cell *matCellDef="let row" (click)="openDialog(row)"> {{row.unitPrice}}$</td>
         </ng-container>
 
         <ng-container matColumnDef="Origine">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Origine </th>
-            <td mat-cell *matCellDef="let row" (click)="openDialog(row)"> {{row.Origine}}$</td>
+            <td mat-cell *matCellDef="let row" (click)="openDialog(row)"> {{row.origin}}$</td>
           </ng-container>
         
           <ng-container matColumnDef="Couleur">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Couleur </th>
-            <td mat-cell *matCellDef="let row" (click)="openDialog(row)"> {{row.Couleur}} </td>
+            <td mat-cell *matCellDef="let row" (click)="openDialog(row)"> {{row.color}} </td>
           </ng-container>
 
           <ng-container matColumnDef="unite">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> unité </th>
-            <td mat-cell *matCellDef="let row" (click)="openDialog(row)"> {{row.unite}} </td>
+            <td mat-cell *matCellDef="let row" (click)="openDialog(row)"> {{row.unit}} </td>
           </ng-container>
 
           <ng-container matColumnDef="QuantiteDispo">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Quantité Disponible </th>
-            <td mat-cell *matCellDef="let row" (click)="openDialog(row)"> {{row.QuantiteDispo}} </td>
+            <td mat-cell *matCellDef="let row" (click)="openDialog(row)"> {{row.availableQuantity}} </td>
           </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

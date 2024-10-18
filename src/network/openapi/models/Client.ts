@@ -38,6 +38,7 @@ export interface Client {
      * @memberof Client
      */
     idClient?: number;
+   
     /**
      * 
      * @type {string}
@@ -49,6 +50,7 @@ export interface Client {
      * @type {string}
      * @memberof Client
      */
+    
     clientType?: string;
     /**
      * 
@@ -121,6 +123,7 @@ export function ClientToJSON(value?: Client | null): any {
         'clientType': value['clientType'],
         'email': value['email'],
         'address': value['address'],
+        'telephone': value['telephone'],
         'telephone': value['telephone'],
         'orders': value['orders'] == null ? undefined : ((value['orders'] as Array<any>).map(CustomerOrderToJSON)),
         'user': UserToJSON(value['user']),
