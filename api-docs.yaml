@@ -716,6 +716,26 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/WorkshopResponseDTO'
+  /api/workshops/generate/{workshopId}:
+    get:
+      tags:
+      - workshop-controller
+      operationId: generatePdf
+      parameters:
+      - name: workshopId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+                format: byte
   /api/users:
     get:
       tags:
@@ -730,6 +750,26 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/UserResponseDTO'
+  /api/users/generate/{userId}:
+    get:
+      tags:
+      - user-controller
+      operationId: generatePdf_1
+      parameters:
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+                format: byte
   /api/subcategories:
     get:
       tags:
@@ -744,6 +784,26 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/SubCategoryResponseDTO'
+  /api/subcategories/generate/{subCategoryId}:
+    get:
+      tags:
+      - sub-category-controller
+      operationId: generatePdf_2
+      parameters:
+      - name: subCategoryId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+                format: byte
   /api/raw-materials:
     get:
       tags:
@@ -758,6 +818,26 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/RawMaterialResponseDTO'
+  /api/raw-materials/generate/{rawMaterialId}:
+    get:
+      tags:
+      - raw-material-controller
+      operationId: generatePdf_3
+      parameters:
+      - name: rawMaterialId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+                format: byte
   /api/products:
     get:
       tags:
@@ -794,7 +874,7 @@ paths:
     get:
       tags:
       - product-controller
-      operationId: generatePdf
+      operationId: generatePdf_4
       parameters:
       - name: productId
         in: path
@@ -824,6 +904,26 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/ProductionPlanResponseDTO'
+  /api/production-plans/generate/{productionPlanId}:
+    get:
+      tags:
+      - production-plan-controller
+      operationId: generatePdf_5
+      parameters:
+      - name: productionPlanId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+                format: byte
   /api/orders:
     get:
       tags:
@@ -838,6 +938,20 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/OrderResponseDTO'
+  /api/orders/generate/{ORDERId}:
+    get:
+      tags:
+      - order-controller
+      operationId: generatePdf_6
+      parameters: []
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+                format: byte
   /api/files/{id}:
     get:
       tags:
@@ -922,6 +1036,26 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/ClientResponseDTO'
+  /api/clients/generate/{clientId}:
+    get:
+      tags:
+      - client-controller
+      operationId: generatePdf_7
+      parameters:
+      - name: clientId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+                format: byte
   /api/auth/logout:
     get:
       tags:
@@ -1185,32 +1319,16 @@ components:
           type: string
         rawMaterial:
           type: string
-    LocalTime:
-      type: object
-      properties:
-        hour:
-          type: integer
-          format: int32
-        minute:
-          type: integer
-          format: int32
-        second:
-          type: integer
-          format: int32
-        nano:
-          type: integer
-          format: int32
     ProductionPlanRequestDTO:
       type: object
       properties:
         date:
           type: string
-          format: date-time
         quantity:
           type: integer
           format: int32
         duration:
-          $ref: '#/components/schemas/LocalTime'
+          type: string
         productId:
           type: integer
           format: int64
@@ -1230,12 +1348,11 @@ components:
           format: int64
         date:
           type: string
-          format: date-time
         quantity:
           type: integer
           format: int32
         duration:
-          $ref: '#/components/schemas/LocalTime'
+          type: string
         productId:
           type: integer
           format: int64
@@ -1246,6 +1363,8 @@ components:
           type: integer
           format: int32
         comment:
+          type: string
+        status:
           type: string
     OrderRequestDTO:
       type: object
@@ -1409,6 +1528,21 @@ components:
         creationDate:
           type: string
           format: date-time
+    LocalTime:
+      type: object
+      properties:
+        hour:
+          type: integer
+          format: int32
+        minute:
+          type: integer
+          format: int32
+        second:
+          type: integer
+          format: int32
+        nano:
+          type: integer
+          format: int32
     Product:
       type: object
       properties:
@@ -1586,6 +1720,8 @@ components:
           type: string
         username:
           type: string
+        role:
+          type: string
     Pageable:
       type: object
       properties:
@@ -1645,16 +1781,16 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/SortObject'
-        unpaged:
-          type: boolean
-        paged:
-          type: boolean
         pageSize:
           type: integer
           format: int32
         pageNumber:
           type: integer
           format: int32
+        paged:
+          type: boolean
+        unpaged:
+          type: boolean
     SortObject:
       type: object
       properties:

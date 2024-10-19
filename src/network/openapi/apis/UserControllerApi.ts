@@ -33,6 +33,10 @@ export interface DeleteUserRequest {
     id: number;
 }
 
+export interface GeneratePdf1Request {
+    userId: number;
+}
+
 export interface GetUserByIdRequest {
     id: number;
 }
@@ -109,6 +113,41 @@ export class UserControllerApi extends runtime.BaseAPI {
      */
     async deleteUser(requestParameters: DeleteUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.deleteUserRaw(requestParameters, initOverrides);
+    }
+
+    /**
+     */
+    async generatePdf1Raw(requestParameters: GeneratePdf1Request, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<string>> {
+        if (requestParameters['userId'] == null) {
+            throw new runtime.RequiredError(
+                'userId',
+                'Required parameter "userId" was null or undefined when calling generatePdf1().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/api/users/generate/{userId}`.replace(`{${"userId"}}`, encodeURIComponent(String(requestParameters['userId']))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        if (this.isJsonMime(response.headers.get('content-type'))) {
+            return new runtime.JSONApiResponse<string>(response);
+        } else {
+            return new runtime.TextApiResponse(response) as any;
+        }
+    }
+
+    /**
+     */
+    async generatePdf1(requestParameters: GeneratePdf1Request, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<string> {
+        const response = await this.generatePdf1Raw(requestParameters, initOverrides);
+        return await response.value();
     }
 
     /**

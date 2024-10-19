@@ -9,6 +9,16 @@ export const Full_ROUTES: Routes = [
     },
 
     {
+        path: 'financier-dashboard',
+        loadChildren: () => import('../../dashboard/dashboard.module').then(m => m.DashboardModule)
+    },
+
+    {
+        path: 'production-dashboard',
+        loadChildren: () => import('../../dashboard/dashboard.module').then(m => m.DashboardModule)
+    },
+
+    {
         path: 'components',
         loadChildren: () => import('../../components/components.module').then(m => m.ComponentsModule)
     },

@@ -13,13 +13,6 @@
  */
 
 import { mapValues } from '../runtime';
-import type { LocalTime } from './LocalTime';
-import {
-    LocalTimeFromJSON,
-    LocalTimeFromJSONTyped,
-    LocalTimeToJSON,
-} from './LocalTime';
-
 /**
  * 
  * @export
@@ -28,10 +21,10 @@ import {
 export interface ProductionPlanRequestDTO {
     /**
      * 
-     * @type {Date}
+     * @type {string}
      * @memberof ProductionPlanRequestDTO
      */
-    date?: Date;
+    date?: string;
     /**
      * 
      * @type {number}
@@ -40,10 +33,10 @@ export interface ProductionPlanRequestDTO {
     quantity?: number;
     /**
      * 
-     * @type {LocalTime}
+     * @type {string}
      * @memberof ProductionPlanRequestDTO
      */
-    duration?: LocalTime;
+    duration?: string;
     /**
      * 
      * @type {number}
@@ -87,9 +80,9 @@ export function ProductionPlanRequestDTOFromJSONTyped(json: any, ignoreDiscrimin
     }
     return {
         
-        'date': json['date'] == null ? undefined : (new Date(json['date'])),
+        'date': json['date'] == null ? undefined : json['date'],
         'quantity': json['quantity'] == null ? undefined : json['quantity'],
-        'duration': json['duration'] == null ? undefined : LocalTimeFromJSON(json['duration']),
+        'duration': json['duration'] == null ? undefined : json['duration'],
         'productId': json['productId'] == null ? undefined : json['productId'],
         'workshopId': json['workshopId'] == null ? undefined : json['workshopId'],
         'workforce': json['workforce'] == null ? undefined : json['workforce'],
@@ -103,9 +96,9 @@ export function ProductionPlanRequestDTOToJSON(value?: ProductionPlanRequestDTO 
     }
     return {
         
-        'date': value['date'] == null ? undefined : ((value['date']).toISOString()),
+        'date': value['date'],
         'quantity': value['quantity'],
-        'duration': LocalTimeToJSON(value['duration']),
+        'duration': value['duration'],
         'productId': value['productId'],
         'workshopId': value['workshopId'],
         'workforce': value['workforce'],

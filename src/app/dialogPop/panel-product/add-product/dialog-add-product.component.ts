@@ -10,6 +10,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatDialogModule } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';  // Import HttpClient
+import { TokenService } from '../../../../network/openapi/apis/tokenService';
 
 @Component({
   selector: 'app-dialog-add-product',
@@ -42,6 +43,7 @@ export class DialogAddProductComponent {
     private fileService: FileStorageControllerApi,
     public dialogRef: MatDialogRef<DialogAddProductComponent>,
     private http: HttpClient,
+    private tokenService: TokenService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     // Initialize the form
@@ -112,10 +114,17 @@ export class DialogAddProductComponent {
       formData.append('logo', this.selectedFile);  // Append the file
     }
 
+    const headers = this.tokenService.getAuthHeaders(); // Retrieve token-based headers
+    headers['Content-Type'] = 'application/json';
+
     // Determine if this is an update or a new product
     if (this.data?.id) {
       // If updating, use PUT method and send the product ID
-      this.http.put(`http://localhost:8080/api/products/${this.data.id}`, formData).subscribe(
+      this.http.put(
+        `http://localhost:8080/api/products/${this.data.id}`, 
+        formData, 
+        { headers }  // Add the headers to the request options
+      ).subscribe(
         (response: any) => {
           console.log('Product updated successfully:', response);
           this.dialogRef.close({ success: true, data: response });  
@@ -126,7 +135,11 @@ export class DialogAddProductComponent {
       );
     } else {
       // If adding a new product, use POST method
-      this.http.post('http://localhost:8080/api/products/add', formData).subscribe(
+      this.http.post(
+        'http://localhost:8080/api/products/add', 
+        formData, 
+        { headers }  // Add the headers to the request options
+      ).subscribe(
         (response: any) => {
           console.log('Product saved successfully:', response);
           this.dialogRef.close({ success: true, data: response });  // Pass the response back to the parent component
@@ -136,5 +149,6 @@ export class DialogAddProductComponent {
         }
       );
     }
+    
   }
 }

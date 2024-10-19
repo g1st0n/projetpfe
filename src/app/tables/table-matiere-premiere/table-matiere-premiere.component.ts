@@ -54,22 +54,22 @@ fetchRaw(): void {
       sort: [`${sortField},${sortDirection}`]  // Sorting field and direction
   };
 
-  this.RawMaterialservice.getAllRawMaterials({ pageable })
-    .then((response: any) => {
+  // this.RawMaterialservice.getAllRawMaterials({ pageable })
+  //   .then((response: any) => {
         
-        this.rawMaterial = response;  
+  //       this.rawMaterial = response;  
 
 
-        this.totalItems = response.totalElements ;
+  //       this.totalItems = response.totalElements ;
 
-        this.dataSource = new MatTableDataSource(this.rawMaterial);
+  //       this.dataSource = new MatTableDataSource(this.rawMaterial);
     
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-    })
-    .catch(error => {
-        console.error('Error fetching raw materials:', error);
-    });
+  //       this.dataSource.paginator = this.paginator;
+  //       this.dataSource.sort = this.sort;
+  //   })
+  //   .catch(error => {
+  //       console.error('Error fetching raw materials:', error);
+  //   });
 
 }
 

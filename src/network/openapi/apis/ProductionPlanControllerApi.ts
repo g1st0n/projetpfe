@@ -33,6 +33,10 @@ export interface DeleteProductionPlanRequest {
     idPlanning: number;
 }
 
+export interface GeneratePdf5Request {
+    productionPlanId: number;
+}
+
 export interface GetProductionPlanByIdRequest {
     idPlanning: number;
 }
@@ -109,6 +113,41 @@ export class ProductionPlanControllerApi extends runtime.BaseAPI {
      */
     async deleteProductionPlan(requestParameters: DeleteProductionPlanRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.deleteProductionPlanRaw(requestParameters, initOverrides);
+    }
+
+    /**
+     */
+    async generatePdf5Raw(requestParameters: GeneratePdf5Request, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<string>> {
+        if (requestParameters['productionPlanId'] == null) {
+            throw new runtime.RequiredError(
+                'productionPlanId',
+                'Required parameter "productionPlanId" was null or undefined when calling generatePdf5().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/api/production-plans/generate/{productionPlanId}`.replace(`{${"productionPlanId"}}`, encodeURIComponent(String(requestParameters['productionPlanId']))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        if (this.isJsonMime(response.headers.get('content-type'))) {
+            return new runtime.JSONApiResponse<string>(response);
+        } else {
+            return new runtime.TextApiResponse(response) as any;
+        }
+    }
+
+    /**
+     */
+    async generatePdf5(requestParameters: GeneratePdf5Request, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<string> {
+        const response = await this.generatePdf5Raw(requestParameters, initOverrides);
+        return await response.value();
     }
 
     /**

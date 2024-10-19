@@ -31,6 +31,12 @@ export interface JwtResponse {
      * @memberof JwtResponse
      */
     username?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof JwtResponse
+     */
+    role?: string;
 }
 
 /**
@@ -52,6 +58,7 @@ export function JwtResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean
         
         'jwtToken': json['jwtToken'] == null ? undefined : json['jwtToken'],
         'username': json['username'] == null ? undefined : json['username'],
+        'role': json['role'] == null ? undefined : json['role'],
     };
 }
 
@@ -63,6 +70,7 @@ export function JwtResponseToJSON(value?: JwtResponse | null): any {
         
         'jwtToken': value['jwtToken'],
         'username': value['username'],
+        'role': value['role'],
     };
 }
 

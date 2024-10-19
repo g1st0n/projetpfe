@@ -9,6 +9,7 @@ import { InfoClientComponent } from 'src/app/dialogPop/panel-client/info-client/
 import { AddClientComponent } from 'src/app/dialogPop/panel-client/add-client/add-client.component';
 import { ClientControllerApi } from 'src/network/openapi/apis/';  // Import the API service
 import { SelectionModel } from '@angular/cdk/collections';
+import { TokenService } from '../../../network/openapi/apis/tokenService';
 
 const CLIENTS = [
   { idClient: 1, clientType: "société", fullName: "GPRO consulting", email: "Gpro.consulting@gmail.com", address: "15 Bilel Ben Rabbeh", telephone: 12345678 },
@@ -47,7 +48,8 @@ export class TableClientComponent implements AfterViewInit, OnInit {
   @ViewChild(MatSort) sort: MatSort;
 
   constructor(public dialog: MatDialog,
-    private clientService: ClientControllerApi
+    private clientService: ClientControllerApi,
+    private tokenService: TokenService,
   ) {
     this.dataSource = new MatTableDataSource(CLIENTS); // Initial data
      // Inject the product service
@@ -123,8 +125,10 @@ export class TableClientComponent implements AfterViewInit, OnInit {
       size: this.pageSize,
       sort: [`${sortField},${sortDirection}`]  // Combine field and direction
     };
+    const headers = this.tokenService.getAuthHeaders();
+    headers['Content-Type'] = 'application/json';
     // Send pageable object to the OpenAPI-generated getProducts method
-    this.clientService.getClients({ pageable })
+    this.clientService.getClients({ pageable }, {headers})
       .then((response: any) => {
         this.clients = response.content; // Assuming backend returns { content, totalElements }
         this.totalItems = response.totalElements; // The total number of products
