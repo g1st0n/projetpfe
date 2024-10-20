@@ -85,7 +85,7 @@ export interface PageClientResponseDTO {
      * @type {Array<SortObject>}
      * @memberof PageClientResponseDTO
      */
-    sort?: Array<SortObject>;
+    sort?: SortObject;
     /**
      * 
      * @type {number}
@@ -130,7 +130,7 @@ export function PageClientResponseDTOFromJSONTyped(json: any, ignoreDiscriminato
         'size': json['size'] == null ? undefined : json['size'],
         'content': json['content'] == null ? undefined : ((json['content'] as Array<any>).map(ClientResponseDTOFromJSON)),
         'number': json['number'] == null ? undefined : json['number'],
-        'sort': json['sort'] == null ? undefined : ((json['sort'] as Array<any>).map(SortObjectFromJSON)),
+        'sort': json['sort'] == null ? undefined : SortObjectFromJSON(json['sort']),
         'numberOfElements': json['numberOfElements'] == null ? undefined : json['numberOfElements'],
         'pageable': json['pageable'] == null ? undefined : PageableObjectFromJSON(json['pageable']),
         'empty': json['empty'] == null ? undefined : json['empty'],
@@ -150,7 +150,7 @@ export function PageClientResponseDTOToJSON(value?: PageClientResponseDTO | null
         'size': value['size'],
         'content': value['content'] == null ? undefined : ((value['content'] as Array<any>).map(ClientResponseDTOToJSON)),
         'number': value['number'],
-        'sort': value['sort'] == null ? undefined : ((value['sort'] as Array<any>).map(SortObjectToJSON)),
+        'sort': value['sort'] == null ? undefined : SortObjectToJSON(value['sort']),
         'numberOfElements': value['numberOfElements'],
         'pageable': PageableObjectToJSON(value['pageable']),
         'empty': value['empty'],
