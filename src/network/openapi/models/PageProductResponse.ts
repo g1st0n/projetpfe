@@ -157,6 +157,6 @@ export function PageProductResponseToJSON(value?: PageProductResponse | null): a
         'last': value['last'],
         'pageable': PageableObjectToJSON(value['pageable']),
         'empty': value['empty'],
-    };
+}
 }
 
