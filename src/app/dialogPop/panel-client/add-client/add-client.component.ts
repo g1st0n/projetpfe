@@ -97,7 +97,7 @@ export class AddClientComponent {
     const headers = this.tokenService.getAuthHeaders();
     headers['Content-Type'] = 'application/json';
     // Send the client request to the API service using createClient()
-    this.clientService.createClient({ clientRequestDTO } , {headers})
+    this.clientService.createClient({ clientRequestDTO })
       .then((response) => {
         console.log('Client created successfully:', response);
         this.dialogRef.close({ success: true, data: response });

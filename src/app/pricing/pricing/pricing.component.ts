@@ -89,10 +89,12 @@ export class PricingComponent implements OnInit {
 
   // Fetch workshops from API
   fetchWorkshops(): void {
+        const pageable = { page: null, size: null, sort: null };
+
     const headers = this.tokenService.getAuthHeaders();
     headers['Content-Type'] = 'application/json';
 
-    this.workshopService.getAllWorkshops({ headers })
+    this.workshopService.getAllWorkshops({ pageable }, { headers })
       .then((response: any) => {
         this.workshops = response;
       })

@@ -3,8 +3,6 @@ import { CommonModule } from '@angular/common';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { HttpClient } from '@angular/common/http';
 import { EditClientComponent } from '../edit-client/edit-client.component';
-import { TokenService } from '../../../../network/openapi/apis/tokenService';
-import { ClientControllerApi } from 'src/network/openapi/apis/';
 
 @Component({
   selector: 'app-info-client',
@@ -18,9 +16,7 @@ export class InfoClientComponent {
     public dialogRef: MatDialogRef<InfoClientComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,  // Injecting data passed from openDialog
     private dialog: MatDialog,  // Inject MatDialog here
-    private http: HttpClient,
-    private tokenService: TokenService,
-    private clientService: ClientControllerApi,
+    private http: HttpClient
   ) {}
 
   onEdit(): void {
@@ -49,17 +45,11 @@ export class InfoClientComponent {
       this.dialogRef.close({ success: true });
     });
   }
-
   onDownload(clientId: number): void {
-    const headers = this.tokenService.getAuthHeaders(); // Retrieve token-based headers
-    headers['Content-Type'] = 'application/json';
     const apiUrl = `http://localhost:8080/api/clients/generate/${clientId}`;
 
     // Make a GET request to the backend API to get the PDF
-    this.http.get(apiUrl, { 
-      headers: headers, // Include headers in the request
-      responseType: 'blob'  // Set the responseType to 'blob' to handle binary data
-    }).subscribe((pdfBlob: Blob) => {
+    this.http.get(apiUrl, { responseType: 'blob' }).subscribe((pdfBlob: Blob) => {
       // Create a URL from the Blob and trigger download
       const fileURL = URL.createObjectURL(pdfBlob);
       const fileName = `${this.data.fullName.replace(/\s+/g, '-')}-details.pdf`;
@@ -72,41 +62,4 @@ export class InfoClientComponent {
       console.error('Error downloading PDF:', error);
     });
   }
-
-  onDownloadTest(clientId: number): void {
-    const headers = this.tokenService.getAuthHeaders(); // Ensure headers include the token
-    headers['Content-Type'] = 'application/json';
-    
-    // Call the client service to generate the PDF
-    this.clientService.generatePdf7({ clientId }, { headers }).then((response: string) => {
-  
-      // Convert the string response (binary string) into a byte array
-      const byteArray = new Uint8Array(response.length);
-      for (let i = 0; i < response.length; i++) {
-        byteArray[i] = response.charCodeAt(i);
-      }
-  
-      // Create a Blob from the byte array (PDF binary data)
-      const blob = new Blob([byteArray], { type: 'application/pdf' });
-  
-      // Create a URL for the Blob
-      const fileURL = URL.createObjectURL(blob);
-  
-      // Construct the file name
-      const fileName = `client_${clientId}.pdf`;
-  
-      // Create an anchor element to trigger the download
-      const a = document.createElement('a');
-      a.href = fileURL;
-      a.download = fileName; // Set the file name for download
-      a.click(); // Trigger the download
-  
-      // Clean up the URL object after download
-      URL.revokeObjectURL(fileURL);
-  
-    }).catch((error) => {
-      console.error('Error downloading PDF:', error); // Handle any errors
-    });
-  }   
-
 }

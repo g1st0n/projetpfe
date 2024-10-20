@@ -74,7 +74,7 @@ export interface PageClientResponseDTO {
      * @memberof PageClientResponseDTO
      */
     sort?: Array<SortObject>;
-    sort?: Array<SortObject>;
+
     /**
      * 
      * @type {number}
@@ -136,8 +136,7 @@ export function PageClientResponseDTOFromJSONTyped(json: any, ignoreDiscriminato
                 : [],        'numberOfElements': json['numberOfElements'] == null ? undefined : json['numberOfElements'],
         'first': json['first'] == null ? undefined : json['first'],
         'last': json['last'] == null ? undefined : json['last'],
-        'sort': json['sort'] == null ? undefined : ((json['sort'] as Array<any>).map(SortObjectFromJSON)),
-        'numberOfElements': json['numberOfElements'] == null ? undefined : json['numberOfElements'],
+   
         'pageable': json['pageable'] == null ? undefined : PageableObjectFromJSON(json['pageable']),
         'empty': json['empty'] == null ? undefined : json['empty'],
     };

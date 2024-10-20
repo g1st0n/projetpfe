@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AppIcon } from './app-icon';
 import { SidebarService } from './../sidebar/sidebar.service'
+import { Router } from '@angular/router';
 
 
 
@@ -13,7 +14,9 @@ import { SidebarService } from './../sidebar/sidebar.service'
 
 export class HeaderComponent implements OnInit {
 
-  constructor( public sidebarservice: SidebarService ) {
+  constructor( 
+    private router: Router,
+    public sidebarservice: SidebarService ) {
 
   }
 
@@ -83,5 +86,11 @@ export class HeaderComponent implements OnInit {
   
 
   }
+  logout(){
+    this.router.navigate(['/auth/sign-in']);
+    localStorage.removeItem('jwtToken');
+    localStorage.removeItem('userRole');
 
+    console.log(localStorage)
+  }
 }

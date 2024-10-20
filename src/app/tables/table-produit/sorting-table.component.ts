@@ -10,7 +10,7 @@ import { ProductControllerApi } from 'src/network/openapi/apis/';  // Import the
 import { ProductResponse } from 'src/network/openapi/models/';
 import { DialogAddProductComponent } from 'src/app/dialogPop/panel-product/add-product/dialog-add-product.component';
 import { SelectionModel } from '@angular/cdk/collections';
-import { TokenService } from '../../../network/openapi/apis/tokenService';
+import { TokenService } from 'src/network/openapi/apis/tokenService';
 
 
 @Component({
@@ -36,10 +36,10 @@ export class SortingTableComponent implements AfterViewInit, OnInit {
   @ViewChild(MatSort) sort: MatSort;
 
   constructor(
-    
-    public dialog: MatDialog,
-    private productService: ProductControllerApi, // Inject the product service
     private tokenService: TokenService,
+
+    public dialog: MatDialog,
+    private productService: ProductControllerApi // Inject the product service
   ) { this.dataSource = new MatTableDataSource();}
 
   // Fetch the data when the component initializes
@@ -58,11 +58,10 @@ export class SortingTableComponent implements AfterViewInit, OnInit {
       size: this.pageSize,
       sort: [`${sortField},${sortDirection}`]  // Combine field and direction
     };
-    // Send pageable object to the OpenAPI-generated getProducts method
     const headers = this.tokenService.getAuthHeaders();
     headers['Content-Type'] = 'application/json';
 
-    this.productService.getProducts({ pageable }, {headers})
+    this.productService.getProducts({ pageable }, { headers })
       .then((response: any) => {
         this.products = response.content; 
         this.totalItems = response.totalElements; 

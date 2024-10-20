@@ -8,7 +8,7 @@
     <mat-accordion class="example-headers-align" multi>
       
       <!-- Commerce Section (Visible for Responsable Financier) -->
-      <mat-expansion-panel *ngIf="role === 'responsable-financier'|| role === 'administrator'" expanded="false" [class.mat-elevation-z0]="true">
+      <mat-expansion-panel *ngIf="role === 'FINANCIER'|| role === 'ROLE_ADMIN'" expanded="false" [class.mat-elevation-z0]="true">
         <mat-expansion-panel-header>
           <mat-icon class="material-icons-outlined">dashboard</mat-icon>Commerce
         </mat-expansion-panel-header>
@@ -22,7 +22,7 @@
       </mat-expansion-panel>
 
       <!-- Financier Analysis Section (Visible for Responsable Financier) -->
-      <mat-expansion-panel *ngIf="role === 'responsable-financier'|| role === 'administrator'" expanded="false" [class.mat-elevation-z0]="true">
+      <mat-expansion-panel *ngIf="role === 'FINANCIER'|| role === 'ROLE_ADMIN'" expanded="false" [class.mat-elevation-z0]="true">
         <mat-expansion-panel-header>
           <mat-icon class="material-icons-outlined">money</mat-icon>Analyse Financier
         </mat-expansion-panel-header>
@@ -32,7 +32,7 @@
       </mat-expansion-panel>
 
       <!-- Production Section (Visible for Responsable Production) -->
-      <mat-expansion-panel *ngIf="role === 'responsable-production'|| role === 'administrator'" expanded="false" [class.mat-elevation-z0]="true">
+      <mat-expansion-panel *ngIf="role === 'PRODUCTION'|| role === 'ROLE_ADMIN'" expanded="false" [class.mat-elevation-z0]="true">
         <mat-expansion-panel-header>
           <mat-icon class="material-icons-outlined">build</mat-icon>Production
         </mat-expansion-panel-header>
@@ -46,7 +46,7 @@
       </mat-expansion-panel>
 
       <!-- Production Analysis Section (Visible for Responsable Production) -->
-      <mat-expansion-panel *ngIf="role === 'responsable-production'|| role === 'administrator'" expanded="false" [class.mat-elevation-z0]="true">
+      <mat-expansion-panel *ngIf="role === 'PRODUCTION'|| role === 'ROLE_ADMIN'" expanded="false" [class.mat-elevation-z0]="true">
         <mat-expansion-panel-header>
           <mat-icon class="material-icons-outlined">analytics</mat-icon>Analyse Production
         </mat-expansion-panel-header>
@@ -55,7 +55,7 @@
         </mat-nav-list>
       </mat-expansion-panel>
 
-      <mat-expansion-panel *ngIf="role === 'administrator'" expanded="false" [class.mat-elevation-z0]="true">
+      <mat-expansion-panel *ngIf="role === 'ROLE_ADMIN'" expanded="false" [class.mat-elevation-z0]="true">
         <mat-expansion-panel-header>
           <mat-icon class="material-icons-outlined">analytics</mat-icon>Responsables
         </mat-expansion-panel-header>

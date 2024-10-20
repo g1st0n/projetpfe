@@ -161,8 +161,19 @@ export class RawMaterialControllerApi extends runtime.BaseAPI {
 
     /**
      */
-    async getAllRawMaterialsRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<RawMaterialResponseDTO>>> {
+    async getAllRawMaterialsRaw(requestParameters: GetAllRawMaterialsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PageRawMaterialResponseDTO>> {
+        if (requestParameters['pageable'] == null) {
+            throw new runtime.RequiredError(
+                'pageable',
+                'Required parameter "pageable" was null or undefined when calling getAllRawMaterials().'
+            );
+        }
+
         const queryParameters: any = {};
+
+        if (requestParameters['pageable'] != null) {
+            queryParameters['pageable'] = requestParameters['pageable'];
+        }
 
         const headerParameters: runtime.HTTPHeaders = {};
 
@@ -173,16 +184,13 @@ export class RawMaterialControllerApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(RawMaterialResponseDTOFromJSON));
+        return new runtime.JSONApiResponse(response, (jsonValue) => PageRawMaterialResponseDTOFromJSON(jsonValue));
     }
 
-    /**
-     */
-    async getAllRawMaterials(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<RawMaterialResponseDTO>> {
-        const response = await this.getAllRawMaterialsRaw(initOverrides);
+    async getAllRawMaterials(requestParameters: GetAllRawMaterialsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PageRawMaterialResponseDTO> {
+        const response = await this.getAllRawMaterialsRaw(requestParameters, initOverrides);
         return await response.value();
     }
-
     /**
      */
     async getRawMaterialByIdRaw(requestParameters: GetRawMaterialByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<RawMaterialResponseDTO>> {

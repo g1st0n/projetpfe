@@ -46,7 +46,6 @@ constructor(
   private subService : SubCategoryControllerApi
 ){
   this.dataSource = new MatTableDataSource();
-
 }
 ngOnInit(): void {
   this.fetchSub(); // Fetch the data when the component initializes
@@ -67,7 +66,7 @@ fetchSub(): void {
     .then((response: any) => {
       this.Subcategorie = response.content; 
       this.totalItems = response.totalElements; // The total number of products
-
+console.log(response.content)
       // Assign data to the table data source
       this.dataSource = new MatTableDataSource(this.Subcategorie);
 

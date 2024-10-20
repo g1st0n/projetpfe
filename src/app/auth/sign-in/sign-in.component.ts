@@ -71,7 +71,7 @@ export class SignInComponent implements OnInit {
 
   // Redirect the user based on their role
   redirectBasedOnRole(role: string) {
-    if (role.includes('ADMIN')) {
+    if (role.includes('ROLE_ADMIN')) {
       this.router.navigate(['/dashboard']);
     } else if (role.includes('FINANCIER')) {
       this.router.navigate(['/financier-dashboard']);

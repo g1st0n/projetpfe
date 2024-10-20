@@ -72,16 +72,16 @@ fetchRaw(): void {
         this.RawMaterial = response.content;  
 
 
-  //       this.totalItems = response.totalElements ;
+        this.totalItems = response.totalElements ;
 
         this.dataSource = new MatTableDataSource(this.RawMaterial);
     
-  //       this.dataSource.paginator = this.paginator;
-  //       this.dataSource.sort = this.sort;
-  //   })
-  //   .catch(error => {
-  //       console.error('Error fetching raw materials:', error);
-  //   });
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+    })
+    .catch(error => {
+        console.error('Error fetching raw materials:', error);
+    });
 
 }
 toggleRowSelection(row: RawMaterialRequestDTO): void {
