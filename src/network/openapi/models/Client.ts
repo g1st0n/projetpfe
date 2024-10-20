@@ -38,7 +38,6 @@ export interface Client {
      * @memberof Client
      */
     idClient?: number;
-   
     /**
      * 
      * @type {string}
@@ -50,7 +49,6 @@ export interface Client {
      * @type {string}
      * @memberof Client
      */
-    
     clientType?: string;
     /**
      * 

@@ -15,10 +15,16 @@
 
 import * as runtime from '../runtime';
 import type {
+  PageWorkshopResponseDTO,
+  Pageable,
   WorkshopRequestDTO,
   WorkshopResponseDTO,
 } from '../models/index';
 import {
+    PageWorkshopResponseDTOFromJSON,
+    PageWorkshopResponseDTOToJSON,
+    PageableFromJSON,
+    PageableToJSON,
     WorkshopRequestDTOFromJSON,
     WorkshopRequestDTOToJSON,
     WorkshopResponseDTOFromJSON,
@@ -33,12 +39,15 @@ export interface DeleteWorkshopRequest {
     idWorkshop: number;
 }
 
+export interface GetAllWorkshopsRequest {
+    pageable: Pageable;
+}
+
 export interface GetWorkshopByIdRequest {
     idWorkshop: number;
 }
 
-export interface UpdateWorkshopRequest {
-    idWorkshop: number;
+export interface UpdateClientRequest {
     workshopRequestDTO: WorkshopRequestDTO;
 }
 
@@ -113,8 +122,19 @@ export class WorkshopControllerApi extends runtime.BaseAPI {
 
     /**
      */
-    async getAllWorkshopsRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<WorkshopResponseDTO>>> {
+    async getAllWorkshopsRaw(requestParameters: GetAllWorkshopsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PageWorkshopResponseDTO>> {
+        if (requestParameters['pageable'] == null) {
+            throw new runtime.RequiredError(
+                'pageable',
+                'Required parameter "pageable" was null or undefined when calling getAllWorkshops().'
+            );
+        }
+
         const queryParameters: any = {};
+
+        if (requestParameters['pageable'] != null) {
+            queryParameters['pageable'] = requestParameters['pageable'];
+        }
 
         const headerParameters: runtime.HTTPHeaders = {};
 
@@ -125,13 +145,37 @@ export class WorkshopControllerApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
+        return new runtime.JSONApiResponse(response, (jsonValue) => PageWorkshopResponseDTOFromJSON(jsonValue));
+    }
+
+    /**
+     */
+    async getAllWorkshops(requestParameters: GetAllWorkshopsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PageWorkshopResponseDTO> {
+        const response = await this.getAllWorkshopsRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     */
+    async getAllWorkshops1Raw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<WorkshopResponseDTO>>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/api/workshops/showAll`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(WorkshopResponseDTOFromJSON));
     }
 
     /**
      */
-    async getAllWorkshops(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<WorkshopResponseDTO>> {
-        const response = await this.getAllWorkshopsRaw(initOverrides);
+    async getAllWorkshops1(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<WorkshopResponseDTO>> {
+        const response = await this.getAllWorkshops1Raw(initOverrides);
         return await response.value();
     }
 
@@ -168,18 +212,11 @@ export class WorkshopControllerApi extends runtime.BaseAPI {
 
     /**
      */
-    async updateWorkshopRaw(requestParameters: UpdateWorkshopRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<WorkshopResponseDTO>> {
-        if (requestParameters['idWorkshop'] == null) {
-            throw new runtime.RequiredError(
-                'idWorkshop',
-                'Required parameter "idWorkshop" was null or undefined when calling updateWorkshop().'
-            );
-        }
-
+    async updateClientRaw(requestParameters: UpdateClientRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<WorkshopResponseDTO>> {
         if (requestParameters['workshopRequestDTO'] == null) {
             throw new runtime.RequiredError(
                 'workshopRequestDTO',
-                'Required parameter "workshopRequestDTO" was null or undefined when calling updateWorkshop().'
+                'Required parameter "workshopRequestDTO" was null or undefined when calling updateClient().'
             );
         }
 
@@ -190,7 +227,7 @@ export class WorkshopControllerApi extends runtime.BaseAPI {
         headerParameters['Content-Type'] = 'application/json';
 
         const response = await this.request({
-            path: `/api/workshops/{idWorkshop}`.replace(`{${"idWorkshop"}}`, encodeURIComponent(String(requestParameters['idWorkshop']))),
+            path: `/api/workshops/{id}`,
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,
@@ -202,8 +239,8 @@ export class WorkshopControllerApi extends runtime.BaseAPI {
 
     /**
      */
-    async updateWorkshop(requestParameters: UpdateWorkshopRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<WorkshopResponseDTO> {
-        const response = await this.updateWorkshopRaw(requestParameters, initOverrides);
+    async updateClient(requestParameters: UpdateClientRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<WorkshopResponseDTO> {
+        const response = await this.updateClientRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

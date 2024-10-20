@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { HttpClient } from '@angular/common/http';
 import { SousCategorieAddComponent } from '../add-sous-categorie/sous-categorie-add.component';
+import { EditSousCategorieComponent } from '../edit-sous-categorie/edit-sous-categorie.component';
 
 @Component({
   selector: 'app-dialogsouscategorie',
@@ -22,7 +23,7 @@ export class DialogsouscategorieComponent {
   onEdit(): void {
     // Assuming you have the Add Product dialog component as 'DialogAddProductComponent'
     this.dialogRef.close(); // Close the current dialog first
-    const dialogRef = this.dialog.open(SousCategorieAddComponent, {
+    const dialogRef = this.dialog.open(EditSousCategorieComponent, {
       width: '80vw',
       maxWidth: '90vw',
       height: 'auto',

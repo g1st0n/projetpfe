@@ -24,6 +24,12 @@ export interface WorkshopRequestDTO {
      * @type {number}
      * @memberof WorkshopRequestDTO
      */
+    idWorkshop?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof WorkshopRequestDTO
+     */
     workshopNumber?: number;
     /**
      * 
@@ -62,6 +68,7 @@ export function WorkshopRequestDTOFromJSONTyped(json: any, ignoreDiscriminator: 
     }
     return {
         
+        'idWorkshop': json['idWorkshop'] == null ? undefined : json['idWorkshop'],
         'workshopNumber': json['workshopNumber'] == null ? undefined : json['workshopNumber'],
         'productionCapacity': json['productionCapacity'] == null ? undefined : json['productionCapacity'],
         'machineCount': json['machineCount'] == null ? undefined : json['machineCount'],
@@ -75,6 +82,7 @@ export function WorkshopRequestDTOToJSON(value?: WorkshopRequestDTO | null): any
     }
     return {
         
+        'idWorkshop': value['idWorkshop'],
         'workshopNumber': value['workshopNumber'],
         'productionCapacity': value['productionCapacity'],
         'machineCount': value['machineCount'],

@@ -60,8 +60,6 @@ export class SortingTableComponent implements AfterViewInit, OnInit {
     this.productService.getProducts({ pageable })
       .then((response: any) => {
         this.products = response.content; 
-
-
         this.totalItems = response.totalElements; 
 
         this.dataSource = new MatTableDataSource(this.products);

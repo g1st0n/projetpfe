@@ -49,19 +49,6 @@ export interface SortObject {
      * @memberof SortObject
      */
     ignoreCase?: boolean;
-    /**
-     * 
-     * @type {string}
-     * @memberof SortObject
-     */
-    name?: string;
-
-    /**
-     * 
-     * @type {string}
-     * @memberof SortObject
-     */
-    asc?: string;
 }
 
 /**
@@ -83,8 +70,6 @@ export function SortObjectFromJSONTyped(json: any, ignoreDiscriminator: boolean)
         
         'direction': json['direction'] == null ? undefined : json['direction'],
         'nullHandling': json['nullHandling'] == null ? undefined : json['nullHandling'],
-        'name': json['name'] == null ? undefined : json['name'],
-        'asc': json['asc'] == null ? undefined : json['asc'],
         'ascending': json['ascending'] == null ? undefined : json['ascending'],
         'property': json['property'] == null ? undefined : json['property'],
         'ignoreCase': json['ignoreCase'] == null ? undefined : json['ignoreCase'],
@@ -97,8 +82,6 @@ export function SortObjectToJSON(value?: SortObject | null): any {
     }
     return {
         
-        'name': value['name'],
-        'asc': value['asc'],
         'direction': value['direction'],
         'nullHandling': value['nullHandling'],
         'ascending': value['ascending'],

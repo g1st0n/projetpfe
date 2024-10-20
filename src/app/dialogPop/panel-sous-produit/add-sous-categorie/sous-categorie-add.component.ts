@@ -40,40 +40,30 @@ export class SousCategorieAddComponent {
   ) {
     // Initialize the form
     this.formGroup = this.fb.group({
-      nom: [data?.name || '', Validators.required],
+      Nom: [data?.name || '', Validators.required],
       reference: [data?.reference || '', Validators.required],
     });
   }
 
   // Function to handle sous-categorie submission
   onSubmit(): void {
-    const formData = new FormData();  
-    formData.append('name', this.formGroup.get('nom')?.value);
-    formData.append('reference', this.formGroup.get('reference')?.value);
 
+    const subCategoryRequestDTO ={ 
 
-    if (this.data?.id) {
-      // If updating, use PUT method and send the sous-catégorie ID
-      this.http.put(`http://localhost:8080/api/sous-categories/${this.data.id}`, formData).subscribe(
-        (response: any) => {
-          console.log('Sous-catégorie updated successfully:', response);
-          this.dialogRef.close({ success: true, data: response });  // Close dialog with success
-        },
-        (error) => {
-          console.error('Error updating sous-catégorie:', error);
-        }
-      );
-    } else {
-      // If adding a new sous-catégorie, use POST method
-      this.http.post('http://localhost:8080/api/subcategories/add', formData).subscribe(
-        (response: any) => {
-          console.log('Sous-catégorie saved successfully:', response);
-          this.dialogRef.close({ success: true, data: response });  // Close dialog with success
-        },
-        (error) => {
-          console.error('Error saving sous-catégorie:', error);
-        }
-      );
-    }
-  }
+    name: this.formGroup.get('Nom')?.value,
+    reference: this.formGroup.get('reference')?.value,
+
+    };
+      console.log(subCategoryRequestDTO)
+
+      this.SubcategorieService.createSubCategory({ subCategoryRequestDTO })
+      .then((response) => {
+        console.log('Client created successfully:', response);
+        this.dialogRef.close({ success: true, data: response });
+      })
+      .catch((error) => {
+        console.error('Error creating client:', error);
+      });
+  
+}
 }

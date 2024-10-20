@@ -19,105 +19,105 @@ import {
     PageableObjectFromJSONTyped,
     PageableObjectToJSON,
 } from './PageableObject';
+import type { RawMaterialResponseDTO } from './RawMaterialResponseDTO';
+import {
+    RawMaterialResponseDTOFromJSON,
+    RawMaterialResponseDTOFromJSONTyped,
+    RawMaterialResponseDTOToJSON,
+} from './RawMaterialResponseDTO';
 import type { SortObject } from './SortObject';
 import {
     SortObjectFromJSON,
     SortObjectFromJSONTyped,
     SortObjectToJSON,
 } from './SortObject';
-import type { ProductResponse } from './ProductResponse';
-import {
-    ProductResponseFromJSON,
-    ProductResponseFromJSONTyped,
-    ProductResponseToJSON,
-} from './ProductResponse';
 
 /**
  * 
  * @export
- * @interface PageProductResponse
+ * @interface PageRawMaterialResponseDTO
  */
-export interface PageProductResponse {
+export interface PageRawMaterialResponseDTO {
     /**
      * 
      * @type {number}
-     * @memberof PageProductResponse
+     * @memberof PageRawMaterialResponseDTO
      */
     totalPages?: number;
     /**
      * 
      * @type {number}
-     * @memberof PageProductResponse
+     * @memberof PageRawMaterialResponseDTO
      */
     totalElements?: number;
     /**
      * 
      * @type {number}
-     * @memberof PageProductResponse
+     * @memberof PageRawMaterialResponseDTO
      */
     size?: number;
     /**
      * 
-     * @type {Array<ProductResponse>}
-     * @memberof PageProductResponse
+     * @type {Array<RawMaterialResponseDTO>}
+     * @memberof PageRawMaterialResponseDTO
      */
-    content?: Array<ProductResponse>;
+    content?: Array<RawMaterialResponseDTO>;
     /**
      * 
      * @type {number}
-     * @memberof PageProductResponse
+     * @memberof PageRawMaterialResponseDTO
      */
     number?: number;
     /**
      * 
      * @type {Array<SortObject>}
-     * @memberof PageProductResponse
+     * @memberof PageRawMaterialResponseDTO
      */
     sort?: Array<SortObject>;
     /**
      * 
      * @type {number}
-     * @memberof PageProductResponse
+     * @memberof PageRawMaterialResponseDTO
      */
     numberOfElements?: number;
     /**
      * 
      * @type {boolean}
-     * @memberof PageProductResponse
+     * @memberof PageRawMaterialResponseDTO
      */
     first?: boolean;
     /**
      * 
      * @type {boolean}
-     * @memberof PageProductResponse
+     * @memberof PageRawMaterialResponseDTO
      */
     last?: boolean;
     /**
      * 
      * @type {PageableObject}
-     * @memberof PageProductResponse
+     * @memberof PageRawMaterialResponseDTO
      */
     pageable?: PageableObject;
     /**
      * 
      * @type {boolean}
-     * @memberof PageProductResponse
+     * @memberof PageRawMaterialResponseDTO
      */
     empty?: boolean;
 }
 
 /**
- * Check if a given object implements the PageProductResponse interface.
+ * Check if a given object implements the PageRawMaterialResponseDTO interface.
  */
-export function instanceOfPageProductResponse(value: object): value is PageProductResponse {
+export function instanceOfPageRawMaterialResponseDTO(value: object): value is PageRawMaterialResponseDTO {
     return true;
 }
 
-export function PageProductResponseFromJSON(json: any): PageProductResponse {
-    return PageProductResponseFromJSONTyped(json, false);
+export function PageRawMaterialResponseDTOFromJSON(json: any): PageRawMaterialResponseDTO {
+    return PageRawMaterialResponseDTOFromJSONTyped(json, false);
 }
 
-export function PageProductResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): PageProductResponse {
+export function PageRawMaterialResponseDTOFromJSONTyped(json: any, ignoreDiscriminator: boolean): PageRawMaterialResponseDTO {
     if (json == null) {
         return json;
     }
@@ -126,7 +126,7 @@ export function PageProductResponseFromJSONTyped(json: any, ignoreDiscriminator:
         'totalPages': json['totalPages'] == null ? undefined : json['totalPages'],
         'totalElements': json['totalElements'] == null ? undefined : json['totalElements'],
         'size': json['size'] == null ? undefined : json['size'],
-        'content': json['content'] == null ? undefined : ((json['content'] as Array<any>).map(ProductResponseFromJSON)),
+        'content': json['content'] == null ? undefined : ((json['content'] as Array<any>).map(RawMaterialResponseDTOFromJSON)),
         'number': json['number'] == null ? undefined : json['number'],
 'sort': Array.isArray(json['sort']) 
             ? json['sort'].map(SortObjectFromJSON) 
@@ -140,7 +140,7 @@ export function PageProductResponseFromJSONTyped(json: any, ignoreDiscriminator:
     };
 }
 
-export function PageProductResponseToJSON(value?: PageProductResponse | null): any {
+export function PageRawMaterialResponseDTOToJSON(value?: PageRawMaterialResponseDTO | null): any {
     if (value == null) {
         return value;
     }
@@ -149,7 +149,7 @@ export function PageProductResponseToJSON(value?: PageProductResponse | null): a
         'totalPages': value['totalPages'],
         'totalElements': value['totalElements'],
         'size': value['size'],
-        'content': value['content'] == null ? undefined : ((value['content'] as Array<any>).map(ProductResponseToJSON)),
+        'content': value['content'] == null ? undefined : ((value['content'] as Array<any>).map(RawMaterialResponseDTOToJSON)),
         'number': value['number'],
         'sort': value['sort'] == null ? undefined : ((value['sort'] as Array<any>).map(SortObjectToJSON)),
         'numberOfElements': value['numberOfElements'],

@@ -1,57 +1,85 @@
-<h1 mat-dialog-title class="dialog-title">{{data ? 'Modifier la Matiére Premiére' : 'Ajouter une Nouvelle Matiére Premiére'}}</h1>
+
+
+
+<h1 mat-dialog-title class="dialog-title">{{ data ? 'Modifier un client' : 'Ajouter un Nouveau client' }}</h1>
 
 <mat-dialog-content class="dialog-content">
   <!-- Bind formGroup to the form -->
   <form [formGroup]="formGroup" (ngSubmit)="onSubmit()" class="form-grid" enctype="multipart/form-data">
 
-    <!-- Image Upload Section -->
-   
     <!-- Form Fields -->
     <mat-form-field appearance="fill" class="form-field">
       <mat-label>Nom</mat-label>
       <input matInput type="text" formControlName="Nom" required>
+      <mat-error *ngIf="formGroup.get('Nom')?.hasError('required')">
+        Le nom est obligatoire.
+      </mat-error>
     </mat-form-field>
-
 
     <mat-form-field appearance="fill" class="form-field">
       <mat-label>Type de Matiére</mat-label>
       <input matInput type="text" formControlName="TypeMatiere" required>
+      <mat-error *ngIf="formGroup.get('TypeMatiere')?.hasError('required')">
+        Le type de client est obligatoire.
+      </mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="fill" class="form-field">
-      <mat-label>Prix unitaire</mat-label>
+      <mat-label>prix unitaire</mat-label>
       <input matInput type="number" formControlName="PrixUni" required>
+      <mat-error *ngIf="formGroup.get('PrixUni')?.hasError('required')">
+        Veuillez entrer un e-mail valide.
+      </mat-error>
+      
     </mat-form-field>
- 
+
     <mat-form-field appearance="fill" class="form-field">
-        <mat-label>Origine</mat-label>
-        <input matInput type="text" formControlName="Origine" required>
-      </mat-form-field>
+      <mat-label>Origine</mat-label>
+      <input matInput type="text" formControlName="Origine" required>
+      <mat-error *ngIf="formGroup.get('Origine')?.hasError('required')">
+        L'adresse est obligatoire.
+      </mat-error>
+    </mat-form-field>
 
-      <mat-form-field appearance="fill" class="form-field">
-        <mat-label>Couleur</mat-label>
-        <input matInput type="text" formControlName="Couleur" required>
-      </mat-form-field>
+    <mat-form-field appearance="fill" class="form-field">
+      <mat-label>Couleur</mat-label>
+      <input matInput type="text" formControlName="Couleur" required>
+      <mat-error *ngIf="formGroup.get('Couleur')?.hasError('required')">
+        Veuillez entrer un numéro de téléphone valide (8 à 15 chiffres).
+      </mat-error>
+    </mat-form-field>
 
-      <mat-form-field appearance="fill" class="form-field">
-        <mat-label>Unité</mat-label>
-        <input matInput type="text" formControlName="unite" required>
-      </mat-form-field>
+    <mat-form-field appearance="fill" class="form-field">
+      <mat-label>Unité</mat-label>
+      <input matInput type="text" formControlName="Unite" required>
+      <mat-error *ngIf="formGroup.get('Unite')?.hasError('required')">
+        Veuillez entrer un numéro de téléphone valide (8 à 15 chiffres).
+      </mat-error>
+    </mat-form-field>
 
-      <mat-form-field appearance="fill" class="form-field">
-        <mat-label>Quantité Disponible</mat-label>
-        <input matInput type="number" formControlName="QuantiteDispo" required>
-      </mat-form-field>
-      <mat-form-field appearance="fill" class="form-field">
-        <mat-label>Fournisseur</mat-label>
-        <input matInput type="text" formControlName="Fournisseur" required>
-      </mat-form-field>
+    <mat-form-field appearance="fill" class="form-field">
+      <mat-label>Quantité Disponible</mat-label>
+      <input matInput type="number" formControlName="QuantiteDispo" required>
+      <mat-error *ngIf="formGroup.get('QuantiteDispo')?.hasError('required')">
+        Veuillez entrer un numéro de téléphone valide (8 à 15 chiffres).
+      </mat-error>
+    </mat-form-field>
 
-      
-      
+    <mat-form-field appearance="fill" class="form-field">
+      <mat-label>Fournisseur</mat-label>
+      <input matInput type="tel" formControlName="Fournisseur" required>
+      <mat-error *ngIf="formGroup.get('Fournisseur')?.hasError('required')">
+        Veuillez entrer un numéro de téléphone valide (8 à 15 chiffres).
+      </mat-error>
+    </mat-form-field>
+
+
     <div mat-dialog-actions class="action-row full-width">
       <button mat-button mat-dialog-close class="btn-cancel">Annuler</button>
-      <button mat-button type="submit" color="primary" class="btn-submit">{{data ? 'Modifier' : 'Ajouter'}}</button>
+      <button mat-button type="submit" color="primary" class="btn-submit" [disabled]="formGroup.invalid">
+        {{ data ? 'Modifier' : 'Ajouter' }}
+      </button>
     </div>
+
   </form>
 </mat-dialog-content>

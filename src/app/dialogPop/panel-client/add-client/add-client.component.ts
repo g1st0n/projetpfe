@@ -90,8 +90,9 @@ export class AddClientComponent {
       email: this.formGroup.get('email')?.value,
       address: this.formGroup.get('address')?.value,
       telephone: this.formGroup.get('telephone')?.value
+      
     };
-  
+   
     // Send the client request to the API service using createClient()
     this.clientService.createClient({ clientRequestDTO })
       .then((response) => {

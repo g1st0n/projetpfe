@@ -1,1 +1,83 @@
-<p>edit-matiere-premiere works!</p>
+<h1 mat-dialog-title class="dialog-title">{{ data ? 'Modifier un client' : 'Ajouter un Nouveau client' }}</h1>
+
+<mat-dialog-content class="dialog-content">
+  <!-- Bind formGroup to the form -->
+  <form [formGroup]="formGroup" (ngSubmit)="onSubmit()" class="form-grid" enctype="multipart/form-data">
+
+    <!-- Form Fields -->
+    <mat-form-field appearance="fill" class="form-field">
+      <mat-label>Nom</mat-label>
+      <input matInput type="text" formControlName="Nom" required>
+      <mat-error *ngIf="formGroup.get('Nom')?.hasError('required')">
+        Le nom est obligatoire.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="form-field">
+      <mat-label>Type de Matiére</mat-label>
+      <input matInput type="text" formControlName="TypeMatiere" required>
+      <mat-error *ngIf="formGroup.get('TypeMatiere')?.hasError('required')">
+        Le type de client est obligatoire.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="form-field">
+      <mat-label>Prix unitaire</mat-label>
+      <input matInput type="email" formControlName="PrixUni" required>
+      <mat-error *ngIf="formGroup.get('PrixUni')?.hasError('email')">
+        Veuillez entrer un e-mail valide.
+      </mat-error>
+      <mat-error *ngIf="formGroup.get('email')?.hasError('required')">
+        L'e-mail est obligatoire.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="form-field">
+      <mat-label>Origine</mat-label>
+      <input matInput type="text" formControlName="Origine" required>
+      <mat-error *ngIf="formGroup.get('Origine')?.hasError('required')">
+        L'adresse est obligatoire.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="form-field">
+        <mat-label>Couleur</mat-label>
+        <input matInput type="text" formControlName="Couleur" required>
+        <mat-error *ngIf="formGroup.get('Couleur')?.hasError('required')">
+          L'adresse est obligatoire.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="form-field">
+        <mat-label>Unité</mat-label>
+        <input matInput type="text" formControlName="unite" required>
+        <mat-error *ngIf="formGroup.get('unite')?.hasError('required')">
+          L'adresse est obligatoire.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="form-field">
+        <mat-label>Quantité Disponible</mat-label>
+        <input matInput type="text" formControlName="QuantiteDispo" required>
+        <mat-error *ngIf="formGroup.get('QuantiteDispo')?.hasError('required')">
+          L'adresse est obligatoire.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="form-field">
+        <mat-label>Fournisseur</mat-label>
+        <input matInput type="text" formControlName="Fournisseur" required>
+        <mat-error *ngIf="formGroup.get('Fournisseur')?.hasError('required')">
+          L'adresse est obligatoire.
+        </mat-error>
+      </mat-form-field>
+
+    <div mat-dialog-actions class="action-row full-width">
+      <button mat-button mat-dialog-close class="btn-cancel">Annuler</button>
+      <button mat-button type="submit" color="primary" class="btn-submit" [disabled]="formGroup.invalid">
+        {{ data ? 'Modifier' : 'Ajouter' }}
+      </button>
+    </div>
+
+  </form>
+</mat-dialog-content>
