@@ -92,7 +92,7 @@ export class PricingComponent implements OnInit {
     const headers = this.tokenService.getAuthHeaders();
     headers['Content-Type'] = 'application/json';
 
-    this.workshopService.getAllWorkshops({ headers })
+    this.workshopService.getAllWorkshops(null ,{ headers })
       .then((response: any) => {
         this.workshops = response;
       })

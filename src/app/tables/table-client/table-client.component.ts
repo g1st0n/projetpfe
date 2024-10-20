@@ -10,6 +10,7 @@ import { AddClientComponent } from 'src/app/dialogPop/panel-client/add-client/ad
 import { ClientControllerApi } from 'src/network/openapi/apis/';  // Import the API service
 import { SelectionModel } from '@angular/cdk/collections';
 import { TokenService } from '../../../network/openapi/apis/tokenService';
+import { ClientResponseDTO } from '../../../network/openapi/models/ClientResponseDTO';
 
 
 export interface ClientData {
@@ -124,7 +125,7 @@ export class TableClientComponent implements AfterViewInit, OnInit {
     const headers = this.tokenService.getAuthHeaders();
     headers['Content-Type'] = 'application/json';
     // Send pageable object to the OpenAPI-generated getProducts method
-    this.clientService.getClients({ pageable }, {headers})
+    this.clientService.getAllClients({ pageable }, {headers})
       .then((response: any) => {
         if (response && response.content) {
           this.clients = response.content; // Extract content from the response
