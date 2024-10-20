@@ -39,6 +39,10 @@ export interface DeleteWorkshopRequest {
     idWorkshop: number;
 }
 
+export interface GeneratePdfRequest {
+    workshopId: number;
+}
+
 export interface GetAllWorkshopsRequest {
     pageable: Pageable;
 }
@@ -118,6 +122,76 @@ export class WorkshopControllerApi extends runtime.BaseAPI {
      */
     async deleteWorkshop(requestParameters: DeleteWorkshopRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.deleteWorkshopRaw(requestParameters, initOverrides);
+    }
+
+    /**
+     */
+    async generatePdfRaw(requestParameters: GeneratePdfRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<string>> {
+        if (requestParameters['workshopId'] == null) {
+            throw new runtime.RequiredError(
+                'workshopId',
+                'Required parameter "workshopId" was null or undefined when calling generatePdf().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/api/workshops/generate/{workshopId}`.replace(`{${"workshopId"}}`, encodeURIComponent(String(requestParameters['workshopId']))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        if (this.isJsonMime(response.headers.get('content-type'))) {
+            return new runtime.JSONApiResponse<string>(response);
+        } else {
+            return new runtime.TextApiResponse(response) as any;
+        }
+    }
+
+    /**
+     */
+    async generatePdf(requestParameters: GeneratePdfRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<string> {
+        const response = await this.generatePdfRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     */
+    async generatePdfRaw(requestParameters: GeneratePdfRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<string>> {
+        if (requestParameters['workshopId'] == null) {
+            throw new runtime.RequiredError(
+                'workshopId',
+                'Required parameter "workshopId" was null or undefined when calling generatePdf().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/api/workshops/generate/{workshopId}`.replace(`{${"workshopId"}}`, encodeURIComponent(String(requestParameters['workshopId']))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        if (this.isJsonMime(response.headers.get('content-type'))) {
+            return new runtime.JSONApiResponse<string>(response);
+        } else {
+            return new runtime.TextApiResponse(response) as any;
+        }
+    }
+
+    /**
+     */
+    async generatePdf(requestParameters: GeneratePdfRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<string> {
+        const response = await this.generatePdfRaw(requestParameters, initOverrides);
+        return await response.value();
     }
 
     /**

@@ -9,6 +9,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatDialogModule } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http'; // Import HttpClient
+import { TokenService } from '../../../../network/openapi/apis/tokenService';
 
 @Component({
   selector: 'app-add-client',
@@ -38,6 +39,7 @@ export class AddClientComponent {
     private clientService: ClientControllerApi,
     public dialogRef: MatDialogRef<AddClientComponent>,
     private http: HttpClient,
+    private tokenService: TokenService,
     @Inject(MAT_DIALOG_DATA) public data: any // Injecting dialog data for editing
   ) {
     // Initialize the form
@@ -92,9 +94,10 @@ export class AddClientComponent {
       telephone: this.formGroup.get('telephone')?.value
       
     };
-   
+    const headers = this.tokenService.getAuthHeaders();
+    headers['Content-Type'] = 'application/json';
     // Send the client request to the API service using createClient()
-    this.clientService.createClient({ clientRequestDTO })
+    this.clientService.createClient({ clientRequestDTO } , {headers})
       .then((response) => {
         console.log('Client created successfully:', response);
         this.dialogRef.close({ success: true, data: response });

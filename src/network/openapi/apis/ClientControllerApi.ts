@@ -39,6 +39,10 @@ export interface DeleteClientRequest {
     id: number;
 }
 
+export interface GeneratePdf7Request {
+    clientId: number;
+}
+
 export interface GetAllClientsRequest {
     pageable: Pageable;
 }
@@ -114,6 +118,76 @@ export class ClientControllerApi extends runtime.BaseAPI {
      */
     async deleteClient(requestParameters: DeleteClientRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.deleteClientRaw(requestParameters, initOverrides);
+    }
+
+    /**
+     */
+    async generatePdf7Raw(requestParameters: GeneratePdf7Request, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<string>> {
+        if (requestParameters['clientId'] == null) {
+            throw new runtime.RequiredError(
+                'clientId',
+                'Required parameter "clientId" was null or undefined when calling generatePdf7().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/api/clients/generate/{clientId}`.replace(`{${"clientId"}}`, encodeURIComponent(String(requestParameters['clientId']))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        if (this.isJsonMime(response.headers.get('content-type'))) {
+            return new runtime.JSONApiResponse<string>(response);
+        } else {
+            return new runtime.TextApiResponse(response) as any;
+        }
+    }
+
+    /**
+     */
+    async generatePdf7(requestParameters: GeneratePdf7Request, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<string> {
+        const response = await this.generatePdf7Raw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     */
+    async generatePdf7Raw(requestParameters: GeneratePdf7Request, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<string>> {
+        if (requestParameters['clientId'] == null) {
+            throw new runtime.RequiredError(
+                'clientId',
+                'Required parameter "clientId" was null or undefined when calling generatePdf7().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/api/clients/generate/{clientId}`.replace(`{${"clientId"}}`, encodeURIComponent(String(requestParameters['clientId']))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        if (this.isJsonMime(response.headers.get('content-type'))) {
+            return new runtime.JSONApiResponse<string>(response);
+        } else {
+            return new runtime.TextApiResponse(response) as any;
+        }
+    }
+
+    /**
+     */
+    async generatePdf7(requestParameters: GeneratePdf7Request, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<string> {
+        const response = await this.generatePdf7Raw(requestParameters, initOverrides);
+        return await response.value();
     }
 
     /**

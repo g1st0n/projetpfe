@@ -39,6 +39,10 @@ export interface DeleteSubCategoryRequest {
     id: number;
 }
 
+export interface GeneratePdf2Request {
+    subCategoryId: number;
+}
+
 export interface GetSubCategoriesRequest {
     pageable: Pageable;
 }
@@ -118,6 +122,41 @@ export class SubCategoryControllerApi extends runtime.BaseAPI {
      */
     async deleteSubCategory(requestParameters: DeleteSubCategoryRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.deleteSubCategoryRaw(requestParameters, initOverrides);
+    }
+
+    /**
+     */
+    async generatePdf2Raw(requestParameters: GeneratePdf2Request, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<string>> {
+        if (requestParameters['subCategoryId'] == null) {
+            throw new runtime.RequiredError(
+                'subCategoryId',
+                'Required parameter "subCategoryId" was null or undefined when calling generatePdf2().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/api/subcategories/generate/{subCategoryId}`.replace(`{${"subCategoryId"}}`, encodeURIComponent(String(requestParameters['subCategoryId']))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        if (this.isJsonMime(response.headers.get('content-type'))) {
+            return new runtime.JSONApiResponse<string>(response);
+        } else {
+            return new runtime.TextApiResponse(response) as any;
+        }
+    }
+
+    /**
+     */
+    async generatePdf2(requestParameters: GeneratePdf2Request, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<string> {
+        const response = await this.generatePdf2Raw(requestParameters, initOverrides);
+        return await response.value();
     }
 
     /**

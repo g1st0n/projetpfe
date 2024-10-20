@@ -1,18 +1,36 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatModule } from 'src/app/appModules/mat.module';
+import { ProductionPlanControllerApi } from '../../../network/openapi/apis/ProductionPlanControllerApi'; // Import the service
+import { ProductionPlanResponseDTO } from '../../../network/openapi/models/ProductionPlanResponseDTO'; // Import the model
+import { TokenService } from '../../../network/openapi/apis/tokenService';
 
 @Component({
   selector: 'app-cards',
   standalone: true,
   imports: [CommonModule, MatModule],
+  providers: [
+    ProductionPlanControllerApi
+  ],
   templateUrl: './cards.component.html',
-  styleUrl: './cards.component.scss'
+  styleUrls: ['./cards.component.scss']
 })
-export class CardsComponent {
-  
-  longText = `The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog
-  from Japan. A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was
-  originally bred for hunting.`;
+export class CardsComponent implements OnInit {
+  // Arrays to store plans
+  inProgressPlans: ProductionPlanResponseDTO[] = [];
+  completedPlans: ProductionPlanResponseDTO[] = [];
 
+  constructor(private productionPlanService: ProductionPlanControllerApi,
+    private tokenService: TokenService,
+  ) {}
+
+  ngOnInit(): void {
+    const headers = this.tokenService.getAuthHeaders();
+    // Fetch the production plans on component initialization
+    this.productionPlanService.getAllProductionPlans({headers}).then((plans) => {
+      // Filter the plans based on their status
+      this.inProgressPlans = plans.filter(plan => plan.status === 'EN_COURS');
+      this.completedPlans = plans.filter(plan => plan.status === 'TERMINE');
+    });
+  }
 }

@@ -1,87 +1,108 @@
 <mat-card>
-    <mat-card-content>
+  <mat-card-content>
+    <form [formGroup]="formGroup"> <!-- Add formGroup here -->
       <div class="row">
         <!-- First Container: Form -->
         <div class="col-12 col-lg-6">
           <h5 class="mb-3">Planning Production</h5>
           <div class="row g-3">
+            <!-- Date -->
             <div class="col-12 col-md-6">
               <mat-form-field class="w-100" appearance="fill">
                 <mat-label>Date</mat-label>
-                <input matInput [matDatepicker]="picker" placeholder="Choisissez une date">
+                <input matInput [matDatepicker]="picker" placeholder="Choisissez une date" formControlName="date">
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
               </mat-form-field>
             </div>
+
+            <!-- Product -->
             <div class="col-12 col-md-6">
               <mat-form-field class="w-100" appearance="fill">
-                <mat-label>produit</mat-label>
-                <mat-select placeholder="Sélectionnez un nom" [(value)]="selectedProduct">
-                  <mat-option value="john">robe</mat-option>
-                  <mat-option value="jhon">jean</mat-option>
-                  <mat-option value="jane">t-shirt</mat-option>
+                <mat-label>Produit</mat-label>
+                <mat-select placeholder="Sélectionnez un produit" formControlName="productId">
+                  <mat-option *ngFor="let product of products" [value]="product.id">
+                    {{ product.reference }}
+                  </mat-option>
                 </mat-select>
               </mat-form-field>
             </div>
+
+            <!-- Quantity -->
             <div class="col-12 col-md-6">
               <mat-form-field class="w-100" appearance="fill">
-                <mat-label>quantité</mat-label>
-                <mat-select placeholder="Sélectionnez une quantité">
+                <mat-label>Quantité</mat-label>
+                <mat-select placeholder="Sélectionnez une quantité" formControlName="quantity">
                   <mat-option value="20">20</mat-option>
                   <mat-option value="30">30</mat-option>
                   <mat-option value="40">40</mat-option>
                 </mat-select>
               </mat-form-field>
             </div>
+
+            <!-- Duration -->
             <div class="col-12 col-md-12">
               <mat-form-field class="w-100" appearance="fill">
-                <mat-label>durée</mat-label>
-                <input matInput placeholder="Ex. @#45gh" value="durée">
+                <mat-label>Durée</mat-label>
+                <input matInput placeholder="Ex. 45 minutes" formControlName="duration">
               </mat-form-field>
             </div>
-            <div class="col-12 col-md-5">
+
+            <!-- Workshop -->
+            <div class="col-12 col-md-6">
               <mat-form-field class="w-100" appearance="fill">
-                <mat-label>atelier</mat-label>
-                <input matInput placeholder="Enter City Name" value="Numéro">
+                <mat-label>Atelier</mat-label>
+                <mat-select placeholder="Sélectionnez un atelier" formControlName="workshopId">
+                  <mat-option *ngFor="let workshop of workshops" [value]="workshop.idWorkshop">
+                    {{ workshop.workshopNumber }}
+                  </mat-option>
+                </mat-select>
               </mat-form-field>
             </div>
+            <!-- Workforce -->
             <div class="col-12 col-md-3">
               <mat-form-field class="w-100" appearance="fill">
-                <mat-label>effectif</mat-label>
-                <input matInput placeholder="Zip Code" value="effectif">
+                <mat-label>Effectif</mat-label>
+                <input matInput placeholder="Effectif" formControlName="workforce">
               </mat-form-field>
             </div>
+
+            <!-- Comment -->
             <div class="col-12 col-md-12">
               <mat-form-field class="w-100" appearance="fill">
-                <mat-label>Leave a comment</mat-label>
-                <textarea matInput placeholder="Ex. It makes me feel..."></textarea>
+                <mat-label>Commentaire</mat-label>
+                <textarea matInput placeholder="Ajoutez un commentaire" formControlName="comment"></textarea>
               </mat-form-field>
             </div>
+
             <div class="col-12 col-md-12">
-              <mat-checkbox class="example-margin">Check me out</mat-checkbox>
+              <mat-checkbox class="example-margin" formControlName="checkbox">Check me out</mat-checkbox>
             </div>
             <div class="col-12 col-md-12">
               <div class="d-flex gap-3">
-                <button mat-flat-button color="primary" class="px-4">Submit</button>
-                <button mat-stroked-button class="px-4">Reset</button>
+                <button mat-flat-button color="primary" class="px-4" (click)="onSubmit()">Submit</button>
+                <button mat-stroked-button class="px-4" (click)="onReset()">Reset</button>
               </div>
-            </div>
+            </div>          
           </div><!--end row-->
         </div>
         
         <!-- Second Container: Product Image or Placeholder Text -->
         <div class="col-12 col-lg-6 d-flex justify-content-center align-items-center">
           <div class="product-display">
-            <!-- Show product image if a product is selected, otherwise show placeholder text -->
-            <ng-container *ngIf="selectedProduct; else noProductSelected">
-              <img src="assets\images\app\gPRO.png" alt="{{ selectedProduct }}" class="product-image">
+            <ng-container *ngIf="getSelectedProductDetails() as product">
+              <ng-container *ngIf="product.logoType && product.logo; else noImage">
+                <img 
+                  [src]="'data:' + product.logoType + ';base64,' + product.logo" 
+                  [alt]="product.logoName || 'Product Image'" width="80" />
+              </ng-container>
+              <ng-template #noImage>
+                <p>No image available for this product</p>
+              </ng-template>
             </ng-container>
-            <ng-template #noProductSelected>
-              <h5>Please select a product</h5>
-            </ng-template>
           </div>
         </div>
       </div>
-    </mat-card-content>
-  </mat-card>
-  
+    </form>  <!-- End of form -->
+  </mat-card-content>
+</mat-card>

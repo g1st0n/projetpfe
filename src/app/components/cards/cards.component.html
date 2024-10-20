@@ -1,25 +1,25 @@
-<p class="mb-0">suivi des tache</p>
+<p class="mb-0">Suivi des Tâches</p>
 <hr>
 
 <div class="row">
   <!-- En Cours Section -->
-  <div class="col-12">
+  <div class="col-12 col-md-6">
     <h3>En Cours</h3>
-    <div class="row row-cols-1 row-cols-lg-3 g-3">
-      <!-- Card 1 -->
-      <div class="col">
-        <mat-card class="example-card">
+    <div class="row row-cols-1 row-cols-lg-1 g-3">
+      <!-- Loop through inProgressPlans array and display each plan -->
+      <div class="col" *ngFor="let plan of inProgressPlans">
+        <mat-card class="example-card card-hover">
           <mat-card-header>
-            <mat-card-title>Robe</mat-card-title>
-            <mat-card-subtitle>Femme</mat-card-subtitle>
+            <mat-card-title>{{ plan.productName }}</mat-card-title>
+            <mat-card-subtitle>{{ plan.productType }}</mat-card-subtitle>
           </mat-card-header>
-          <img mat-card-image src="assets/images/app/gPRO.png" alt="Photo of a Robe">
+          <img mat-card-image src="assets/images/app/gPRO.png" alt="Photo of {{ plan.productName }}" class="card-image">
           <mat-card-content class="p-4">
             <p>
-              Produit : Robe <br>
-              Quantité : 20 <br>
-              Durée : 5 heures <br>
-              Effectif : 5
+              Produit : {{ plan.productName }} <br>
+              Quantité : {{ plan.quantity }} <br>
+              Durée : {{ plan.duration }} heures <br>
+              Effectif : {{ plan.workforce }}
             </p>
           </mat-card-content>
           <mat-card-actions>
@@ -31,53 +31,27 @@
           </mat-card-actions>
         </mat-card>
       </div>
-      <div class="col">
-        <mat-card class="example-card">
-          <mat-card-header>
-            <mat-card-title>jean</mat-card-title>
-            <mat-card-subtitle>uni-sexe</mat-card-subtitle>
-          </mat-card-header>
-          <img mat-card-image src="assets/images/app/gPRO.png" alt="Photo of a Robe">
-          <mat-card-content class="p-4">
-            <p>
-              Produit : Robe <br>
-              Quantité : 20 <br>
-              Durée : 5 heures <br>
-              Effectif : 5
-            </p>
-          </mat-card-content>
-          <mat-card-actions>
-            <button mat-button>Éditer</button>
-            <button mat-button>Supprimer</button>
-            <div class="card-label mat-light-bg-red">
-              <p class="text-red">En Cours</p>
-            </div>
-          </mat-card-actions>
-        </mat-card>
-      </div>
-      <!-- Add more cards for "En Cours" items here -->
     </div>
   </div>
 
   <!-- Terminé Section -->
-  <div class="col-12 mt-5">
+  <div class="col-12 col-md-6">
     <h3>Terminé</h3>
-    <div class="row row-cols-1 row-cols-lg-3 g-3">
-      <!-- Card 2 -->
-      <div class="col">
-        <mat-card class="example-card">
+    <div class="row row-cols-1 row-cols-lg-1 g-3">
+      <!-- Loop through completedPlans array and display each plan -->
+      <div class="col" *ngFor="let plan of completedPlans">
+        <mat-card class="example-card card-hover">
           <mat-card-header>
-            <mat-card-title>Jupe</mat-card-title>
-            <mat-card-subtitle>Femme</mat-card-subtitle>
+            <mat-card-title>{{ plan.productName }}</mat-card-title>
+            <mat-card-subtitle>{{ plan.productType }}</mat-card-subtitle>
           </mat-card-header>
-          <img mat-card-image src="assets/images/app/gPRO.png" alt="Photo of a Jupe">
+          <img mat-card-image src="assets/images/app/gPRO.png" alt="Photo of {{ plan.productName }}" class="card-image">
           <mat-card-content class="p-4">
             <p>
-              Produit : Jupe <br>
-              Quantité supposé: 15 <br>
-              Quantité deffectueuse : ?<br>
-              Durée : 3 heures <br>
-              Effectif : 3
+              Produit : {{ plan.productName }} <br>
+              Quantité supposée : {{ plan.quantity }} <br>
+              Durée : {{ plan.duration }} heures <br>
+              Effectif : {{ plan.workforce }}
             </p>
           </mat-card-content>
           <mat-card-actions>
@@ -89,7 +63,6 @@
           </mat-card-actions>
         </mat-card>
       </div>
-      <!-- Add more cards for "Terminé" items here -->
     </div>
   </div>
 </div>

@@ -39,7 +39,7 @@ export interface EditProductRequest {
     productRequest: ProductRequest;
 }
 
-export interface GeneratePdfRequest {
+export interface GeneratePdf4Request {
     productId: number;
 }
 
@@ -127,11 +127,11 @@ export class ProductControllerApi extends runtime.BaseAPI {
 
     /**
      */
-    async generatePdfRaw(requestParameters: GeneratePdfRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<string>> {
+    async generatePdf4Raw(requestParameters: GeneratePdf4Request, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<string>> {
         if (requestParameters['productId'] == null) {
             throw new runtime.RequiredError(
                 'productId',
-                'Required parameter "productId" was null or undefined when calling generatePdf().'
+                'Required parameter "productId" was null or undefined when calling generatePdf4().'
             );
         }
 
@@ -155,8 +155,8 @@ export class ProductControllerApi extends runtime.BaseAPI {
 
     /**
      */
-    async generatePdf(requestParameters: GeneratePdfRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<string> {
-        const response = await this.generatePdfRaw(requestParameters, initOverrides);
+    async generatePdf4(requestParameters: GeneratePdf4Request, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<string> {
+        const response = await this.generatePdf4Raw(requestParameters, initOverrides);
         return await response.value();
     }
 

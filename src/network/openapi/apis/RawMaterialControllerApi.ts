@@ -39,6 +39,10 @@ export interface DeleteRawMaterialRequest {
     idMaterial: number;
 }
 
+export interface GeneratePdf3Request {
+    rawMaterialId: number;
+}
+
 export interface GetAllRawMaterialsRequest {
     pageable: Pageable;
 }
@@ -122,19 +126,43 @@ export class RawMaterialControllerApi extends runtime.BaseAPI {
 
     /**
      */
-    async getAllRawMaterialsRaw(requestParameters: GetAllRawMaterialsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PageRawMaterialResponseDTO>> {
-        if (requestParameters['pageable'] == null) {
+    async generatePdf3Raw(requestParameters: GeneratePdf3Request, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<string>> {
+        if (requestParameters['rawMaterialId'] == null) {
             throw new runtime.RequiredError(
-                'pageable',
-                'Required parameter "pageable" was null or undefined when calling getAllRawMaterials().'
+                'rawMaterialId',
+                'Required parameter "rawMaterialId" was null or undefined when calling generatePdf3().'
             );
         }
 
         const queryParameters: any = {};
 
-        if (requestParameters['pageable'] != null) {
-            queryParameters['pageable'] = requestParameters['pageable'];
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/api/raw-materials/generate/{rawMaterialId}`.replace(`{${"rawMaterialId"}}`, encodeURIComponent(String(requestParameters['rawMaterialId']))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        if (this.isJsonMime(response.headers.get('content-type'))) {
+            return new runtime.JSONApiResponse<string>(response);
+        } else {
+            return new runtime.TextApiResponse(response) as any;
         }
+    }
+
+    /**
+     */
+    async generatePdf3(requestParameters: GeneratePdf3Request, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<string> {
+        const response = await this.generatePdf3Raw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     */
+    async getAllRawMaterialsRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<RawMaterialResponseDTO>>> {
+        const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
 
@@ -145,37 +173,13 @@ export class RawMaterialControllerApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => PageRawMaterialResponseDTOFromJSON(jsonValue));
-    }
-
-    /**
-     */
-    async getAllRawMaterials(requestParameters: GetAllRawMaterialsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PageRawMaterialResponseDTO> {
-        const response = await this.getAllRawMaterialsRaw(requestParameters, initOverrides);
-        return await response.value();
-    }
-
-    /**
-     */
-    async getAllRawMaterials1Raw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<RawMaterialResponseDTO>>> {
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        const response = await this.request({
-            path: `/api/raw-materials/showAll`,
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        }, initOverrides);
-
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(RawMaterialResponseDTOFromJSON));
     }
 
     /**
      */
-    async getAllRawMaterials1(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<RawMaterialResponseDTO>> {
-        const response = await this.getAllRawMaterials1Raw(initOverrides);
+    async getAllRawMaterials(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<RawMaterialResponseDTO>> {
+        const response = await this.getAllRawMaterialsRaw(initOverrides);
         return await response.value();
     }
 

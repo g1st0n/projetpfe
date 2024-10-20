@@ -9,7 +9,7 @@ import { InfoClientComponent } from 'src/app/dialogPop/panel-client/info-client/
 import { AddClientComponent } from 'src/app/dialogPop/panel-client/add-client/add-client.component';
 import { ClientControllerApi } from 'src/network/openapi/apis/';  // Import the API service
 import { SelectionModel } from '@angular/cdk/collections';
-import { ClientResponseDTO } from 'src/network/openapi';
+import { TokenService } from '../../../network/openapi/apis/tokenService';
 
 
 export interface ClientData {
@@ -44,7 +44,8 @@ export class TableClientComponent implements AfterViewInit, OnInit {
   @ViewChild(MatSort) sort: MatSort;
 
   constructor(public dialog: MatDialog,
-    private clientService: ClientControllerApi
+    private clientService: ClientControllerApi,
+    private tokenService: TokenService,
   ) {
     this.dataSource = new MatTableDataSource(); // Initial data
      // Inject the product service
@@ -120,9 +121,10 @@ export class TableClientComponent implements AfterViewInit, OnInit {
       size: this.pageSize,
       sort: [`${sortField},${sortDirection}`]
     };
-  
-    // Fetch clients from the API
-    this.clientService.getAllClients({ pageable })
+    const headers = this.tokenService.getAuthHeaders();
+    headers['Content-Type'] = 'application/json';
+    // Send pageable object to the OpenAPI-generated getProducts method
+    this.clientService.getClients({ pageable }, {headers})
       .then((response: any) => {
         if (response && response.content) {
           this.clients = response.content; // Extract content from the response

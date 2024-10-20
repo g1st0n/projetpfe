@@ -8,8 +8,28 @@ h3 {
 /* Card Styling */
 .example-card {
   position: relative;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
+/* Hover effect on cards */
+.card-hover:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Image styling */
+.card-image {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.card-image:hover {
+  transform: scale(1.1);
+}
+
+/* Card header styling */
 .mat-card-header {
   align-items: center;
 }
@@ -24,19 +44,21 @@ h3 {
   color: #666;
 }
 
+/* Card content styling */
 .mat-card-content p {
   font-size: 16px;
   color: #444;
   line-height: 1.5;
 }
 
+/* Action buttons styling */
 .mat-card-actions {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-/* Styling for Buttons */
+/* Button styling */
 button[mat-button] {
   background-color: #1976d2;
   color: white;

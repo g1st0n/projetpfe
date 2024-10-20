@@ -73,7 +73,7 @@ export interface PageProductResponse {
      * @type {Array<SortObject>}
      * @memberof PageProductResponse
      */
-    sort?: Array<SortObject>;
+    sort?: Array<Array<SortObject>>;
     /**
      * 
      * @type {number}
@@ -131,7 +131,7 @@ export function PageProductResponseFromJSONTyped(json: any, ignoreDiscriminator:
 'sort': Array.isArray(json['sort']) 
             ? json['sort'].map(SortObjectFromJSON) 
             : json['sort'] != null && typeof json['sort'] === 'object'
-                ? [SortObjectFromJSON(json['sort'])] // Wrap the object in an array
+                ? [((json['sort'] as Array<any>).map(SortObjectFromJSON))] // Wrap the object in an array
                 : [],        'numberOfElements': json['numberOfElements'] == null ? undefined : json['numberOfElements'],
         'first': json['first'] == null ? undefined : json['first'],
         'last': json['last'] == null ? undefined : json['last'],

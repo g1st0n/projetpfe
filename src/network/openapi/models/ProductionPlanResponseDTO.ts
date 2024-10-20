@@ -13,13 +13,6 @@
  */
 
 import { mapValues } from '../runtime';
-import type { LocalTime } from './LocalTime';
-import {
-    LocalTimeFromJSON,
-    LocalTimeFromJSONTyped,
-    LocalTimeToJSON,
-} from './LocalTime';
-
 /**
  * 
  * @export
@@ -34,10 +27,10 @@ export interface ProductionPlanResponseDTO {
     idPlanning?: number;
     /**
      * 
-     * @type {Date}
+     * @type {string}
      * @memberof ProductionPlanResponseDTO
      */
-    date?: Date;
+    date?: string;
     /**
      * 
      * @type {number}
@@ -46,10 +39,10 @@ export interface ProductionPlanResponseDTO {
     quantity?: number;
     /**
      * 
-     * @type {LocalTime}
+     * @type {string}
      * @memberof ProductionPlanResponseDTO
      */
-    duration?: LocalTime;
+    duration?: string;
     /**
      * 
      * @type {number}
@@ -74,6 +67,12 @@ export interface ProductionPlanResponseDTO {
      * @memberof ProductionPlanResponseDTO
      */
     comment?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ProductionPlanResponseDTO
+     */
+    status?: string;
 }
 
 /**
@@ -94,13 +93,14 @@ export function ProductionPlanResponseDTOFromJSONTyped(json: any, ignoreDiscrimi
     return {
         
         'idPlanning': json['idPlanning'] == null ? undefined : json['idPlanning'],
-        'date': json['date'] == null ? undefined : (new Date(json['date'])),
+        'date': json['date'] == null ? undefined : json['date'],
         'quantity': json['quantity'] == null ? undefined : json['quantity'],
-        'duration': json['duration'] == null ? undefined : LocalTimeFromJSON(json['duration']),
+        'duration': json['duration'] == null ? undefined : json['duration'],
         'productId': json['productId'] == null ? undefined : json['productId'],
         'workshopId': json['workshopId'] == null ? undefined : json['workshopId'],
         'workforce': json['workforce'] == null ? undefined : json['workforce'],
         'comment': json['comment'] == null ? undefined : json['comment'],
+        'status': json['status'] == null ? undefined : json['status'],
     };
 }
 
@@ -111,13 +111,14 @@ export function ProductionPlanResponseDTOToJSON(value?: ProductionPlanResponseDT
     return {
         
         'idPlanning': value['idPlanning'],
-        'date': value['date'] == null ? undefined : ((value['date']).toISOString()),
+        'date': value['date'],
         'quantity': value['quantity'],
-        'duration': LocalTimeToJSON(value['duration']),
+        'duration': value['duration'],
         'productId': value['productId'],
         'workshopId': value['workshopId'],
         'workforce': value['workforce'],
         'comment': value['comment'],
+        'status': value['status'],
     };
 }
 
