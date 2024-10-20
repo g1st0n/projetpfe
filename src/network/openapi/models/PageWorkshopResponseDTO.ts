@@ -25,99 +25,99 @@ import {
     SortObjectFromJSONTyped,
     SortObjectToJSON,
 } from './SortObject';
-import type { ProductResponse } from './ProductResponse';
+import type { WorkshopResponseDTO } from './WorkshopResponseDTO';
 import {
-    ProductResponseFromJSON,
-    ProductResponseFromJSONTyped,
-    ProductResponseToJSON,
-} from './ProductResponse';
+    WorkshopResponseDTOFromJSON,
+    WorkshopResponseDTOFromJSONTyped,
+    WorkshopResponseDTOToJSON,
+} from './WorkshopResponseDTO';
 
 /**
  * 
  * @export
- * @interface PageProductResponse
+ * @interface PageWorkshopResponseDTO
  */
-export interface PageProductResponse {
+export interface PageWorkshopResponseDTO {
     /**
      * 
      * @type {number}
-     * @memberof PageProductResponse
+     * @memberof PageWorkshopResponseDTO
      */
     totalPages?: number;
     /**
      * 
      * @type {number}
-     * @memberof PageProductResponse
+     * @memberof PageWorkshopResponseDTO
      */
     totalElements?: number;
     /**
      * 
      * @type {number}
-     * @memberof PageProductResponse
+     * @memberof PageWorkshopResponseDTO
      */
     size?: number;
     /**
      * 
-     * @type {Array<ProductResponse>}
-     * @memberof PageProductResponse
+     * @type {Array<WorkshopResponseDTO>}
+     * @memberof PageWorkshopResponseDTO
      */
-    content?: Array<ProductResponse>;
+    content?: Array<WorkshopResponseDTO>;
     /**
      * 
      * @type {number}
-     * @memberof PageProductResponse
+     * @memberof PageWorkshopResponseDTO
      */
     number?: number;
     /**
      * 
      * @type {Array<SortObject>}
-     * @memberof PageProductResponse
+     * @memberof PageWorkshopResponseDTO
      */
-    sort?: SortObject;
+    sort?: Array<SortObject>;
     /**
      * 
      * @type {number}
-     * @memberof PageProductResponse
+     * @memberof PageWorkshopResponseDTO
      */
     numberOfElements?: number;
     /**
      * 
      * @type {boolean}
-     * @memberof PageProductResponse
+     * @memberof PageWorkshopResponseDTO
      */
     first?: boolean;
     /**
      * 
      * @type {boolean}
-     * @memberof PageProductResponse
+     * @memberof PageWorkshopResponseDTO
      */
     last?: boolean;
     /**
      * 
      * @type {PageableObject}
-     * @memberof PageProductResponse
+     * @memberof PageWorkshopResponseDTO
      */
     pageable?: PageableObject;
     /**
      * 
      * @type {boolean}
-     * @memberof PageProductResponse
+     * @memberof PageWorkshopResponseDTO
      */
     empty?: boolean;
 }
 
 /**
- * Check if a given object implements the PageProductResponse interface.
+ * Check if a given object implements the PageWorkshopResponseDTO interface.
  */
-export function instanceOfPageProductResponse(value: object): value is PageProductResponse {
+export function instanceOfPageWorkshopResponseDTO(value: object): value is PageWorkshopResponseDTO {
     return true;
 }
 
-export function PageProductResponseFromJSON(json: any): PageProductResponse {
-    return PageProductResponseFromJSONTyped(json, false);
+export function PageWorkshopResponseDTOFromJSON(json: any): PageWorkshopResponseDTO {
+    return PageWorkshopResponseDTOFromJSONTyped(json, false);
 }
 
-export function PageProductResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): PageProductResponse {
+export function PageWorkshopResponseDTOFromJSONTyped(json: any, ignoreDiscriminator: boolean): PageWorkshopResponseDTO {
     if (json == null) {
         return json;
     }
@@ -126,16 +126,22 @@ export function PageProductResponseFromJSONTyped(json: any, ignoreDiscriminator:
         'totalPages': json['totalPages'] == null ? undefined : json['totalPages'],
         'totalElements': json['totalElements'] == null ? undefined : json['totalElements'],
         'size': json['size'] == null ? undefined : json['size'],
-        'content': json['content'] == null ? undefined : ((json['content'] as Array<any>).map(ProductResponseFromJSON)),
+        'content': json['content'] == null ? undefined : ((json['content'] as Array<any>).map(WorkshopResponseDTOFromJSON)),
         'number': json['number'] == null ? undefined : json['number'],
-        'sort': json['sort'] == null ? undefined : SortObjectFromJSON(json['sort']),
+       'sort': Array.isArray(json['sort']) 
+            ? json['sort'].map(SortObjectFromJSON) 
+            : json['sort'] != null && typeof json['sort'] === 'object'
+                ? [SortObjectFromJSON(json['sort'])] // Wrap the object in an array
+                : [],
         'numberOfElements': json['numberOfElements'] == null ? undefined : json['numberOfElements'],
+        'first': json['first'] == null ? undefined : json['first'],
+        'last': json['last'] == null ? undefined : json['last'],
         'pageable': json['pageable'] == null ? undefined : PageableObjectFromJSON(json['pageable']),
         'empty': json['empty'] == null ? undefined : json['empty'],
     };
 }
 
-export function PageProductResponseToJSON(value?: PageProductResponse | null): any {
+export function PageWorkshopResponseDTOToJSON(value?: PageWorkshopResponseDTO | null): any {
     if (value == null) {
         return value;
     }
@@ -144,9 +150,9 @@ export function PageProductResponseToJSON(value?: PageProductResponse | null): a
         'totalPages': value['totalPages'],
         'totalElements': value['totalElements'],
         'size': value['size'],
-        'content': value['content'] == null ? undefined : ((value['content'] as Array<any>).map(ProductResponseToJSON)),
+        'content': value['content'] == null ? undefined : ((value['content'] as Array<any>).map(WorkshopResponseDTOToJSON)),
         'number': value['number'],
-        'sort': value['sort'] == null ? undefined : SortObjectToJSON(value['sort']),
+        'sort': value['sort'] == null ? undefined : ((value['sort'] as Array<any>).map(SortObjectToJSON)),
         'numberOfElements': value['numberOfElements'],
         'first': value['first'],
         'last': value['last'],

@@ -37,7 +37,7 @@ export interface PageableObject {
      * @type {Array<SortObject>}
      * @memberof PageableObject
      */
-    sort?: SortObject;
+    sort?: Array<SortObject>;
     /**
      * 
      * @type {boolean}
@@ -55,13 +55,13 @@ export interface PageableObject {
      * @type {number}
      * @memberof PageableObject
      */
-    pageSize?: number;
+    pageNumber?: number;
     /**
      * 
      * @type {number}
      * @memberof PageableObject
      */
-    pageNumber?: number;
+    pageSize?: number;
 }
 
 /**
@@ -82,11 +82,13 @@ export function PageableObjectFromJSONTyped(json: any, ignoreDiscriminator: bool
     return {
         
         'offset': json['offset'] == null ? undefined : json['offset'],
-        'sort': json['sort'] == null ? undefined : SortObjectToJSON(json['sort']),
-        'unpaged': json['unpaged'] == null ? undefined : json['unpaged'],
-        'paged': json['paged'] == null ? undefined : json['paged'],
-        'pageSize': json['pageSize'] == null ? undefined : json['pageSize'],
+        'sort': Array.isArray(json['sort']) 
+        ? json['sort'].map(SortObjectFromJSON)  // If it's an array, map it
+        : json['sort'] != null && typeof json['sort'] === 'object'          
+            ? [SortObjectFromJSON(json['sort'])] 
+            : [],        'paged': json['paged'] == null ? undefined : json['paged'],
         'pageNumber': json['pageNumber'] == null ? undefined : json['pageNumber'],
+        'pageSize': json['pageSize'] == null ? undefined : json['pageSize'],
     };
 }
 
@@ -97,11 +99,11 @@ export function PageableObjectToJSON(value?: PageableObject | null): any {
     return {
         
         'offset': value['offset'],
-        'sort': value['sort'] == null ? undefined : SortObjectToJSON(value['sort']),
+        'sort': value['sort'] == null ? undefined : ((value['sort'] as Array<any>).map(SortObjectToJSON)),
         'unpaged': value['unpaged'],
         'paged': value['paged'],
-        'pageSize': value['pageSize'],
         'pageNumber': value['pageNumber'],
+        'pageSize': value['pageSize'],
     };
 }
 

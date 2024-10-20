@@ -19,105 +19,105 @@ import {
     PageableObjectFromJSONTyped,
     PageableObjectToJSON,
 } from './PageableObject';
+import type { SubCategoryResponseDTO } from './SubCategoryResponseDTO';
+import {
+    SubCategoryResponseDTOFromJSON,
+    SubCategoryResponseDTOFromJSONTyped,
+    SubCategoryResponseDTOToJSON,
+} from './SubCategoryResponseDTO';
 import type { SortObject } from './SortObject';
 import {
     SortObjectFromJSON,
     SortObjectFromJSONTyped,
     SortObjectToJSON,
 } from './SortObject';
-import type { ProductResponse } from './ProductResponse';
-import {
-    ProductResponseFromJSON,
-    ProductResponseFromJSONTyped,
-    ProductResponseToJSON,
-} from './ProductResponse';
 
 /**
  * 
  * @export
- * @interface PageProductResponse
+ * @interface PageSubCategoryResponseDTO
  */
-export interface PageProductResponse {
+export interface PageSubCategoryResponseDTO {
     /**
      * 
      * @type {number}
-     * @memberof PageProductResponse
+     * @memberof PageSubCategoryResponseDTO
      */
     totalPages?: number;
     /**
      * 
      * @type {number}
-     * @memberof PageProductResponse
+     * @memberof PageSubCategoryResponseDTO
      */
     totalElements?: number;
     /**
      * 
      * @type {number}
-     * @memberof PageProductResponse
+     * @memberof PageSubCategoryResponseDTO
      */
     size?: number;
     /**
      * 
-     * @type {Array<ProductResponse>}
-     * @memberof PageProductResponse
+     * @type {Array<SubCategoryResponseDTO>}
+     * @memberof PageSubCategoryResponseDTO
      */
-    content?: Array<ProductResponse>;
+    content?: Array<SubCategoryResponseDTO>;
     /**
      * 
      * @type {number}
-     * @memberof PageProductResponse
+     * @memberof PageSubCategoryResponseDTO
      */
     number?: number;
     /**
      * 
      * @type {Array<SortObject>}
-     * @memberof PageProductResponse
+     * @memberof PageSubCategoryResponseDTO
      */
-    sort?: SortObject;
+    sort?: Array<SortObject>;
     /**
      * 
      * @type {number}
-     * @memberof PageProductResponse
+     * @memberof PageSubCategoryResponseDTO
      */
     numberOfElements?: number;
     /**
      * 
      * @type {boolean}
-     * @memberof PageProductResponse
+     * @memberof PageSubCategoryResponseDTO
      */
     first?: boolean;
     /**
      * 
      * @type {boolean}
-     * @memberof PageProductResponse
+     * @memberof PageSubCategoryResponseDTO
      */
     last?: boolean;
     /**
      * 
      * @type {PageableObject}
-     * @memberof PageProductResponse
+     * @memberof PageSubCategoryResponseDTO
      */
     pageable?: PageableObject;
     /**
      * 
      * @type {boolean}
-     * @memberof PageProductResponse
+     * @memberof PageSubCategoryResponseDTO
      */
     empty?: boolean;
 }
 
 /**
- * Check if a given object implements the PageProductResponse interface.
+ * Check if a given object implements the PageSubCategoryResponseDTO interface.
  */
-export function instanceOfPageProductResponse(value: object): value is PageProductResponse {
+export function instanceOfPageSubCategoryResponseDTO(value: object): value is PageSubCategoryResponseDTO {
     return true;
 }
 
-export function PageProductResponseFromJSON(json: any): PageProductResponse {
-    return PageProductResponseFromJSONTyped(json, false);
+export function PageSubCategoryResponseDTOFromJSON(json: any): PageSubCategoryResponseDTO {
+    return PageSubCategoryResponseDTOFromJSONTyped(json, false);
 }
 
-export function PageProductResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): PageProductResponse {
+export function PageSubCategoryResponseDTOFromJSONTyped(json: any, ignoreDiscriminator: boolean): PageSubCategoryResponseDTO {
     if (json == null) {
         return json;
     }
@@ -126,16 +126,21 @@ export function PageProductResponseFromJSONTyped(json: any, ignoreDiscriminator:
         'totalPages': json['totalPages'] == null ? undefined : json['totalPages'],
         'totalElements': json['totalElements'] == null ? undefined : json['totalElements'],
         'size': json['size'] == null ? undefined : json['size'],
-        'content': json['content'] == null ? undefined : ((json['content'] as Array<any>).map(ProductResponseFromJSON)),
+        'content': json['content'] == null ? undefined : ((json['content'] as Array<any>).map(SubCategoryResponseDTOFromJSON)),
         'number': json['number'] == null ? undefined : json['number'],
-        'sort': json['sort'] == null ? undefined : SortObjectFromJSON(json['sort']),
-        'numberOfElements': json['numberOfElements'] == null ? undefined : json['numberOfElements'],
+'sort': Array.isArray(json['sort']) 
+            ? json['sort'].map(SortObjectFromJSON) 
+            : json['sort'] != null && typeof json['sort'] === 'object'
+                ? [SortObjectFromJSON(json['sort'])] // Wrap the object in an array
+                : [],        'numberOfElements': json['numberOfElements'] == null ? undefined : json['numberOfElements'],
+        'first': json['first'] == null ? undefined : json['first'],
+        'last': json['last'] == null ? undefined : json['last'],
         'pageable': json['pageable'] == null ? undefined : PageableObjectFromJSON(json['pageable']),
         'empty': json['empty'] == null ? undefined : json['empty'],
     };
 }
 
-export function PageProductResponseToJSON(value?: PageProductResponse | null): any {
+export function PageSubCategoryResponseDTOToJSON(value?: PageSubCategoryResponseDTO | null): any {
     if (value == null) {
         return value;
     }
@@ -144,9 +149,9 @@ export function PageProductResponseToJSON(value?: PageProductResponse | null): a
         'totalPages': value['totalPages'],
         'totalElements': value['totalElements'],
         'size': value['size'],
-        'content': value['content'] == null ? undefined : ((value['content'] as Array<any>).map(ProductResponseToJSON)),
+        'content': value['content'] == null ? undefined : ((value['content'] as Array<any>).map(SubCategoryResponseDTOToJSON)),
         'number': value['number'],
-        'sort': value['sort'] == null ? undefined : SortObjectToJSON(value['sort']),
+        'sort': value['sort'] == null ? undefined : ((value['sort'] as Array<any>).map(SortObjectToJSON)),
         'numberOfElements': value['numberOfElements'],
         'first': value['first'],
         'last': value['last'],

@@ -21,6 +21,12 @@ import { mapValues } from '../runtime';
 export interface SubCategoryRequestDTO {
     /**
      * 
+     * @type {number}
+     * @memberof SubCategoryRequestDTO
+     */
+    idSubCategory?: number;
+    /**
+     * 
      * @type {string}
      * @memberof SubCategoryRequestDTO
      */
@@ -50,6 +56,7 @@ export function SubCategoryRequestDTOFromJSONTyped(json: any, ignoreDiscriminato
     }
     return {
         
+        'idSubCategory': json['idSubCategory'] == null ? undefined : json['idSubCategory'],
         'name': json['name'] == null ? undefined : json['name'],
         'reference': json['reference'] == null ? undefined : json['reference'],
     };
@@ -61,6 +68,7 @@ export function SubCategoryRequestDTOToJSON(value?: SubCategoryRequestDTO | null
     }
     return {
         
+        'idSubCategory': value['idSubCategory'],
         'name': value['name'],
         'reference': value['reference'],
     };

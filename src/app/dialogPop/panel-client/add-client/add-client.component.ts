@@ -92,6 +92,7 @@ export class AddClientComponent {
       email: this.formGroup.get('email')?.value,
       address: this.formGroup.get('address')?.value,
       telephone: this.formGroup.get('telephone')?.value
+      
     };
     const headers = this.tokenService.getAuthHeaders();
     headers['Content-Type'] = 'application/json';

@@ -45,12 +45,12 @@
         <!-- Fruit Column -->
         <ng-container matColumnDef="PrixUni">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> Prix Unitére </th>
-          <td mat-cell *matCellDef="let row" (click)="openDialog(row)"> {{row.unitPrice}}$</td>
+          <td mat-cell *matCellDef="let row" (click)="openDialog(row)"> {{row.unitPrice}}</td>
         </ng-container>
 
         <ng-container matColumnDef="Origine">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Origine </th>
-            <td mat-cell *matCellDef="let row" (click)="openDialog(row)"> {{row.origin}}$</td>
+            <td mat-cell *matCellDef="let row" (click)="openDialog(row)"> {{row.origin}}</td>
           </ng-container>
         
           <ng-container matColumnDef="Couleur">

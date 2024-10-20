@@ -15,10 +15,16 @@
 
 import * as runtime from '../runtime';
 import type {
+  PageRawMaterialResponseDTO,
+  Pageable,
   RawMaterialRequestDTO,
   RawMaterialResponseDTO,
 } from '../models/index';
 import {
+    PageRawMaterialResponseDTOFromJSON,
+    PageRawMaterialResponseDTOToJSON,
+    PageableFromJSON,
+    PageableToJSON,
     RawMaterialRequestDTOFromJSON,
     RawMaterialRequestDTOToJSON,
     RawMaterialResponseDTOFromJSON,
@@ -37,12 +43,15 @@ export interface GeneratePdf3Request {
     rawMaterialId: number;
 }
 
+export interface GetAllRawMaterialsRequest {
+    pageable: Pageable;
+}
+
 export interface GetRawMaterialByIdRequest {
     idMaterial: number;
 }
 
 export interface UpdateRawMaterialRequest {
-    idMaterial: number;
     rawMaterialRequestDTO: RawMaterialRequestDTO;
 }
 
@@ -63,17 +72,16 @@ export class RawMaterialControllerApi extends runtime.BaseAPI {
 
         const queryParameters: any = {};
 
-        if (requestParameters['rawMaterialRequestDTO'] != null) {
-            queryParameters['rawMaterialRequestDTO'] = requestParameters['rawMaterialRequestDTO'];
-        }
-
         const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
 
         const response = await this.request({
             path: `/api/raw-materials/add`,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
+            body: RawMaterialRequestDTOToJSON(requestParameters['rawMaterialRequestDTO']),
         }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RawMaterialResponseDTOFromJSON(jsonValue));
@@ -209,13 +217,6 @@ export class RawMaterialControllerApi extends runtime.BaseAPI {
     /**
      */
     async updateRawMaterialRaw(requestParameters: UpdateRawMaterialRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<RawMaterialResponseDTO>> {
-        if (requestParameters['idMaterial'] == null) {
-            throw new runtime.RequiredError(
-                'idMaterial',
-                'Required parameter "idMaterial" was null or undefined when calling updateRawMaterial().'
-            );
-        }
-
         if (requestParameters['rawMaterialRequestDTO'] == null) {
             throw new runtime.RequiredError(
                 'rawMaterialRequestDTO',
@@ -230,7 +231,7 @@ export class RawMaterialControllerApi extends runtime.BaseAPI {
         headerParameters['Content-Type'] = 'application/json';
 
         const response = await this.request({
-            path: `/api/raw-materials/{idMaterial}`.replace(`{${"idMaterial"}}`, encodeURIComponent(String(requestParameters['idMaterial']))),
+            path: `/api/raw-materials/{id}`,
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,

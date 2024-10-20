@@ -43,25 +43,13 @@ export interface PageClientResponseDTO {
      * @type {number}
      * @memberof PageClientResponseDTO
      */
-    totalElements?: number;
+    totalPages?: number;
     /**
      * 
      * @type {number}
      * @memberof PageClientResponseDTO
      */
-    totalPages?: number;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof PageClientResponseDTO
-     */
-    first?: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof PageClientResponseDTO
-     */
-    last?: boolean;
+    totalElements?: number;
     /**
      * 
      * @type {number}
@@ -94,6 +82,18 @@ export interface PageClientResponseDTO {
     numberOfElements?: number;
     /**
      * 
+     * @type {boolean}
+     * @memberof PageClientResponseDTO
+     */
+    first?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof PageClientResponseDTO
+     */
+    last?: boolean;
+    /**
+     * 
      * @type {PageableObject}
      * @memberof PageClientResponseDTO
      */
@@ -123,10 +123,8 @@ export function PageClientResponseDTOFromJSONTyped(json: any, ignoreDiscriminato
     }
     return {
         
-        'totalElements': json['totalElements'] == null ? undefined : json['totalElements'],
         'totalPages': json['totalPages'] == null ? undefined : json['totalPages'],
-        'first': json['first'] == null ? undefined : json['first'],
-        'last': json['last'] == null ? undefined : json['last'],
+        'totalElements': json['totalElements'] == null ? undefined : json['totalElements'],
         'size': json['size'] == null ? undefined : json['size'],
         'content': json['content'] == null ? undefined : ((json['content'] as Array<any>).map(ClientResponseDTOFromJSON)),
         'number': json['number'] == null ? undefined : json['number'],
@@ -143,15 +141,15 @@ export function PageClientResponseDTOToJSON(value?: PageClientResponseDTO | null
     }
     return {
         
-        'totalElements': value['totalElements'],
         'totalPages': value['totalPages'],
-        'first': value['first'],
-        'last': value['last'],
+        'totalElements': value['totalElements'],
         'size': value['size'],
         'content': value['content'] == null ? undefined : ((value['content'] as Array<any>).map(ClientResponseDTOToJSON)),
         'number': value['number'],
         'sort': value['sort'] == null ? undefined : SortObjectToJSON(value['sort']),
         'numberOfElements': value['numberOfElements'],
+        'first': value['first'],
+        'last': value['last'],
         'pageable': PageableObjectToJSON(value['pageable']),
         'empty': value['empty'],
     };

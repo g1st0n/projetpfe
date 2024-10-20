@@ -21,6 +21,12 @@ import { mapValues } from '../runtime';
 export interface RawMaterialRequestDTO {
     /**
      * 
+     * @type {number}
+     * @memberof RawMaterialRequestDTO
+     */
+    idMaterial?: number;
+    /**
+     * 
      * @type {string}
      * @memberof RawMaterialRequestDTO
      */
@@ -86,6 +92,7 @@ export function RawMaterialRequestDTOFromJSONTyped(json: any, ignoreDiscriminato
     }
     return {
         
+        'idMaterial': json['idMaterial'] == null ? undefined : json['idMaterial'],
         'name': json['name'] == null ? undefined : json['name'],
         'materialType': json['materialType'] == null ? undefined : json['materialType'],
         'supplier': json['supplier'] == null ? undefined : json['supplier'],
@@ -103,6 +110,7 @@ export function RawMaterialRequestDTOToJSON(value?: RawMaterialRequestDTO | null
     }
     return {
         
+        'idMaterial': value['idMaterial'],
         'name': value['name'],
         'materialType': value['materialType'],
         'supplier': value['supplier'],

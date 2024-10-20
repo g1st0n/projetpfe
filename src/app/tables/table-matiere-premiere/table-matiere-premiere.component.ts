@@ -5,12 +5,24 @@ import { MatTableDataSource } from '@angular/material/table';
 import { CommonModule } from '@angular/common';
 import { MatModule } from 'src/app/appModules/mat.module';
 import { MatDialog } from '@angular/material/dialog';
-import { Pageable, ProductResponse, RawMaterialResponseDTO } from 'src/network/openapi/models/';
+import { Pageable, ProductResponse, RawMaterialRequestDTO, RawMaterialResponseDTO } from 'src/network/openapi/models/';
 import { SelectionModel } from '@angular/cdk/collections';
 import { AddMatierePremiereComponent } from 'src/app/dialogPop/panel-matiere-premiere/add-matiere-premiere/add-matiere-premiere.component';
 import { InfoMatierePremiereComponent } from 'src/app/dialogPop/panel-matiere-premiere/info-matiere-premiere/info-matiere-premiere.component';
 import { RawMaterialControllerApi } from 'src/network/openapi';
 
+export interface rawMaterial {
+  idMaterial: number;
+  name: string;
+  materialType: string;
+  supplier: string;
+  availableQuantity: number;
+  unit: string;
+  color: string;
+  origin: string;
+  unitPrice: number;
+
+}
 
 
 @Component({
@@ -25,13 +37,13 @@ import { RawMaterialControllerApi } from 'src/network/openapi';
 })
 export class TableMatierePremiereComponent implements AfterViewInit, OnInit {
   displayedColumns: string[] = [ 'Nom','TypeMatiere','PrixUni','Origine','Couleur','unite','QuantiteDispo'];
-  dataSource: MatTableDataSource<RawMaterialResponseDTO>;
-  rawMaterial: RawMaterialResponseDTO[] = [];
+  dataSource: MatTableDataSource<RawMaterialRequestDTO>;
+  RawMaterial: RawMaterialRequestDTO[] = [];
   totalItems = 0; // To store the total number of products (for paginator)
   pageSize = 10; // Default page size
   pageIndex = 0; // Default to the first page
 
-  selection = new SelectionModel<RawMaterialResponseDTO>(true, []);
+  selection = new SelectionModel<RawMaterialRequestDTO>(true, []);
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
@@ -54,15 +66,15 @@ fetchRaw(): void {
       sort: [`${sortField},${sortDirection}`]  // Sorting field and direction
   };
 
-  // this.RawMaterialservice.getAllRawMaterials({ pageable })
-  //   .then((response: any) => {
-        
-  //       this.rawMaterial = response;  
+  this.RawMaterialservice.getAllRawMaterials({ pageable })
+    .then((response: any) => {
+        console.log(response.content)
+        this.RawMaterial = response.content;  
 
 
   //       this.totalItems = response.totalElements ;
 
-  //       this.dataSource = new MatTableDataSource(this.rawMaterial);
+        this.dataSource = new MatTableDataSource(this.RawMaterial);
     
   //       this.dataSource.paginator = this.paginator;
   //       this.dataSource.sort = this.sort;
@@ -72,19 +84,36 @@ fetchRaw(): void {
   //   });
 
 }
+toggleRowSelection(row: RawMaterialRequestDTO): void {
+  this.selection.toggle(row);
+}
 
+// Checkbox master toggle for selecting all rows
+masterToggle() {
+  this.isAllSelected() ?
+    this.selection.clear() :
+    this.dataSource.data.forEach(row => this.selection.select(row));
+}
+
+// Check if all rows are selected
+isAllSelected() {
+  const numSelected = this.selection.selected.length;
+  const numRows = this.dataSource.data.length;
+  return numSelected === numRows;
+}
 ngAfterViewInit() {
   this.paginator.page.subscribe(() => {
     this.pageIndex = this.paginator.pageIndex;
     this.pageSize = this.paginator.pageSize;
-    this.fetchRaw(); // Fetch the data again with new pageIndex and pageSize
+    this.fetchRaw(); // Fetch the data again with the new pagination
   });
 
   this.sort.sortChange.subscribe(() => {
     this.pageIndex = 0; // Reset page index on sort change
-    this.fetchRaw(); // Fetch the data again with new sort settings
+    this.fetchRaw(); // Fetch the data again with the new sort order
   });
 }
+
   openAddDialog(): void {
     const dialogRef = this.dialog.open(AddMatierePremiereComponent, {
       width: 'auto', 
@@ -93,6 +122,12 @@ ngAfterViewInit() {
       maxHeight: '90vh', 
      
       panelClass: 'custom-dialog-container'
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result && result.success) {
+        console.log("Client info was updated:", result.data);
+        this.fetchRaw(); // Refresh the client list after editing
+      }
     });
 
 }
@@ -107,11 +142,18 @@ openDialog(row: any): void {
     data: row,
     panelClass: 'custom-dialog-container'
   });
+  dialogRef.afterClosed().subscribe(result => {
+    if (result && result.success) {
+      console.log("Client info was updated:", result.data);
+      this.fetchRaw(); // Refresh the client list after editing
+    }
+  });
 }
 
+
 applyFilter(event: Event): void {
-  const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
-  this.dataSource.filter = filterValue;  // Ensure that dataSource.filterPredicate is properly set
+  const filterValue = (event.target as HTMLInputElement).value;
+  this.dataSource.filter = filterValue.trim().toLowerCase();
 
   if (this.dataSource.paginator) {
     this.dataSource.paginator.firstPage();

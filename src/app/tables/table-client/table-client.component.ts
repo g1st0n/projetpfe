@@ -11,10 +11,6 @@ import { ClientControllerApi } from 'src/network/openapi/apis/';  // Import the 
 import { SelectionModel } from '@angular/cdk/collections';
 import { TokenService } from '../../../network/openapi/apis/tokenService';
 
-const CLIENTS = [
-  { idClient: 1, clientType: "société", fullName: "GPRO consulting", email: "Gpro.consulting@gmail.com", address: "15 Bilel Ben Rabbeh", telephone: 12345678 },
-  // Add more client data here...
-];
 
 export interface ClientData {
   idClient: number;
@@ -37,13 +33,13 @@ export interface ClientData {
 })
 export class TableClientComponent implements AfterViewInit, OnInit {
   displayedColumns: string[] = ['clientType', 'fullName', 'email', 'address', 'telephone'];
-  dataSource: MatTableDataSource<ClientData>;
-  clients: ClientData[] = [];
+  dataSource: MatTableDataSource<ClientResponseDTO>;
+  clients: ClientResponseDTO[] = [];
   totalItems = 0; // For paginator
   pageSize = 10; // Default page size
   pageIndex = 0; // Default page index
 
-  selection = new SelectionModel<ClientData>(true, []);
+  selection = new SelectionModel<ClientResponseDTO>(true, []);
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
@@ -51,7 +47,7 @@ export class TableClientComponent implements AfterViewInit, OnInit {
     private clientService: ClientControllerApi,
     private tokenService: TokenService,
   ) {
-    this.dataSource = new MatTableDataSource(CLIENTS); // Initial data
+    this.dataSource = new MatTableDataSource(); // Initial data
      // Inject the product service
   }
 
@@ -116,31 +112,32 @@ export class TableClientComponent implements AfterViewInit, OnInit {
   }
 
   fetchClients(): void {
-    const sortField = this.sort?.active || 'name'; // Default to sorting by 'name'
-    const sortDirection = this.sort?.direction || 'asc'; // Default to ascending sort
+    const sortField = this.sort?.active || 'fullName'; // Default sorting field
+    const sortDirection = this.sort?.direction || 'asc'; // Default sorting direction
   
     // Construct the pageable parameters
     const pageable = {
       page: this.pageIndex,
       size: this.pageSize,
-      sort: [`${sortField},${sortDirection}`]  // Combine field and direction
+      sort: [`${sortField},${sortDirection}`]
     };
     const headers = this.tokenService.getAuthHeaders();
     headers['Content-Type'] = 'application/json';
     // Send pageable object to the OpenAPI-generated getProducts method
     this.clientService.getClients({ pageable }, {headers})
       .then((response: any) => {
-        this.clients = response.content; // Assuming backend returns { content, totalElements }
-        this.totalItems = response.totalElements; // The total number of products
-  
-        // Assign data to the table data source and update paginator and sorter
-        this.dataSource = new MatTableDataSource(this.clients);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
+        if (response && response.content) {
+          this.clients = response.content; // Extract content from the response
+          this.totalItems = response.totalElements || 0; // Extract total items
+          this.dataSource = new MatTableDataSource(this.clients);
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+        }
       })
       .catch(error => {
-        console.error('Error fetching products:', error);
+        console.error('Error fetching clients:', error);
       });
   }
+  
   
 }

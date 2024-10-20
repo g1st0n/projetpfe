@@ -15,10 +15,16 @@
 
 import * as runtime from '../runtime';
 import type {
+  PageSubCategoryResponseDTO,
+  Pageable,
   SubCategoryRequestDTO,
   SubCategoryResponseDTO,
 } from '../models/index';
 import {
+    PageSubCategoryResponseDTOFromJSON,
+    PageSubCategoryResponseDTOToJSON,
+    PageableFromJSON,
+    PageableToJSON,
     SubCategoryRequestDTOFromJSON,
     SubCategoryRequestDTOToJSON,
     SubCategoryResponseDTOFromJSON,
@@ -37,12 +43,15 @@ export interface GeneratePdf2Request {
     subCategoryId: number;
 }
 
+export interface GetSubCategoriesRequest {
+    pageable: Pageable;
+}
+
 export interface GetSubCategoryByIdRequest {
     id: number;
 }
 
 export interface UpdateSubCategoryRequest {
-    id: number;
     subCategoryRequestDTO: SubCategoryRequestDTO;
 }
 
@@ -158,7 +167,7 @@ export class SubCategoryControllerApi extends runtime.BaseAPI {
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/api/subcategories`,
+            path: `/api/subcategories/showAll`,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -171,6 +180,41 @@ export class SubCategoryControllerApi extends runtime.BaseAPI {
      */
     async getAllSubCategories(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<SubCategoryResponseDTO>> {
         const response = await this.getAllSubCategoriesRaw(initOverrides);
+        return await response.value();
+    }
+
+    /**
+     */
+    async getSubCategoriesRaw(requestParameters: GetSubCategoriesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PageSubCategoryResponseDTO>> {
+        if (requestParameters['pageable'] == null) {
+            throw new runtime.RequiredError(
+                'pageable',
+                'Required parameter "pageable" was null or undefined when calling getSubCategories().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters['pageable'] != null) {
+            queryParameters['pageable'] = requestParameters['pageable'];
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/api/subcategories`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => PageSubCategoryResponseDTOFromJSON(jsonValue));
+    }
+
+    /**
+     */
+    async getSubCategories(requestParameters: GetSubCategoriesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PageSubCategoryResponseDTO> {
+        const response = await this.getSubCategoriesRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -208,13 +252,6 @@ export class SubCategoryControllerApi extends runtime.BaseAPI {
     /**
      */
     async updateSubCategoryRaw(requestParameters: UpdateSubCategoryRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SubCategoryResponseDTO>> {
-        if (requestParameters['id'] == null) {
-            throw new runtime.RequiredError(
-                'id',
-                'Required parameter "id" was null or undefined when calling updateSubCategory().'
-            );
-        }
-
         if (requestParameters['subCategoryRequestDTO'] == null) {
             throw new runtime.RequiredError(
                 'subCategoryRequestDTO',
@@ -229,7 +266,7 @@ export class SubCategoryControllerApi extends runtime.BaseAPI {
         headerParameters['Content-Type'] = 'application/json';
 
         const response = await this.request({
-            path: `/api/subcategories/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters['id']))),
+            path: `/api/subcategories/{id}`,
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,

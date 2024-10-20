@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { HttpClient } from '@angular/common/http';
 import { AddMatierePremiereComponent } from '../add-matiere-premiere/add-matiere-premiere.component';
+import { EditMatierePremiereComponent } from '../edit-matiere-premiere/edit-matiere-premiere.component';
 @Component({
   selector: 'app-info-matiere-premiere',
   standalone: true,
@@ -21,7 +22,7 @@ export class InfoMatierePremiereComponent {
   onEdit(): void {
     // Assuming you have the Add Product dialog component as 'DialogAddProductComponent'
     this.dialogRef.close(); // Close the current dialog first
-    const dialogRef = this.dialog.open(AddMatierePremiereComponent, {
+    const dialogRef = this.dialog.open(EditMatierePremiereComponent, {
       width: '80vw',
       maxWidth: '90vw',
       height: 'auto',
@@ -29,8 +30,8 @@ export class InfoMatierePremiereComponent {
       data: this.data,  
       panelClass: 'custom-dialog-container'
     });
-     // Listen to the closing of the Add Product dialog
-     dialogRef.afterClosed().subscribe(result => {
+
+    dialogRef.afterClosed().subscribe(result => {
       if (result && result.success) {
         // Pass the result to the parent component
         dialogRef.close(result);
