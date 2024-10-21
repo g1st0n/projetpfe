@@ -6,16 +6,16 @@
 
     <!-- Identification -->
     <div class="product-row">
-      <span class="label">Numéro Atelier:</span> <span class="value">{{data?.NumAtelier}}</span>
+      <span class="label">Numéro Atelier:</span> <span class="value">{{data?.workshopNumber}}</span>
     </div>
     <div class="product-row">
-      <span class="label">Capacité:</span> <span class="value">{{data?.Capacite}}</span>
+      <span class="label">Capacité:</span> <span class="value">{{data?.productionCapacity}}</span>
     </div>
     <div class="product-row">
-      <span class="label">Nombre de Machine:</span> <span class="value">{{data?.NbMachine}}</span>
+      <span class="label">Nombre de Machine:</span> <span class="value">{{data?.machineCount}}</span>
     </div>
     <div class="product-row">
-        <span class="label">Coût Machine: </span> <span class="value">{{data?.CoutMachine}}</span>
+        <span class="label">Coût Machine: </span> <span class="value">{{data?.machineCost}}</span>
       </div>
      
    
@@ -25,7 +25,7 @@
 
 <!-- Dialog actions -->
 <div mat-dialog-actions class="action-row">
-  <button mat-button (click)="onDownload(data?.id)">Imprimer</button>
+  <button mat-button >Imprimer</button>
   <button mat-button (click)="onEdit()">Modifier</button>
   <button mat-button (click)="onClose()">Fermer</button>
 </div>

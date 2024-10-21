@@ -128,7 +128,7 @@ export class TableClientComponent implements AfterViewInit, OnInit {
     const headers = this.tokenService.getAuthHeaders();
     headers['Content-Type'] = 'application/json';
     
-    this.clientService.getAllClients({ pageable }, {headers})
+    this.clientService.getClients({ pageable }, {headers})
       .then((response: any) => {
         if (response && response.content) {
           this.clients = response.content; // Extract content from the response

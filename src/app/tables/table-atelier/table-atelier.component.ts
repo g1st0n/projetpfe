@@ -11,6 +11,7 @@ import { InfoAtelierComponent } from 'src/app/dialogPop/panel-atelier/info-ateli
 import { WorkshopControllerApi, WorkshopRequestDTO } from 'src/network/openapi';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatModule } from 'src/app/appModules/mat.module';
+import { TokenService } from 'src/network/openapi/apis/tokenService';
 
 export interface ClientData {
   workshopNumber: number;
@@ -41,7 +42,8 @@ export class TableAtelierComponent {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-constructor(    public dialog: MatDialog,
+constructor(   private tokenService: TokenService,
+   public dialog: MatDialog,
   private workShopService : WorkshopControllerApi 
 ){
   this.dataSource = new MatTableDataSource();
@@ -73,7 +75,7 @@ masterToggle(): void {
 
 
 fetchShop(): void {
-  const sortField = this.sort?.active || 'fullName'; // Default sorting field
+  const sortField = this.sort?.active || 'name'; // Default sorting field
   const sortDirection = this.sort?.direction || 'asc'; // Default sorting direction
 
   // Construct the pageable parameters
@@ -82,9 +84,26 @@ fetchShop(): void {
     size: this.pageSize,
     sort: [`${sortField},${sortDirection}`]
   };
+  const headers = this.tokenService.getAuthHeaders();
+  headers['Content-Type'] = 'application/json';
 
-  // Fetch clients from the API
+this.workShopService.getAllWorkshops({ pageable }, { headers })
+  .then((response: any) => {
+      console.log(response)
+      this.WorkShop = response.content;  
+
+
+      this.totalItems = response.totalElements ;
+
+      this.dataSource = new MatTableDataSource(this.WorkShop);
   
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+  })
+  .catch(error => {
+      console.error('Error fetching raw materials:', error);
+  });
+
 }
 
   openAddDialog(): void {
@@ -96,9 +115,12 @@ fetchShop(): void {
      
       panelClass: 'custom-dialog-container'
     });
-
-}
-
+    dialogRef.afterClosed().subscribe(result => {
+      if (result && result.success) {
+        this.fetchShop(); // Refresh client list after adding a new client
+      }
+    });
+  }
 
 applyFilter(event: Event): void {
   const filterValue = (event.target as HTMLInputElement).value;

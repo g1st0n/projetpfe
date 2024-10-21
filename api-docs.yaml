@@ -24,11 +24,29 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/Famille_Product'
-  /api/workshops/{id}:
+  /api/workshops/{idWorkshop}:
+    get:
+      tags:
+      - workshop-controller
+      operationId: getWorkshopById
+      parameters:
+      - name: idWorkshop
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/WorkshopResponseDTO'
     put:
       tags:
       - workshop-controller
-      operationId: updateClient
+      operationId: updateWorkshop
       requestBody:
         content:
           application/json:
@@ -42,6 +60,20 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/WorkshopResponseDTO'
+    delete:
+      tags:
+      - workshop-controller
+      operationId: deleteWorkshop
+      parameters:
+      - name: idWorkshop
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
   /api/users/{id}:
     get:
       tags:
@@ -149,7 +181,25 @@ paths:
       responses:
         "200":
           description: OK
-  /api/raw-materials/{id}:
+  /api/raw-materials/{idMaterial}:
+    get:
+      tags:
+      - raw-material-controller
+      operationId: getRawMaterialById
+      parameters:
+      - name: idMaterial
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/RawMaterialResponseDTO'
     put:
       tags:
       - raw-material-controller
@@ -167,6 +217,20 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/RawMaterialResponseDTO'
+    delete:
+      tags:
+      - raw-material-controller
+      operationId: deleteRawMaterial
+      parameters:
+      - name: idMaterial
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
   /api/products/{id}:
     get:
       tags:
@@ -335,7 +399,7 @@ paths:
     put:
       tags:
       - client-controller
-      operationId: updateClient_1
+      operationId: updateClient
       requestBody:
         content:
           application/json:
@@ -635,39 +699,6 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/PageWorkshopResponseDTO'
-  /api/workshops/{idWorkshop}:
-    get:
-      tags:
-      - workshop-controller
-      operationId: getWorkshopById
-      parameters:
-      - name: idWorkshop
-        in: path
-        required: true
-        schema:
-          type: integer
-          format: int64
-      responses:
-        "200":
-          description: OK
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/WorkshopResponseDTO'
-    delete:
-      tags:
-      - workshop-controller
-      operationId: deleteWorkshop
-      parameters:
-      - name: idWorkshop
-        in: path
-        required: true
-        schema:
-          type: integer
-          format: int64
-      responses:
-        "200":
-          description: OK
   /api/workshops/showAll:
     get:
       tags:
@@ -768,26 +799,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/SubCategoryResponseDTO'
-  /api/subcategories/generate/{subCategoryId}:
-    get:
-      tags:
-      - sub-category-controller
-      operationId: generatePdf_2
-      parameters:
-      - name: subCategoryId
-        in: path
-        required: true
-        schema:
-          type: integer
-          format: int64
-      responses:
-        "200":
-          description: OK
-          content:
-            '*/*':
-              schema:
-                type: string
-                format: byte
   /api/raw-materials:
     get:
       tags:
@@ -806,39 +817,6 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/PageRawMaterialResponseDTO'
-  /api/raw-materials/{idMaterial}:
-    get:
-      tags:
-      - raw-material-controller
-      operationId: getRawMaterialById
-      parameters:
-      - name: idMaterial
-        in: path
-        required: true
-        schema:
-          type: integer
-          format: int64
-      responses:
-        "200":
-          description: OK
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/RawMaterialResponseDTO'
-    delete:
-      tags:
-      - raw-material-controller
-      operationId: deleteRawMaterial
-      parameters:
-      - name: idMaterial
-        in: path
-        required: true
-        schema:
-          type: integer
-          format: int64
-      responses:
-        "200":
-          description: OK
   /api/raw-materials/showAll:
     get:
       tags:
@@ -857,7 +835,7 @@ paths:
     get:
       tags:
       - raw-material-controller
-      operationId: generatePdf_3
+      operationId: generatePdf_2
       parameters:
       - name: rawMaterialId
         in: path
@@ -909,7 +887,7 @@ paths:
     get:
       tags:
       - product-controller
-      operationId: generatePdf_4
+      operationId: generatePdf_3
       parameters:
       - name: productId
         in: path
@@ -943,7 +921,7 @@ paths:
     get:
       tags:
       - production-plan-controller
-      operationId: generatePdf_5
+      operationId: generatePdf_4
       parameters:
       - name: productionPlanId
         in: path
@@ -977,7 +955,7 @@ paths:
     get:
       tags:
       - order-controller
-      operationId: generatePdf_6
+      operationId: generatePdf_5
       parameters: []
       responses:
         "200":
@@ -1043,7 +1021,7 @@ paths:
     get:
       tags:
       - client-controller
-      operationId: getAllClients
+      operationId: getClients
       parameters:
       - name: pageable
         in: query
@@ -1061,7 +1039,7 @@ paths:
     get:
       tags:
       - client-controller
-      operationId: getAllClients_1
+      operationId: getAllClients
       responses:
         "200":
           description: OK
@@ -1075,7 +1053,7 @@ paths:
     get:
       tags:
       - client-controller
-      operationId: generatePdf_7
+      operationId: generatePdf_6
       parameters:
       - name: clientId
         in: path
@@ -1784,12 +1762,12 @@ components:
     PageWorkshopResponseDTO:
       type: object
       properties:
-        totalPages:
-          type: integer
-          format: int32
         totalElements:
           type: integer
           format: int64
+        totalPages:
+          type: integer
+          format: int32
         size:
           type: integer
           format: int32
@@ -1804,13 +1782,13 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/SortObject'
-        numberOfElements:
-          type: integer
-          format: int32
         first:
           type: boolean
         last:
           type: boolean
+        numberOfElements:
+          type: integer
+          format: int32
         pageable:
           $ref: '#/components/schemas/PageableObject'
         empty:
@@ -1825,15 +1803,15 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/SortObject'
-        pageSize:
+        pageNumber:
           type: integer
           format: int32
         pageSize:
           type: integer
           format: int32
-        paged:
-          type: boolean
         unpaged:
+          type: boolean
+        paged:
           type: boolean
     SortObject:
       type: object
@@ -1851,12 +1829,12 @@ components:
     PageSubCategoryResponseDTO:
       type: object
       properties:
-        totalPages:
-          type: integer
-          format: int32
         totalElements:
           type: integer
           format: int64
+        totalPages:
+          type: integer
+          format: int32
         size:
           type: integer
           format: int32
@@ -1871,13 +1849,13 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/SortObject'
-        numberOfElements:
-          type: integer
-          format: int32
         first:
           type: boolean
         last:
           type: boolean
+        numberOfElements:
+          type: integer
+          format: int32
         pageable:
           $ref: '#/components/schemas/PageableObject'
         empty:
@@ -1885,12 +1863,12 @@ components:
     PageRawMaterialResponseDTO:
       type: object
       properties:
-        totalPages:
-          type: integer
-          format: int32
         totalElements:
           type: integer
           format: int64
+        totalPages:
+          type: integer
+          format: int32
         size:
           type: integer
           format: int32
@@ -1905,13 +1883,13 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/SortObject'
-        numberOfElements:
-          type: integer
-          format: int32
         first:
           type: boolean
         last:
           type: boolean
+        numberOfElements:
+          type: integer
+          format: int32
         pageable:
           $ref: '#/components/schemas/PageableObject'
         empty:
@@ -1919,12 +1897,12 @@ components:
     PageProductResponse:
       type: object
       properties:
-        totalPages:
-          type: integer
-          format: int32
         totalElements:
           type: integer
           format: int64
+        totalPages:
+          type: integer
+          format: int32
         size:
           type: integer
           format: int32
@@ -1939,13 +1917,13 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/SortObject'
-        numberOfElements:
-          type: integer
-          format: int32
         first:
           type: boolean
         last:
           type: boolean
+        numberOfElements:
+          type: integer
+          format: int32
         pageable:
           $ref: '#/components/schemas/PageableObject'
         empty:
@@ -1953,12 +1931,12 @@ components:
     PageClientResponseDTO:
       type: object
       properties:
-        totalPages:
-          type: integer
-          format: int32
         totalElements:
           type: integer
           format: int64
+        totalPages:
+          type: integer
+          format: int32
         size:
           type: integer
           format: int32
@@ -1973,13 +1951,13 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/SortObject'
-        numberOfElements:
-          type: integer
-          format: int32
         first:
           type: boolean
         last:
           type: boolean
+        numberOfElements:
+          type: integer
+          format: int32
         pageable:
           $ref: '#/components/schemas/PageableObject'
         empty:

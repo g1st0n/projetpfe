@@ -10,6 +10,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { AddMatierePremiereComponent } from 'src/app/dialogPop/panel-matiere-premiere/add-matiere-premiere/add-matiere-premiere.component';
 import { InfoMatierePremiereComponent } from 'src/app/dialogPop/panel-matiere-premiere/info-matiere-premiere/info-matiere-premiere.component';
 import { RawMaterialControllerApi } from 'src/network/openapi';
+import { TokenService } from 'src/network/openapi/apis/tokenService';
 
 export interface rawMaterial {
   idMaterial: number;
@@ -47,7 +48,8 @@ export class TableMatierePremiereComponent implements AfterViewInit, OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-constructor( 
+constructor(     private tokenService: TokenService,
+
    public dialog: MatDialog,
   private RawMaterialservice: RawMaterialControllerApi //
 ){
@@ -65,16 +67,18 @@ fetchRaw(): void {
       size: this.pageSize,   // Page size from the paginator
       sort: [`${sortField},${sortDirection}`]  // Sorting field and direction
   };
+  const headers = this.tokenService.getAuthHeaders();
+    headers['Content-Type'] = 'application/json';
 
-  // this.RawMaterialservice.getAllRawMaterials({ pageable })
-  //   .then((response: any) => {
-  //       console.log(response.content)
-  //       this.RawMaterial = response.content;  
+  this.RawMaterialservice.getAllRawMaterials({ pageable }, { headers })
+    .then((response: any) => {
+        console.log(response)
+        this.RawMaterial = response.content;  
 
 
         this.totalItems = response.totalElements ;
 
-  //       this.dataSource = new MatTableDataSource(this.RawMaterial);
+        this.dataSource = new MatTableDataSource(this.RawMaterial);
     
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
@@ -83,64 +87,44 @@ fetchRaw(): void {
         console.error('Error fetching raw materials:', error);
     });
 
-  // });
 }
-  toggleRowSelection(row: RawMaterialRequestDTO): void {
-    this.selection.toggle(row);
-  }
+toggleRowSelection(row: RawMaterialRequestDTO): void {
+  this.selection.toggle(row);
+}
 
-  // Checkbox master toggle for selecting all rows
-  masterToggle() {
-    this.isAllSelected() ?
-      this.selection.clear() :
-      this.dataSource.data.forEach(row => this.selection.select(row));
-  }
+// Checkbox master toggle for selecting all rows
+masterToggle() {
+  this.isAllSelected() ?
+    this.selection.clear() :
+    this.dataSource.data.forEach(row => this.selection.select(row));
+}
 
-  // Check if all rows are selected
-  isAllSelected() {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.data.length;
-    return numSelected === numRows;
-  }
-  ngAfterViewInit() {
-    this.paginator.page.subscribe(() => {
-      this.pageIndex = this.paginator.pageIndex;
-      this.pageSize = this.paginator.pageSize;
-      this.fetchRaw(); // Fetch the data again with the new pagination
-    });
+// Check if all rows are selected
+isAllSelected() {
+  const numSelected = this.selection.selected.length;
+  const numRows = this.dataSource.data.length;
+  return numSelected === numRows;
+}
+ngAfterViewInit() {
+  this.paginator.page.subscribe(() => {
+    this.pageIndex = this.paginator.pageIndex;
+    this.pageSize = this.paginator.pageSize;
+    this.fetchRaw(); // Fetch the data again with the new pagination
+  });
 
-    this.sort.sortChange.subscribe(() => {
-      this.pageIndex = 0; // Reset page index on sort change
-      this.fetchRaw(); // Fetch the data again with the new sort order
-    });
-  }
+  this.sort.sortChange.subscribe(() => {
+    this.pageIndex = 0; // Reset page index on sort change
+    this.fetchRaw(); // Fetch the data again with the new sort order
+  });
+}
 
-    openAddDialog(): void {
-      const dialogRef = this.dialog.open(AddMatierePremiereComponent, {
-        width: 'auto', 
-        maxWidth: '90vw', 
-        height: 'auto',
-        maxHeight: '90vh', 
-      
-        panelClass: 'custom-dialog-container'
-      });
-      dialogRef.afterClosed().subscribe(result => {
-        if (result && result.success) {
-          console.log("Client info was updated:", result.data);
-          this.fetchRaw(); // Refresh the client list after editing
-        }
-      });
-
-  }
-
-
-  openDialog(row: any): void {
-    const dialogRef = this.dialog.open(InfoMatierePremiereComponent, {
-      width: '30vw',
-      maxWidth: '90vw',
+  openAddDialog(): void {
+    const dialogRef = this.dialog.open(AddMatierePremiereComponent, {
+      width: 'auto', 
+      maxWidth: '90vw', 
       height: 'auto',
-      maxHeight: '90vh',
-      data: row,
+      maxHeight: '90vh', 
+     
       panelClass: 'custom-dialog-container'
     });
     dialogRef.afterClosed().subscribe(result => {
@@ -149,15 +133,34 @@ fetchRaw(): void {
         this.fetchRaw(); // Refresh the client list after editing
       }
     });
-  }
+
+}
 
 
-  applyFilter(event: Event): void {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
+openDialog(row: any): void {
+  const dialogRef = this.dialog.open(InfoMatierePremiereComponent, {
+    width: '30vw',
+    maxWidth: '90vw',
+    height: 'auto',
+    maxHeight: '90vh',
+    data: row,
+    panelClass: 'custom-dialog-container'
+  });
+  dialogRef.afterClosed().subscribe(result => {
+    if (result && result.success) {
+      console.log("Client info was updated:", result.data);
+      this.fetchRaw(); // Refresh the client list after editing
     }
+  });
+}
+
+
+applyFilter(event: Event): void {
+  const filterValue = (event.target as HTMLInputElement).value;
+  this.dataSource.filter = filterValue.trim().toLowerCase();
+
+  if (this.dataSource.paginator) {
+    this.dataSource.paginator.firstPage();
   }
+}
 }

@@ -56,7 +56,7 @@ export class EditClientComponent {
     };
 
     // Send the client request to the API service using createClient()
-    this.clientService.updateClient1({ clientRequestDTO })
+    this.clientService.updateClient({ clientRequestDTO })
       .then((response) => {
         console.log('Client updated successfully:', response);
         this.dialogRef.close({ success: true, data: response });
