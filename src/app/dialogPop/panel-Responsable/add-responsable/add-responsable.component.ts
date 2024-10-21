@@ -4,12 +4,12 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';  
 import { MatButtonModule } from '@angular/material/button';  
 import { ReactiveFormsModule } from '@angular/forms';  
-import { ProductControllerApi } from 'src/network/openapi/apis/'; 
-import { FileStorageControllerApi } from 'src/network/openapi/apis/'; 
+import { UserControllerApi } from 'src/network/openapi/apis/'; 
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatDialogModule } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';  // Import HttpClient
+
 @Component({
   selector: 'app-add-responsable',
   standalone: true,
@@ -22,8 +22,7 @@ import { HttpClient } from '@angular/common/http';  // Import HttpClient
     CommonModule
   ],
   providers: [
-    ProductControllerApi,
-    FileStorageControllerApi
+    UserControllerApi,
   ],  templateUrl: './add-responsable.component.html',
   styleUrl: './add-responsable.component.scss'
 })
@@ -35,8 +34,7 @@ export class AddResponsableComponent {
 
   constructor(
     private fb: FormBuilder,
-    private productService: ProductControllerApi,
-    private fileService: FileStorageControllerApi,
+    private userService: UserControllerApi,
     public dialogRef: MatDialogRef<AddResponsableComponent>,
     private http: HttpClient,
     @Inject(MAT_DIALOG_DATA) public data: any
