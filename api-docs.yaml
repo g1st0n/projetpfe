@@ -1201,9 +1201,9 @@ components:
           format: date-time
         enabled:
           type: boolean
-        profileImageId:
-          type: integer
-          format: int64
+        image:
+          type: string
+          format: binary
     UserResponseDTO:
       type: object
       properties:
@@ -1798,12 +1798,12 @@ components:
     PageWorkshopResponseDTO:
       type: object
       properties:
-        totalElements:
-          type: integer
-          format: int64
         totalPages:
           type: integer
           format: int32
+        totalElements:
+          type: integer
+          format: int64
         first:
           type: boolean
         last:
@@ -1839,15 +1839,15 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/SortObject'
-        pageNumber:
-          type: integer
-          format: int32
         pageSize:
           type: integer
           format: int32
-        unpaged:
-          type: boolean
+        pageNumber:
+          type: integer
+          format: int32
         paged:
+          type: boolean
+        unpaged:
           type: boolean
     SortObject:
       type: object
@@ -1865,12 +1865,12 @@ components:
     PageUserResponseDTO:
       type: object
       properties:
-        totalElements:
-          type: integer
-          format: int64
         totalPages:
           type: integer
           format: int32
+        totalElements:
+          type: integer
+          format: int64
         first:
           type: boolean
         last:
@@ -1899,12 +1899,12 @@ components:
     PageSubCategoryResponseDTO:
       type: object
       properties:
-        totalElements:
-          type: integer
-          format: int64
         totalPages:
           type: integer
           format: int32
+        totalElements:
+          type: integer
+          format: int64
         first:
           type: boolean
         last:
@@ -1933,12 +1933,12 @@ components:
     PageRawMaterialResponseDTO:
       type: object
       properties:
-        totalElements:
-          type: integer
-          format: int64
         totalPages:
           type: integer
           format: int32
+        totalElements:
+          type: integer
+          format: int64
         first:
           type: boolean
         last:
@@ -1967,12 +1967,12 @@ components:
     PageProductResponse:
       type: object
       properties:
-        totalElements:
-          type: integer
-          format: int64
         totalPages:
           type: integer
           format: int32
+        totalElements:
+          type: integer
+          format: int64
         first:
           type: boolean
         last:
@@ -2001,12 +2001,12 @@ components:
     PageOrderResponseDTO:
       type: object
       properties:
-        totalElements:
-          type: integer
-          format: int64
         totalPages:
           type: integer
           format: int32
+        totalElements:
+          type: integer
+          format: int64
         first:
           type: boolean
         last:
@@ -2035,12 +2035,12 @@ components:
     PageClientResponseDTO:
       type: object
       properties:
-        totalElements:
-          type: integer
-          format: int64
         totalPages:
           type: integer
           format: int32
+        totalElements:
+          type: integer
+          format: int64
         first:
           type: boolean
         last:

@@ -43,13 +43,13 @@ export interface PageUserResponseDTO {
      * @type {number}
      * @memberof PageUserResponseDTO
      */
-    totalElements?: number;
+    totalPages?: number;
     /**
      * 
      * @type {number}
      * @memberof PageUserResponseDTO
      */
-    totalPages?: number;
+    totalElements?: number;
     /**
      * 
      * @type {boolean}
@@ -123,14 +123,14 @@ export function PageUserResponseDTOFromJSONTyped(json: any, ignoreDiscriminator:
     }
     return {
         
-        'totalElements': json['totalElements'] == null ? undefined : json['totalElements'],
         'totalPages': json['totalPages'] == null ? undefined : json['totalPages'],
+        'totalElements': json['totalElements'] == null ? undefined : json['totalElements'],
         'first': json['first'] == null ? undefined : json['first'],
         'last': json['last'] == null ? undefined : json['last'],
         'size': json['size'] == null ? undefined : json['size'],
         'content': json['content'] == null ? undefined : ((json['content'] as Array<any>).map(UserResponseDTOFromJSON)),
         'number': json['number'] == null ? undefined : json['number'],
-        'sort': Array.isArray(json['sort']) ? json['sort'].map(SortObjectFromJSON) : [SortObjectFromJSON(json['sort'])], 
+        'sort': Array.isArray(json['sort']) ? json['sort'].map(SortObjectFromJSON) : [SortObjectFromJSON(json['sort'])],
         'numberOfElements': json['numberOfElements'] == null ? undefined : json['numberOfElements'],
         'pageable': json['pageable'] == null ? undefined : PageableObjectFromJSON(json['pageable']),
         'empty': json['empty'] == null ? undefined : json['empty'],
@@ -143,8 +143,8 @@ export function PageUserResponseDTOToJSON(value?: PageUserResponseDTO | null): a
     }
     return {
         
-        'totalElements': value['totalElements'],
         'totalPages': value['totalPages'],
+        'totalElements': value['totalElements'],
         'first': value['first'],
         'last': value['last'],
         'size': value['size'],

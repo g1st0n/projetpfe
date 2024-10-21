@@ -130,8 +130,7 @@ export function PageRawMaterialResponseDTOFromJSONTyped(json: any, ignoreDiscrim
         'content': json['content'] == null ? undefined : ((json['content'] as Array<any>).map(RawMaterialResponseDTOFromJSON)),
         'number': json['number'] == null ? undefined : json['number'],
 
-        'sort': Array.isArray(json['sort']) ? json['sort'].map(SortObjectFromJSON) : [SortObjectFromJSON(json['sort'])],        'first': json['first'] == null ? undefined : json['first'],
-        'last': json['last'] == null ? undefined : json['last'],
+        'sort': Array.isArray(json['sort']) ? json['sort'].map(SortObjectFromJSON) : [SortObjectFromJSON(json['sort'])],  
         'numberOfElements': json['numberOfElements'] == null ? undefined : json['numberOfElements'],
         'pageable': json['pageable'] == null ? undefined : PageableObjectFromJSON(json['pageable']),
         'empty': json['empty'] == null ? undefined : json['empty'],

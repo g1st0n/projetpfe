@@ -1,4 +1,4 @@
-<h1 mat-dialog-title class="dialog-title">{{data ? 'Modifier l\'Article' : 'Ajouter un Nouvel Article'}}</h1>
+<h1 mat-dialog-title class="dialog-title">{{data ? 'Modifier le Responsable' : 'Ajouter un Nouveau Responsable'}}</h1>
 
 <mat-dialog-content class="dialog-content">
   <!-- Bind formGroup to the form -->
@@ -23,58 +23,28 @@
 
     <!-- Form Fields -->
     <mat-form-field appearance="fill" class="form-field">
-      <mat-label>Référence</mat-label>
-      <input matInput type="text" formControlName="reference" required>
+      <mat-label>Prénom</mat-label>
+      <input matInput type="text" formControlName="firstName" required>
     </mat-form-field>
 
     <mat-form-field appearance="fill" class="form-field">
-      <mat-label>Désignation</mat-label>
-      <input matInput type="text" formControlName="designation" required>
+      <mat-label>Nom</mat-label>
+      <input matInput type="text" formControlName="lastName" required>
     </mat-form-field>
 
     <mat-form-field appearance="fill" class="form-field">
-      <mat-label>Sous-Catégorie</mat-label>
-      <input matInput type="text" formControlName="subCategory" required>
+      <mat-label>Adresse</mat-label>
+      <input matInput type="text" formControlName="address" required>
     </mat-form-field>
 
     <mat-form-field appearance="fill" class="form-field">
-      <mat-label>Matière première</mat-label>
-      <input matInput type="text" formControlName="rawMaterial" required>
+      <mat-label>Numéro de téléphone</mat-label>
+      <input matInput type="tel" formControlName="phoneNumber" required>
     </mat-form-field>
 
     <mat-form-field appearance="fill" class="form-field">
-      <mat-label>Couleur</mat-label>
-      <input matInput type="text" formControlName="color" required>
-    </mat-form-field>
-
-    <mat-form-field appearance="fill" class="form-field">
-      <mat-label>Poids (g)</mat-label>
-      <input matInput type="number" formControlName="weight" required>
-    </mat-form-field>
-
-    <mat-form-field appearance="fill" class="form-field">
-      <mat-label>Dimensions</mat-label>
-      <input matInput type="text" formControlName="dimensions" required>
-    </mat-form-field>
-
-    <mat-form-field appearance="fill" class="form-field">
-      <mat-label>Durée de Fabrication (heures)</mat-label>
-      <input matInput type="text" formControlName="productionTime" required>
-    </mat-form-field>
-
-    <mat-form-field appearance="fill" class="form-field">
-      <mat-label>Prix (TND)</mat-label>
-      <input matInput type="number" formControlName="price" required>
-    </mat-form-field>
-
-    <mat-form-field appearance="fill" class="form-field">
-      <mat-label>Quantité</mat-label>
-      <input matInput type="number" formControlName="quantity" required>
-    </mat-form-field>
-
-    <mat-form-field appearance="fill" class="form-field">
-      <mat-label>Coût de Production (TND)</mat-label>
-      <input matInput type="number" formControlName="productionCost" required>
+      <mat-label>Status</mat-label>
+      <input matInput type="text" formControlName="status" required>
     </mat-form-field>
 
     <!-- Dialog Actions -->

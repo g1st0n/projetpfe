@@ -123,14 +123,14 @@ export function PageClientResponseDTOFromJSONTyped(json: any, ignoreDiscriminato
     }
     return {
         
-        'totalElements': json['totalElements'] == null ? undefined : json['totalElements'],
         'totalPages': json['totalPages'] == null ? undefined : json['totalPages'],
+        'totalElements': json['totalElements'] == null ? undefined : json['totalElements'],
+        'first': json['first'] == null ? undefined : json['first'],
+        'last': json['last'] == null ? undefined : json['last'],
         'size': json['size'] == null ? undefined : json['size'],
         'content': json['content'] == null ? undefined : ((json['content'] as Array<any>).map(ClientResponseDTOFromJSON)),
         'number': json['number'] == null ? undefined : json['number'],
-
-        'sort': Array.isArray(json['sort']) ? json['sort'].map(SortObjectFromJSON) : [SortObjectFromJSON(json['sort'])],        'first': json['first'] == null ? undefined : json['first'],
-        'last': json['last'] == null ? undefined : json['last'],
+        'sort': json['sort'] == null ? undefined : ((json['sort'] as Array<any>).map(SortObjectFromJSON)),
         'numberOfElements': json['numberOfElements'] == null ? undefined : json['numberOfElements'],
         'pageable': json['pageable'] == null ? undefined : PageableObjectFromJSON(json['pageable']),
         'empty': json['empty'] == null ? undefined : json['empty'],
@@ -143,14 +143,14 @@ export function PageClientResponseDTOToJSON(value?: PageClientResponseDTO | null
     }
     return {
         
-        'totalElements': value['totalElements'],
         'totalPages': value['totalPages'],
+        'totalElements': value['totalElements'],
+        'first': value['first'],
+        'last': value['last'],
         'size': value['size'],
         'content': value['content'] == null ? undefined : ((value['content'] as Array<any>).map(ClientResponseDTOToJSON)),
         'number': value['number'],
         'sort': value['sort'] == null ? undefined : ((value['sort'] as Array<any>).map(SortObjectToJSON)),
-        'first': value['first'],
-        'last': value['last'],
         'numberOfElements': value['numberOfElements'],
         'pageable': PageableObjectToJSON(value['pageable']),
         'empty': value['empty'],

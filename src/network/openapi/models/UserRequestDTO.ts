@@ -75,10 +75,10 @@ export interface UserRequestDTO {
     enabled?: boolean;
     /**
      * 
-     * @type {number}
+     * @type {Blob}
      * @memberof UserRequestDTO
      */
-    profileImageId?: number;
+    image?: Blob;
 }
 
 /**
@@ -107,7 +107,7 @@ export function UserRequestDTOFromJSONTyped(json: any, ignoreDiscriminator: bool
         'status': json['status'] == null ? undefined : json['status'],
         'lastAccess': json['lastAccess'] == null ? undefined : (new Date(json['lastAccess'])),
         'enabled': json['enabled'] == null ? undefined : json['enabled'],
-        'profileImageId': json['profileImageId'] == null ? undefined : json['profileImageId'],
+        'image': json['image'] == null ? undefined : json['image'],
     };
 }
 
@@ -126,7 +126,7 @@ export function UserRequestDTOToJSON(value?: UserRequestDTO | null): any {
         'status': value['status'],
         'lastAccess': value['lastAccess'] == null ? undefined : ((value['lastAccess']).toISOString()),
         'enabled': value['enabled'],
-        'profileImageId': value['profileImageId'],
+        'image': value['image'],
     };
 }
 

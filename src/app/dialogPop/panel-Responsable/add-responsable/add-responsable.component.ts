@@ -9,6 +9,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatDialogModule } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';  // Import HttpClient
+import { TokenService } from '../../../../network/openapi/apis/tokenService';
 
 @Component({
   selector: 'app-add-responsable',
@@ -36,22 +37,17 @@ export class AddResponsableComponent {
     private fb: FormBuilder,
     private userService: UserControllerApi,
     public dialogRef: MatDialogRef<AddResponsableComponent>,
+    private tokenService: TokenService,
     private http: HttpClient,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     // Initialize the form
     this.formGroup = this.fb.group({
-      reference: [data?.reference || '', Validators.required],
-      designation: [data?.designation || '', Validators.required],
-      subCategory: [data?.subCategory || '', Validators.required],
-      rawMaterial: [data?.rawMaterial || '', Validators.required],
-      color: [data?.color || '', Validators.required],
-      weight: [data?.weight || '', Validators.required],
-      dimensions: [data?.dimension || '', Validators.required],
-      productionTime: [data?.productionDuration || '', Validators.required],
-      price: [data?.price || '', Validators.required],
-      quantity: [data?.quantity || '', Validators.required],
-      productionCost: [data?.productionCost || '', Validators.required]
+      firstName: [data?.firstName || '', Validators.required],
+      lastName: [data?.designation || '', Validators.required],
+      address: [data?.subCategory || '', Validators.required],
+      phoneNumber: [data?.rawMaterial || '', Validators.required],
+      status: [data?.color || '', Validators.required]
     });
 
     // If editing and the product has a logo, initialize the image preview
@@ -89,47 +85,28 @@ export class AddResponsableComponent {
 
   // Function to handle product submission and logo upload
   onSubmit(): void {
-    const formData = new FormData();  // Create FormData to send as multipart/form-data
-
-    // Append the form fields to FormData
-    formData.append('reference', this.formGroup.get('reference')?.value);
-    formData.append('designation', this.formGroup.get('designation')?.value);
-    formData.append('color', this.formGroup.get('color')?.value);
-    formData.append('weight', this.formGroup.get('weight')?.value);
-    formData.append('dimension', this.formGroup.get('dimensions')?.value);
-    formData.append('productionDuration', this.formGroup.get('productionTime')?.value);
-    formData.append('price', this.formGroup.get('price')?.value);
-    formData.append('quantity', this.formGroup.get('quantity')?.value);
-    formData.append('productionCost', this.formGroup.get('productionCost')?.value);
-
-    // If a file (logo) is selected, append it to the form
-    if (this.selectedFile) {
-      formData.append('logo', this.selectedFile);  // Append the file
-    }
-
-    // Determine if this is an update or a new product
-    if (this.data?.id) {
-      // If updating, use PUT method and send the product ID
-      this.http.put(`http://localhost:8080/api/products/${this.data.id}`, formData).subscribe(
-        (response: any) => {
-          console.log('Product updated successfully:', response);
-          this.dialogRef.close({ success: true, data: response });  
-        },
-        (error) => {
-          console.error('Error updating product:', error);
-        }
-      );
-    } else {
-      // If adding a new product, use POST method
-      this.http.post('http://localhost:8080/api/products/add', formData).subscribe(
-        (response: any) => {
-          console.log('Product saved successfully:', response);
-          this.dialogRef.close({ success: true, data: response });  // Pass the response back to the parent component
-        },
-        (error) => {
-          console.error('Error saving product:', error);
-        }
-      );
-    }
+    console.log(this.formGroup);
+    // Prepare the clientRequestDTO based on form values
+    const userRequestDTO = {
+      firstName: this.formGroup.get('firstName')?.value,
+      lastName: this.formGroup.get('lastName')?.value,
+      address: this.formGroup.get('address')?.value,
+      phoneNumber: this.formGroup.get('phoneNumber')?.value,
+      status: this.formGroup.get('status')?.value,
+      image: this.selectedFile
+    };
+    console.log(userRequestDTO);
+    const headers = this.tokenService.getAuthHeaders();
+    headers['Content-Type'] = 'application/json';
+    // Send the client request to the API service using createClient()
+    this.userService.createUser({ userRequestDTO } , {headers})
+      .then((response) => {
+        console.log('Client created successfully:', response);
+        this.dialogRef.close({ success: true, data: response });
+      })
+      .catch((error) => {
+        console.error('Error creating client:', error);
+      });
   }
+
 }

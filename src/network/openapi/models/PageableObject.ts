@@ -98,7 +98,8 @@ export function PageableObjectToJSON(value?: PageableObject | null): any {
     return {
         
         'offset': value['offset'],
-'sort': value['sort'] == null ? undefined : ((value['sort'] as Array<any>).map(SortObjectToJSON)),        'pageNumber': value['pageNumber'],
+        'sort': value['sort'] == null ? undefined : ((value['sort'] as Array<any>).map(SortObjectToJSON)),        
+        'pageNumber': value['pageNumber'],
         'pageSize': value['pageSize'],
         'unpaged': value['unpaged'],
         'paged': value['paged'],
