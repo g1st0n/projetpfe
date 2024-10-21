@@ -124,7 +124,8 @@ export function PageProductResponseFromJSONTyped(json: any, ignoreDiscriminator:
     return {
         
         'totalElements': json['totalElements'] == null ? undefined : json['totalElements'],
-        'totalPages': json['totalPages'] == null ? undefined : json['totalPages'],
+        'first': json['first'] == null ? undefined : json['first'],
+        'last': json['last'] == null ? undefined : json['last'],
         'size': json['size'] == null ? undefined : json['size'],
         'content': json['content'] == null ? undefined : ((json['content'] as Array<any>).map(ProductResponseFromJSON)),
         'number': json['number'] == null ? undefined : json['number'],
