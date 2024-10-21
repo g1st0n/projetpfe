@@ -73,16 +73,17 @@ export class UserControllerApi extends runtime.BaseAPI {
 
         const queryParameters: any = {};
 
-        const headerParameters: runtime.HTTPHeaders = {};
+        if (requestParameters['userRequestDTO'] != null) {
+            queryParameters['userRequestDTO'] = requestParameters['userRequestDTO'];
+        }
 
-        headerParameters['Content-Type'] = 'application/json';
+        const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
             path: `/api/users/add`,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: UserRequestDTOToJSON(requestParameters['userRequestDTO']),
         }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => UserResponseDTOFromJSON(jsonValue));
@@ -269,16 +270,17 @@ export class UserControllerApi extends runtime.BaseAPI {
 
         const queryParameters: any = {};
 
-        const headerParameters: runtime.HTTPHeaders = {};
+        if (requestParameters['userRequestDTO'] != null) {
+            queryParameters['userRequestDTO'] = requestParameters['userRequestDTO'];
+        }
 
-        headerParameters['Content-Type'] = 'application/json';
+        const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
             path: `/api/users/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters['id']))),
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,
-            body: UserRequestDTOToJSON(requestParameters['userRequestDTO']),
         }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => UserResponseDTOFromJSON(jsonValue));

@@ -104,12 +104,11 @@ paths:
         schema:
           type: integer
           format: int64
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UserRequestDTO'
+      - name: userRequestDTO
+        in: query
         required: true
+        schema:
+          $ref: '#/components/schemas/UserRequestDTO'
       responses:
         "200":
           description: OK
@@ -468,12 +467,12 @@ paths:
       tags:
       - user-controller
       operationId: createUser
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UserRequestDTO'
+      parameters:
+      - name: userRequestDTO
+        in: query
         required: true
+        schema:
+          $ref: '#/components/schemas/UserRequestDTO'
       responses:
         "200":
           description: OK
@@ -1798,16 +1797,12 @@ components:
     PageWorkshopResponseDTO:
       type: object
       properties:
-        totalPages:
-          type: integer
-          format: int32
         totalElements:
           type: integer
           format: int64
-        first:
-          type: boolean
-        last:
-          type: boolean
+        totalPages:
+          type: integer
+          format: int32
         size:
           type: integer
           format: int32
@@ -1827,6 +1822,10 @@ components:
           format: int32
         pageable:
           $ref: '#/components/schemas/PageableObject'
+        first:
+          type: boolean
+        last:
+          type: boolean
         empty:
           type: boolean
     PageableObject:
@@ -1839,16 +1838,16 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/SortObject'
+        unpaged:
+          type: boolean
+        paged:
+          type: boolean
         pageSize:
           type: integer
           format: int32
         pageNumber:
           type: integer
           format: int32
-        paged:
-          type: boolean
-        unpaged:
-          type: boolean
     SortObject:
       type: object
       properties:
@@ -1865,16 +1864,12 @@ components:
     PageUserResponseDTO:
       type: object
       properties:
-        totalPages:
-          type: integer
-          format: int32
         totalElements:
           type: integer
           format: int64
-        first:
-          type: boolean
-        last:
-          type: boolean
+        totalPages:
+          type: integer
+          format: int32
         size:
           type: integer
           format: int32
@@ -1894,21 +1889,21 @@ components:
           format: int32
         pageable:
           $ref: '#/components/schemas/PageableObject'
+        first:
+          type: boolean
+        last:
+          type: boolean
         empty:
           type: boolean
     PageSubCategoryResponseDTO:
       type: object
       properties:
-        totalPages:
-          type: integer
-          format: int32
         totalElements:
           type: integer
           format: int64
-        first:
-          type: boolean
-        last:
-          type: boolean
+        totalPages:
+          type: integer
+          format: int32
         size:
           type: integer
           format: int32
@@ -1928,21 +1923,21 @@ components:
           format: int32
         pageable:
           $ref: '#/components/schemas/PageableObject'
+        first:
+          type: boolean
+        last:
+          type: boolean
         empty:
           type: boolean
     PageRawMaterialResponseDTO:
       type: object
       properties:
-        totalPages:
-          type: integer
-          format: int32
         totalElements:
           type: integer
           format: int64
-        first:
-          type: boolean
-        last:
-          type: boolean
+        totalPages:
+          type: integer
+          format: int32
         size:
           type: integer
           format: int32
@@ -1962,21 +1957,21 @@ components:
           format: int32
         pageable:
           $ref: '#/components/schemas/PageableObject'
+        first:
+          type: boolean
+        last:
+          type: boolean
         empty:
           type: boolean
     PageProductResponse:
       type: object
       properties:
-        totalPages:
-          type: integer
-          format: int32
         totalElements:
           type: integer
           format: int64
-        first:
-          type: boolean
-        last:
-          type: boolean
+        totalPages:
+          type: integer
+          format: int32
         size:
           type: integer
           format: int32
@@ -1996,21 +1991,21 @@ components:
           format: int32
         pageable:
           $ref: '#/components/schemas/PageableObject'
+        first:
+          type: boolean
+        last:
+          type: boolean
         empty:
           type: boolean
     PageOrderResponseDTO:
       type: object
       properties:
-        totalPages:
-          type: integer
-          format: int32
         totalElements:
           type: integer
           format: int64
-        first:
-          type: boolean
-        last:
-          type: boolean
+        totalPages:
+          type: integer
+          format: int32
         size:
           type: integer
           format: int32
@@ -2030,21 +2025,21 @@ components:
           format: int32
         pageable:
           $ref: '#/components/schemas/PageableObject'
+        first:
+          type: boolean
+        last:
+          type: boolean
         empty:
           type: boolean
     PageClientResponseDTO:
       type: object
       properties:
-        totalPages:
-          type: integer
-          format: int32
         totalElements:
           type: integer
           format: int64
-        first:
-          type: boolean
-        last:
-          type: boolean
+        totalPages:
+          type: integer
+          format: int32
         size:
           type: integer
           format: int32
@@ -2064,5 +2059,9 @@ components:
           format: int32
         pageable:
           $ref: '#/components/schemas/PageableObject'
+        first:
+          type: boolean
+        last:
+          type: boolean
         empty:
           type: boolean

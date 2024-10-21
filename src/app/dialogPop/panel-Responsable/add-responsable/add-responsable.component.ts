@@ -10,6 +10,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';  // Import HttpClient
 import { TokenService } from '../../../../network/openapi/apis/tokenService';
+import { MatSelectModule } from '@angular/material/select';  // Add this
+import { MatOptionModule } from '@angular/material/core';    // Add this
 
 @Component({
   selector: 'app-add-responsable',
@@ -20,6 +22,8 @@ import { TokenService } from '../../../../network/openapi/apis/tokenService';
     MatButtonModule,
     ReactiveFormsModule,
     MatDialogModule,
+    MatSelectModule,  
+    MatOptionModule,   
     CommonModule
   ],
   providers: [
@@ -44,11 +48,14 @@ export class AddResponsableComponent {
     // Initialize the form
     this.formGroup = this.fb.group({
       firstName: [data?.firstName || '', Validators.required],
-      lastName: [data?.designation || '', Validators.required],
-      address: [data?.subCategory || '', Validators.required],
-      phoneNumber: [data?.rawMaterial || '', Validators.required],
-      status: [data?.color || '', Validators.required]
+      lastName: [data?.lastName || '', Validators.required],
+      email: [data?.email || '', [Validators.required, Validators.email]],
+      phoneNumber: [data?.phoneNumber || '', Validators.required],
+      status: [data?.status || '', Validators.required],
+      password: ['', Validators.required],  // Password field
+      role: [data?.role || '', Validators.required]  // Role selection
     });
+    
 
     // If editing and the product has a logo, initialize the image preview
     if (data?.logo && data?.logoType) {
@@ -83,30 +90,40 @@ export class AddResponsableComponent {
     fileInput.value = '';
   }
 
-  // Function to handle product submission and logo upload
   onSubmit(): void {
-    console.log(this.formGroup);
-    // Prepare the clientRequestDTO based on form values
-    const userRequestDTO = {
-      firstName: this.formGroup.get('firstName')?.value,
-      lastName: this.formGroup.get('lastName')?.value,
-      address: this.formGroup.get('address')?.value,
-      phoneNumber: this.formGroup.get('phoneNumber')?.value,
-      status: this.formGroup.get('status')?.value,
-      image: this.selectedFile
-    };
-    console.log(userRequestDTO);
+    const formData = new FormData();  // Create FormData to send as multipart/form-data
+
+    // Append the form fields to FormData
+    formData.append('firstName', this.formGroup.get('firstName')?.value);
+    formData.append('lastName', this.formGroup.get('lastName')?.value);
+    formData.append('email', this.formGroup.get('email')?.value);
+    formData.append('phoneNumber', this.formGroup.get('phoneNumber')?.value);
+    formData.append('status', this.formGroup.get('status')?.value);
+    formData.append('password', this.formGroup.get('password')?.value);
+    formData.append('role', this.formGroup.get('role')?.value);
+    formData.append('address', this.formGroup.get('email')?.value);
+
+    // If a file (image) is selected, append it to the form
+    if (this.selectedFile) {
+      formData.append('image', this.selectedFile);  // Append the image file
+    }
+
     const headers = this.tokenService.getAuthHeaders();
-    headers['Content-Type'] = 'application/json';
-    // Send the client request to the API service using createClient()
-    this.userService.createUser({ userRequestDTO } , {headers})
-      .then((response) => {
-        console.log('Client created successfully:', response);
-        this.dialogRef.close({ success: true, data: response });
-      })
-      .catch((error) => {
-        console.error('Error creating client:', error);
-      });
-  }
+    // Remove 'Content-Type' header because FormData sets it automatically
+    delete headers['Content-Type'];
+
+    console.log(formData);
+
+    // If adding a new user, use POST method
+    this.http.post('http://localhost:8080/api/users/add', formData, { headers }).subscribe(
+      (response: any) => {
+        console.log('User created successfully:', response);
+        this.dialogRef.close({ success: true, data: response });  // Close the dialog with success data
+      },
+      (error) => {
+        console.error('Error creating user:', error);
+      }
+    );
+}
 
 }

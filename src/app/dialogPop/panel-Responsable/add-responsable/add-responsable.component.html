@@ -33,8 +33,8 @@
     </mat-form-field>
 
     <mat-form-field appearance="fill" class="form-field">
-      <mat-label>Adresse</mat-label>
-      <input matInput type="text" formControlName="address" required>
+      <mat-label>Email</mat-label>
+      <input matInput type="email" formControlName="email" required>
     </mat-form-field>
 
     <mat-form-field appearance="fill" class="form-field">
@@ -45,6 +45,21 @@
     <mat-form-field appearance="fill" class="form-field">
       <mat-label>Status</mat-label>
       <input matInput type="text" formControlName="status" required>
+    </mat-form-field>
+
+    <!-- Password Field -->
+    <mat-form-field appearance="fill" class="form-field">
+      <mat-label>Mot de passe</mat-label>
+      <input matInput type="password" formControlName="password" required>
+    </mat-form-field>
+
+    <!-- Roles Dropdown -->
+    <mat-form-field appearance="fill" class="form-field">
+      <mat-label>Rôle</mat-label>
+      <mat-select formControlName="role" required>
+        <mat-option value="ROLE_FINANCIER">Financier</mat-option>
+        <mat-option value="ROLE_PRODUCTION">Production</mat-option>
+      </mat-select>
     </mat-form-field>
 
     <!-- Dialog Actions -->

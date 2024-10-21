@@ -25,7 +25,7 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
   styleUrl: './table-responsable.component.scss'
 })
 export class TableResponsableComponent {
-  displayedColumns: string[] = [ 'image','Nom','Prenom','Email','tel'];
+  displayedColumns: string[] = [ 'image','Nom','Prenom','Email','tel', 'status'];
   selection = new SelectionModel<UserResponseDTO>(true, []);
   dataSource: MatTableDataSource<UserResponseDTO>;
   users: UserResponseDTO[] = [];
@@ -52,7 +52,11 @@ constructor(    public dialog: MatDialog,
      
       panelClass: 'custom-dialog-container'
     });
-
+    dialogRef.afterClosed().subscribe(result => {
+      if (result && result.success) {
+        this.fetchUsers(); // Refresh client list after adding a new client
+      }
+    });
 }
 
 ngOnInit(): void {
@@ -108,6 +112,12 @@ openDialog(row: any): void {
     maxHeight: '90vh',
     data: row,
     panelClass: 'custom-dialog-container'
+  });
+  dialogRef.afterClosed().subscribe(result => {
+    if (result && result.success) {
+      console.log("User info was updated:", result.data);
+      this.fetchUsers(); // Refresh the client list after editing
+    }
   });
 }
 }
