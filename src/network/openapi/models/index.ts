@@ -13,6 +13,7 @@ export * from './LocalTime';
 export * from './OrderRequestDTO';
 export * from './OrderResponseDTO';
 export * from './PageClientResponseDTO';
+export * from './PageOrderResponseDTO';
 export * from './PageProductResponse';
 export * from './PageRawMaterialResponseDTO';
 export * from './PageSubCategoryResponseDTO';

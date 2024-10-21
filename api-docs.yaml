@@ -941,6 +941,24 @@ paths:
     get:
       tags:
       - order-controller
+      operationId: getOrders
+      parameters:
+      - name: pageable
+        in: query
+        required: true
+        schema:
+          $ref: '#/components/schemas/Pageable'
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PageOrderResponseDTO'
+  /api/orders/showAll:
+    get:
+      tags:
+      - order-controller
       operationId: getAllOrders
       responses:
         "200":
@@ -1768,6 +1786,13 @@ components:
         totalPages:
           type: integer
           format: int32
+        first:
+          type: boolean
+        last:
+          type: boolean
+        numberOfElements:
+          type: integer
+          format: int32
         size:
           type: integer
           format: int32
@@ -1782,13 +1807,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/SortObject'
-        first:
-          type: boolean
-        last:
-          type: boolean
-        numberOfElements:
-          type: integer
-          format: int32
         pageable:
           $ref: '#/components/schemas/PageableObject'
         empty:
@@ -1809,9 +1827,9 @@ components:
         pageSize:
           type: integer
           format: int32
-        unpaged:
-          type: boolean
         paged:
+          type: boolean
+        unpaged:
           type: boolean
     SortObject:
       type: object
@@ -1835,6 +1853,13 @@ components:
         totalPages:
           type: integer
           format: int32
+        first:
+          type: boolean
+        last:
+          type: boolean
+        numberOfElements:
+          type: integer
+          format: int32
         size:
           type: integer
           format: int32
@@ -1849,13 +1874,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/SortObject'
-        first:
-          type: boolean
-        last:
-          type: boolean
-        numberOfElements:
-          type: integer
-          format: int32
         pageable:
           $ref: '#/components/schemas/PageableObject'
         empty:
@@ -1867,6 +1885,13 @@ components:
           type: integer
           format: int64
         totalPages:
+          type: integer
+          format: int32
+        first:
+          type: boolean
+        last:
+          type: boolean
+        numberOfElements:
           type: integer
           format: int32
         size:
@@ -1883,13 +1908,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/SortObject'
-        first:
-          type: boolean
-        last:
-          type: boolean
-        numberOfElements:
-          type: integer
-          format: int32
         pageable:
           $ref: '#/components/schemas/PageableObject'
         empty:
@@ -1901,6 +1919,13 @@ components:
           type: integer
           format: int64
         totalPages:
+          type: integer
+          format: int32
+        first:
+          type: boolean
+        last:
+          type: boolean
+        numberOfElements:
           type: integer
           format: int32
         size:
@@ -1917,6 +1942,19 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/SortObject'
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
+        empty:
+          type: boolean
+    PageOrderResponseDTO:
+      type: object
+      properties:
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+          format: int32
         first:
           type: boolean
         last:
@@ -1924,6 +1962,20 @@ components:
         numberOfElements:
           type: integer
           format: int32
+        size:
+          type: integer
+          format: int32
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderResponseDTO'
+        number:
+          type: integer
+          format: int32
+        sort:
+          type: array
+          items:
+            $ref: '#/components/schemas/SortObject'
         pageable:
           $ref: '#/components/schemas/PageableObject'
         empty:
@@ -1935,6 +1987,13 @@ components:
           type: integer
           format: int64
         totalPages:
+          type: integer
+          format: int32
+        first:
+          type: boolean
+        last:
+          type: boolean
+        numberOfElements:
           type: integer
           format: int32
         size:
@@ -1951,13 +2010,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/SortObject'
-        first:
-          type: boolean
-        last:
-          type: boolean
-        numberOfElements:
-          type: integer
-          format: int32
         pageable:
           $ref: '#/components/schemas/PageableObject'
         empty:

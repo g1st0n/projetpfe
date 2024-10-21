@@ -17,12 +17,18 @@ import * as runtime from '../runtime';
 import type {
   OrderRequestDTO,
   OrderResponseDTO,
+  PageOrderResponseDTO,
+  Pageable,
 } from '../models/index';
 import {
     OrderRequestDTOFromJSON,
     OrderRequestDTOToJSON,
     OrderResponseDTOFromJSON,
     OrderResponseDTOToJSON,
+    PageOrderResponseDTOFromJSON,
+    PageOrderResponseDTOToJSON,
+    PageableFromJSON,
+    PageableToJSON,
 } from '../models/index';
 
 export interface CreateOrderRequest {
@@ -35,6 +41,10 @@ export interface DeleteOrderRequest {
 
 export interface GetOrderByIdRequest {
     idOrder: number;
+}
+
+export interface GetOrdersRequest {
+    pageable: Pageable;
 }
 
 export interface UpdateOrderRequest {
@@ -147,7 +157,7 @@ export class OrderControllerApi extends runtime.BaseAPI {
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/api/orders`,
+            path: `/api/orders/showAll`,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -191,6 +201,41 @@ export class OrderControllerApi extends runtime.BaseAPI {
      */
     async getOrderById(requestParameters: GetOrderByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<OrderResponseDTO> {
         const response = await this.getOrderByIdRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     */
+    async getOrdersRaw(requestParameters: GetOrdersRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PageOrderResponseDTO>> {
+        if (requestParameters['pageable'] == null) {
+            throw new runtime.RequiredError(
+                'pageable',
+                'Required parameter "pageable" was null or undefined when calling getOrders().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters['pageable'] != null) {
+            queryParameters['pageable'] = requestParameters['pageable'];
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/api/orders`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => PageOrderResponseDTOFromJSON(jsonValue));
+    }
+
+    /**
+     */
+    async getOrders(requestParameters: GetOrdersRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PageOrderResponseDTO> {
+        const response = await this.getOrdersRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

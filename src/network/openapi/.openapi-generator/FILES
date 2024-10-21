@@ -24,6 +24,7 @@ models/LocalTime.ts
 models/OrderRequestDTO.ts
 models/OrderResponseDTO.ts
 models/PageClientResponseDTO.ts
+models/PageOrderResponseDTO.ts
 models/PageProductResponse.ts
 models/PageRawMaterialResponseDTO.ts
 models/PageSubCategoryResponseDTO.ts

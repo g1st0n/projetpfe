@@ -1,14 +1,18 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { CommonModule } from '@angular/common';
 import { MatModule } from 'src/app/appModules/mat.module';
-import { MatSortModule } from '@angular/material/sort';
-import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogAddProductComponent } from 'src/app/dialogPop/panel-product/add-product/dialog-add-product.component';
 import { MatTableDataSource } from '@angular/material/table';
 import { DialogComponentComponent } from 'src/app/dialogPop/panel-product/info-product/dialog-component.component';
 import { InfoCommandeComponent } from 'src/app/dialogPop/panel-commande/info-commande/info-commande.component';
 import { AddCommandeComponent } from 'src/app/dialogPop/panel-commande/add-commande/add-commande.component';
+import { TokenService } from '../../../network/openapi/apis/tokenService';
+import { OrderResponseDTO } from 'src/network/openapi';
+import { OrderControllerApi } from 'src/network/openapi/apis/';  // Import the API service
+import { SelectionModel } from '@angular/cdk/collections';
 
 const COMMANDE = [
 
@@ -16,22 +20,33 @@ const COMMANDE = [
   ]
 
 
-
 @Component({
   selector: 'app-table-commande',
   standalone: true,
   imports: [CommonModule, MatModule, MatSortModule, MatPaginatorModule],
+  providers: [
+    OrderControllerApi
+  ],
   templateUrl: './table-commande.component.html',
   styleUrl: './table-commande.component.scss'
 })
 export class TableCommandeComponent {
-  displayedColumns: string[] = [ 'Client','Produit','DateCommande','DateLimite','Quantite'];
+  displayedColumns: string[] = ['clientId', 'productId', 'date', 'quantity'];
+  orders: OrderResponseDTO[] = [];
+  dataSource: MatTableDataSource<OrderResponseDTO>;
+  totalItems = 0; // For paginator
+  pageSize = 10; // Default page size
+  pageIndex = 0; // Default page index
 
-  dataSource: MatTableDataSource<any>;
+  selection = new SelectionModel<OrderResponseDTO>(true, []);
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
 constructor(    public dialog: MatDialog,
+  private orderService: OrderControllerApi,
+  private tokenService: TokenService,
 ){
-  this.dataSource = new MatTableDataSource(COMMANDE);
+  this.dataSource = new MatTableDataSource();
 
 }
   openAddDialog(): void {
@@ -46,6 +61,51 @@ constructor(    public dialog: MatDialog,
 
 }
 
+ngOnInit(): void {
+  this.fetchOrders(); // Fetch the data when the component initializes
+}
+
+ngAfterViewInit() {
+  this.paginator.page.subscribe(() => {
+    this.pageIndex = this.paginator.pageIndex;
+    this.pageSize = this.paginator.pageSize;
+    this.fetchOrders(); // Fetch the data again with the new pagination
+  });
+
+  this.sort.sortChange.subscribe(() => {
+    this.pageIndex = 0; // Reset page index on sort change
+    this.fetchOrders(); // Fetch the data again with the new sort order
+  });
+}
+
+fetchOrders(): void {
+  const sortField = this.sort?.active || 'fullName'; // Default sorting field
+  const sortDirection = this.sort?.direction || 'asc'; // Default sorting direction
+
+  // Construct the pageable parameters
+  const pageable = {
+    page: this.pageIndex,
+    size: this.pageSize,
+    sort: [`${sortField},${sortDirection}`]
+  };
+  const headers = this.tokenService.getAuthHeaders();
+  headers['Content-Type'] = 'application/json';
+  
+  this.orderService.getOrders({ pageable }, {headers})
+    .then((response: any) => {
+      if (response && response.content) {
+        this.orders = response.content; // Extract content from the response
+        this.totalItems = response.totalElements || 0; // Extract total items
+        this.dataSource = new MatTableDataSource(this.orders);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+      }
+      console.log(this.orders);
+    })
+    .catch(error => {
+      console.error('Error fetching clients:', error);
+    });
+}
 
 applyFilter(event: Event): void {
   const filterValue = (event.target as HTMLInputElement).value;
