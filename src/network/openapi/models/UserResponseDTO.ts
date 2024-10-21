@@ -78,7 +78,19 @@ export interface UserResponseDTO {
      * @type {string}
      * @memberof UserResponseDTO
      */
-    profileImageUrl?: string;
+    logo?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UserResponseDTO
+     */
+    logoName?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UserResponseDTO
+     */
+    logoType?: string;
 }
 
 /**
@@ -107,7 +119,9 @@ export function UserResponseDTOFromJSONTyped(json: any, ignoreDiscriminator: boo
         'status': json['status'] == null ? undefined : json['status'],
         'lastAccess': json['lastAccess'] == null ? undefined : (new Date(json['lastAccess'])),
         'enabled': json['enabled'] == null ? undefined : json['enabled'],
-        'profileImageUrl': json['profileImageUrl'] == null ? undefined : json['profileImageUrl'],
+        'logo': json['logo'] == null ? undefined : json['logo'],
+        'logoName': json['logoName'] == null ? undefined : json['logoName'],
+        'logoType': json['logoType'] == null ? undefined : json['logoType'],
     };
 }
 
@@ -126,7 +140,9 @@ export function UserResponseDTOToJSON(value?: UserResponseDTO | null): any {
         'status': value['status'],
         'lastAccess': value['lastAccess'] == null ? undefined : ((value['lastAccess']).toISOString()),
         'enabled': value['enabled'],
-        'profileImageUrl': value['profileImageUrl'],
+        'logo': value['logo'],
+        'logoName': value['logoName'],
+        'logoType': value['logoType'],
     };
 }
 

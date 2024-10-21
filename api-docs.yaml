@@ -1228,7 +1228,11 @@ components:
           format: date-time
         enabled:
           type: boolean
-        profileImageUrl:
+        logo:
+          type: string
+        logoName:
+          type: string
+        logoType:
           type: string
     SubCategoryRequestDTO:
       type: object
@@ -1841,9 +1845,9 @@ components:
         pageSize:
           type: integer
           format: int32
-        paged:
-          type: boolean
         unpaged:
+          type: boolean
+        paged:
           type: boolean
     SortObject:
       type: object

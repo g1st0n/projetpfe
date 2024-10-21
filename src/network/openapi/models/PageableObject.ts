@@ -83,7 +83,8 @@ export function PageableObjectFromJSONTyped(json: any, ignoreDiscriminator: bool
         
         'offset': json['offset'] == null ? undefined : json['offset'],
 
-        'sort': Array.isArray(json['sort']) ? json['sort'].map(SortObjectFromJSON) : [SortObjectFromJSON(json['sort'])],        'pageNumber': json['pageNumber'] == null ? undefined : json['pageNumber'],
+        'sort': Array.isArray(json['sort']) ? json['sort'].map(SortObjectFromJSON) : [SortObjectFromJSON(json['sort'])],        
+        'pageNumber': json['pageNumber'] == null ? undefined : json['pageNumber'],
         'pageSize': json['pageSize'] == null ? undefined : json['pageSize'],
         'unpaged': json['unpaged'] == null ? undefined : json['unpaged'],
         'paged': json['paged'] == null ? undefined : json['paged'],

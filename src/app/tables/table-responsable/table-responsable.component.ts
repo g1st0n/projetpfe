@@ -12,10 +12,6 @@ import { TokenService } from 'src/network/openapi/apis/tokenService';
 import { UserResponseDTO } from 'src/network/openapi/models/';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 
-const COMMANDE = [
-
-  { Client:"Gpro Consulting",Produit:"jean",DateCommande:"10/6/2024" ,DateLimite:"15/6/2024",Quantite:"15"},
-  ]
 
 
 @Component({
@@ -87,6 +83,7 @@ ngOnInit(): void {
       this.dataSource.paginator = this.paginator;
       
       this.dataSource.sort = this.sort;
+      console.log(this.users);
     })
     .catch(error => {
       console.error('Error fetching users:', error);
@@ -103,6 +100,7 @@ applyFilter(event: Event): void {
   }
 }
 openDialog(row: any): void {
+  console.log(row);
   const dialogRef = this.dialog.open(InfoResponsableComponent, {
     width: '70vw',
     maxWidth: '90vw',
