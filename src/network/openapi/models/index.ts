@@ -17,6 +17,7 @@ export * from './PageOrderResponseDTO';
 export * from './PageProductResponse';
 export * from './PageRawMaterialResponseDTO';
 export * from './PageSubCategoryResponseDTO';
+export * from './PageUserResponseDTO';
 export * from './PageWorkshopResponseDTO';
 export * from './Pageable';
 export * from './PageableObject';

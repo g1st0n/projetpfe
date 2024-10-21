@@ -28,22 +28,24 @@
     <div class="sorting-table">
       <table mat-table [dataSource]="dataSource" matSort>
         <!-- Client Column -->
-        <ng-container matColumnDef="clientId">
+        <ng-container matColumnDef="clientName">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> Client </th>
-          <td mat-cell *matCellDef="let row" (click)="openDialog(row)"> {{row.clientId}} </td>
+          <td mat-cell *matCellDef="let row" (click)="openDialog(row)"> {{row.clientName}} </td>
         </ng-container>
 
         <!-- Produit Column -->
-        <ng-container matColumnDef="productId">
+        <ng-container matColumnDef="productName">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> Produit </th>
-          <td mat-cell *matCellDef="let row" (click)="openDialog(row)"> {{row.productId}} </td>
+          <td mat-cell *matCellDef="let row" (click)="openDialog(row)"> {{row.productName}} </td>
         </ng-container>
 
         <!-- Date Commande Column -->
         <ng-container matColumnDef="date">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> Date Commande </th>
-          <td mat-cell *matCellDef="let row" (click)="openDialog(row)"> {{row.date}} </td>
-        </ng-container>
+          <td mat-cell *matCellDef="let row" (click)="openDialog(row)">
+            {{ row.date | date: 'dd/MM/yyyy, HH:mm' }}
+          </td>
+        </ng-container>        
         
         <!-- Quantité Column -->
         <ng-container matColumnDef="quantity">

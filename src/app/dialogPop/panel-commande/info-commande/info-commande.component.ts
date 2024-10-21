@@ -44,8 +44,8 @@ export class InfoCommandeComponent {
       this.dialogRef.close({ success: true });
     });
   }
-  onDownload(productId: number): void {
-    const apiUrl = `http://localhost:8080/api/products/generate/${productId}`;
+  onDownload(orderId: number): void {
+    const apiUrl = `http://localhost:8080/api/orders/generate/${orderId}`;
 
     // Make a GET request to the backend API to get the PDF
     this.http.get(apiUrl, { responseType: 'blob' }).subscribe((pdfBlob: Blob) => {

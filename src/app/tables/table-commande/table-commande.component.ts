@@ -31,7 +31,7 @@ const COMMANDE = [
   styleUrl: './table-commande.component.scss'
 })
 export class TableCommandeComponent {
-  displayedColumns: string[] = ['clientId', 'productId', 'date', 'quantity'];
+  displayedColumns: string[] = ['clientName', 'productName', 'date', 'quantity'];
   orders: OrderResponseDTO[] = [];
   dataSource: MatTableDataSource<OrderResponseDTO>;
   totalItems = 0; // For paginator
@@ -58,7 +58,11 @@ constructor(    public dialog: MatDialog,
      
       panelClass: 'custom-dialog-container'
     });
-
+    dialogRef.afterClosed().subscribe(result => {
+      if (result && result.success) {
+        this.fetchOrders(); // Refresh client list after adding a new client
+      }
+    });
 }
 
 ngOnInit(): void {
@@ -100,7 +104,6 @@ fetchOrders(): void {
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
       }
-      console.log(this.orders);
     })
     .catch(error => {
       console.error('Error fetching clients:', error);
@@ -123,6 +126,12 @@ openDialog(row: any): void {
     maxHeight: '90vh',
     data: row,
     panelClass: 'custom-dialog-container'
+  });
+  dialogRef.afterClosed().subscribe(result => {
+    if (result && result.success) {
+      console.log("Order info was updated:", result.data);
+      this.fetchOrders(); // Refresh the client list after editing
+    }
   });
 }
 }

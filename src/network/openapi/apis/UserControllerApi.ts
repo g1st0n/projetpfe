@@ -15,10 +15,16 @@
 
 import * as runtime from '../runtime';
 import type {
+  PageUserResponseDTO,
+  Pageable,
   UserRequestDTO,
   UserResponseDTO,
 } from '../models/index';
 import {
+    PageUserResponseDTOFromJSON,
+    PageUserResponseDTOToJSON,
+    PageableFromJSON,
+    PageableToJSON,
     UserRequestDTOFromJSON,
     UserRequestDTOToJSON,
     UserResponseDTOFromJSON,
@@ -39,6 +45,10 @@ export interface GeneratePdf1Request {
 
 export interface GetUserByIdRequest {
     id: number;
+}
+
+export interface GetUsersRequest {
+    pageable: Pageable;
 }
 
 export interface UpdateUserRequest {
@@ -158,7 +168,7 @@ export class UserControllerApi extends runtime.BaseAPI {
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/api/users`,
+            path: `/api/users/showAll`,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -202,6 +212,41 @@ export class UserControllerApi extends runtime.BaseAPI {
      */
     async getUserById(requestParameters: GetUserByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<UserResponseDTO> {
         const response = await this.getUserByIdRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     */
+    async getUsersRaw(requestParameters: GetUsersRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PageUserResponseDTO>> {
+        if (requestParameters['pageable'] == null) {
+            throw new runtime.RequiredError(
+                'pageable',
+                'Required parameter "pageable" was null or undefined when calling getUsers().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters['pageable'] != null) {
+            queryParameters['pageable'] = requestParameters['pageable'];
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/api/users`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => PageUserResponseDTOFromJSON(jsonValue));
+    }
+
+    /**
+     */
+    async getUsers(requestParameters: GetUsersRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PageUserResponseDTO> {
+        const response = await this.getUsersRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

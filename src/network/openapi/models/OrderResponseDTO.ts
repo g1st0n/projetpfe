@@ -27,22 +27,22 @@ export interface OrderResponseDTO {
     idOrder?: number;
     /**
      * 
-     * @type {number}
+     * @type {string}
      * @memberof OrderResponseDTO
      */
-    clientId?: number;
+    clientName?: string;
     /**
      * 
-     * @type {number}
+     * @type {string}
      * @memberof OrderResponseDTO
      */
-    productId?: number;
+    productName?: string;
     /**
      * 
-     * @type {Date}
+     * @type {string}
      * @memberof OrderResponseDTO
      */
-    date?: Date;
+    date?: string;
     /**
      * 
      * @type {number}
@@ -69,9 +69,9 @@ export function OrderResponseDTOFromJSONTyped(json: any, ignoreDiscriminator: bo
     return {
         
         'idOrder': json['idOrder'] == null ? undefined : json['idOrder'],
-        'clientId': json['clientId'] == null ? undefined : json['clientId'],
-        'productId': json['productId'] == null ? undefined : json['productId'],
-        'date': json['date'] == null ? undefined : (new Date(json['date'])),
+        'clientName': json['clientName'] == null ? undefined : json['clientName'],
+        'productName': json['productName'] == null ? undefined : json['productName'],
+        'date': json['date'] == null ? undefined : json['date'],
         'quantity': json['quantity'] == null ? undefined : json['quantity'],
     };
 }
@@ -83,9 +83,9 @@ export function OrderResponseDTOToJSON(value?: OrderResponseDTO | null): any {
     return {
         
         'idOrder': value['idOrder'],
-        'clientId': value['clientId'],
-        'productId': value['productId'],
-        'date': value['date'] == null ? undefined : ((value['date']).toISOString()),
+        'clientName': value['clientName'],
+        'productName': value['productName'],
+        'date': value['date'],
         'quantity': value['quantity'],
     };
 }

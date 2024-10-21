@@ -1,4 +1,4 @@
-<h1 mat-dialog-title class="dialog-title">{{data ? 'Modifier la commande' : 'Ajouter une Nouvel commande'}}</h1>
+<h1 mat-dialog-title class="dialog-title">{{data ? 'Modifier la commande' : 'Ajouter une Nouvelle commande'}}</h1>
 
 <mat-dialog-content class="dialog-content">
   <!-- Bind formGroup to the form -->
@@ -7,52 +7,43 @@
     <div class="row">
       <!-- First Column: Form Fields -->
       <div class="col-12 col-lg-6">
-        <!-- Form Fields -->
-        <mat-form-field appearance="fill" class="form-field">
-          <mat-label>Client</mat-label>
-          <input matInput type="text" formControlName="Client" required>
-        </mat-form-field>
+        <!-- Client Selection -->
+        <div class="col-12 col-md-6"> 
+          <mat-form-field class="w-100" appearance="fill">
+            <mat-label>Client</mat-label>
+            <mat-select placeholder="Sélectionnez un Client" formControlName="clientId">
+              <mat-option *ngFor="let client of clients" [value]="client.idClient">
+                {{ client.fullName }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
 
-        <mat-form-field class="w-100" appearance="fill">
-          <mat-label>produit</mat-label>
-          <mat-select placeholder="Sélectionnez un nom" [(value)]="selectedProduct">
-            <mat-option value="robe">robe</mat-option>
-            <mat-option value="jean">jean</mat-option>
-            <mat-option value="t-shirt">t-shirt</mat-option>
-          </mat-select>
-        </mat-form-field>
+        <!-- Product Selection -->
+        <div class="col-12 col-md-6"> 
+          <mat-form-field class="w-100" appearance="fill">
+            <mat-label>Produit</mat-label>
+            <mat-select placeholder="Sélectionnez un produit" formControlName="productId">
+              <mat-option *ngFor="let product of products" [value]="product.id">
+                {{ product.reference }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
 
+        <!-- Date Commande -->
         <mat-form-field class="w-100" appearance="fill">
           <mat-label>Date Commande</mat-label>
-          <input matInput [matDatepicker]="picker1" placeholder="Choisissez une date">
+          <input matInput [matDatepicker]="picker1" formControlName="dateCommande" placeholder="Choisissez une date">
           <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
           <mat-datepicker #picker1></mat-datepicker>
         </mat-form-field>
 
-        <mat-form-field class="w-100" appearance="fill">
-          <mat-label>Date Limite</mat-label>
-          <input matInput [matDatepicker]="picker2" placeholder="Choisissez une date">
-          <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-          <mat-datepicker #picker2></mat-datepicker>
-        </mat-form-field>
-
+        <!-- Quantité -->
         <mat-form-field appearance="fill" class="form-field">
           <mat-label>Quantité</mat-label>
           <input matInput type="number" formControlName="quantity" required>
         </mat-form-field>
-      </div>
-      
-      <!-- Second Column: Product Image Display -->
-      <div class="col-12 col-lg-6 d-flex justify-content-center align-items-center">
-        <div class="product-display">
-          <!-- Show product image if a product is selected, otherwise show placeholder text -->
-          <ng-container *ngIf="selectedProduct; else noProductSelected">
-            <img src="assets\images\app\gPRO.png" alt="{{ selectedProduct }}" class="product-image">
-          </ng-container>
-          <ng-template #noProductSelected>
-            <h5>veuillez selectionnez un produit</h5>
-          </ng-template>
-        </div>
       </div>
     </div>
 

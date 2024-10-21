@@ -33,10 +33,10 @@ export interface OrderRequestDTO {
     productId?: number;
     /**
      * 
-     * @type {Date}
+     * @type {string}
      * @memberof OrderRequestDTO
      */
-    date?: Date;
+    date?: string;
     /**
      * 
      * @type {number}
@@ -64,7 +64,7 @@ export function OrderRequestDTOFromJSONTyped(json: any, ignoreDiscriminator: boo
         
         'clientId': json['clientId'] == null ? undefined : json['clientId'],
         'productId': json['productId'] == null ? undefined : json['productId'],
-        'date': json['date'] == null ? undefined : (new Date(json['date'])),
+        'date': json['date'] == null ? undefined : json['date'],
         'quantity': json['quantity'] == null ? undefined : json['quantity'],
     };
 }
@@ -77,7 +77,7 @@ export function OrderRequestDTOToJSON(value?: OrderRequestDTO | null): any {
         
         'clientId': value['clientId'],
         'productId': value['productId'],
-        'date': value['date'] == null ? undefined : ((value['date']).toISOString()),
+        'date': value['date'],
         'quantity': value['quantity'],
     };
 }

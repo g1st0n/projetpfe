@@ -737,6 +737,24 @@ paths:
     get:
       tags:
       - user-controller
+      operationId: getUsers
+      parameters:
+      - name: pageable
+        in: query
+        required: true
+        schema:
+          $ref: '#/components/schemas/Pageable'
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PageUserResponseDTO'
+  /api/users/showAll:
+    get:
+      tags:
+      - user-controller
       operationId: getAllUsers
       responses:
         "200":
@@ -1417,7 +1435,6 @@ components:
           format: int64
         date:
           type: string
-          format: date-time
         quantity:
           type: integer
           format: int32
@@ -1427,15 +1444,12 @@ components:
         idOrder:
           type: integer
           format: int64
-        clientId:
-          type: integer
-          format: int64
-        productId:
-          type: integer
-          format: int64
+        clientName:
+          type: string
+        productName:
+          type: string
         date:
           type: string
-          format: date-time
         quantity:
           type: integer
           format: int32
@@ -1790,9 +1804,6 @@ components:
           type: boolean
         last:
           type: boolean
-        numberOfElements:
-          type: integer
-          format: int32
         size:
           type: integer
           format: int32
@@ -1807,6 +1818,9 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/SortObject'
+        numberOfElements:
+          type: integer
+          format: int32
         pageable:
           $ref: '#/components/schemas/PageableObject'
         empty:
@@ -1844,6 +1858,40 @@ components:
           type: string
         ignoreCase:
           type: boolean
+    PageUserResponseDTO:
+      type: object
+      properties:
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+          format: int32
+        first:
+          type: boolean
+        last:
+          type: boolean
+        size:
+          type: integer
+          format: int32
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserResponseDTO'
+        number:
+          type: integer
+          format: int32
+        sort:
+          type: array
+          items:
+            $ref: '#/components/schemas/SortObject'
+        numberOfElements:
+          type: integer
+          format: int32
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
+        empty:
+          type: boolean
     PageSubCategoryResponseDTO:
       type: object
       properties:
@@ -1857,9 +1905,6 @@ components:
           type: boolean
         last:
           type: boolean
-        numberOfElements:
-          type: integer
-          format: int32
         size:
           type: integer
           format: int32
@@ -1874,6 +1919,9 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/SortObject'
+        numberOfElements:
+          type: integer
+          format: int32
         pageable:
           $ref: '#/components/schemas/PageableObject'
         empty:
@@ -1891,9 +1939,6 @@ components:
           type: boolean
         last:
           type: boolean
-        numberOfElements:
-          type: integer
-          format: int32
         size:
           type: integer
           format: int32
@@ -1908,6 +1953,9 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/SortObject'
+        numberOfElements:
+          type: integer
+          format: int32
         pageable:
           $ref: '#/components/schemas/PageableObject'
         empty:
@@ -1925,9 +1973,6 @@ components:
           type: boolean
         last:
           type: boolean
-        numberOfElements:
-          type: integer
-          format: int32
         size:
           type: integer
           format: int32
@@ -1942,6 +1987,9 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/SortObject'
+        numberOfElements:
+          type: integer
+          format: int32
         pageable:
           $ref: '#/components/schemas/PageableObject'
         empty:
@@ -1959,9 +2007,6 @@ components:
           type: boolean
         last:
           type: boolean
-        numberOfElements:
-          type: integer
-          format: int32
         size:
           type: integer
           format: int32
@@ -1976,6 +2021,9 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/SortObject'
+        numberOfElements:
+          type: integer
+          format: int32
         pageable:
           $ref: '#/components/schemas/PageableObject'
         empty:
@@ -1993,9 +2041,6 @@ components:
           type: boolean
         last:
           type: boolean
-        numberOfElements:
-          type: integer
-          format: int32
         size:
           type: integer
           format: int32
@@ -2010,6 +2055,9 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/SortObject'
+        numberOfElements:
+          type: integer
+          format: int32
         pageable:
           $ref: '#/components/schemas/PageableObject'
         empty:

@@ -1,16 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatModule } from 'src/app/appModules/mat.module';
-import { MatSortModule } from '@angular/material/sort';
-import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
-import { DialogAddProductComponent } from 'src/app/dialogPop/panel-product/add-product/dialog-add-product.component';
 import { MatTableDataSource } from '@angular/material/table';
-import { DialogComponentComponent } from 'src/app/dialogPop/panel-product/info-product/dialog-component.component';
-import { InfoCommandeComponent } from 'src/app/dialogPop/panel-commande/info-commande/info-commande.component';
-import { AddCommandeComponent } from 'src/app/dialogPop/panel-commande/add-commande/add-commande.component';
 import { AddResponsableComponent } from 'src/app/dialogPop/panel-Responsable/add-responsable/add-responsable.component';
 import { InfoResponsableComponent } from 'src/app/dialogPop/panel-Responsable/info-responsable/info-responsable.component';
+import { UserControllerApi } from 'src/network/openapi/apis/';  // Import the API service
+import { SelectionModel } from '@angular/cdk/collections';
+import { TokenService } from 'src/network/openapi/apis/tokenService';
+import { UserResponseDTO } from 'src/network/openapi/models/';
+import { MatSort, MatSortModule } from '@angular/material/sort';
 
 const COMMANDE = [
 
@@ -21,20 +21,32 @@ const COMMANDE = [
 @Component({
   selector: 'app-table-responsable',
   standalone: true,
-  imports: [CommonModule, MatModule, MatSortModule, MatPaginatorModule],
+  imports: [CommonModule, MatModule, MatSortModule, MatPaginatorModule ],
+  providers: [
+    UserControllerApi
+  ],
   templateUrl: './table-responsable.component.html',
   styleUrl: './table-responsable.component.scss'
 })
 export class TableResponsableComponent {
   displayedColumns: string[] = [ 'image','Nom','Prenom','Email','tel'];
+  selection = new SelectionModel<UserResponseDTO>(true, []);
+  dataSource: MatTableDataSource<UserResponseDTO>;
+  users: UserResponseDTO[] = [];
+  totalItems = 0; // To store the total number of products (for paginator)
+  pageSize = 10; // Default page size
+  pageIndex = 0; // Default to the first page
 
-  dataSource: MatTableDataSource<any>;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
 constructor(    public dialog: MatDialog,
+  private tokenService: TokenService,
+  private userService: UserControllerApi ,
 ){
-  this.dataSource = new MatTableDataSource(COMMANDE);
-
+  this.dataSource = new MatTableDataSource();
 }
+
   openAddDialog(): void {
     const dialogRef = this.dialog.open(AddResponsableComponent, {
       width: 'auto', 
@@ -47,6 +59,40 @@ constructor(    public dialog: MatDialog,
 
 }
 
+ngOnInit(): void {
+  this.fetchUsers();
+}
+
+ // Fetch products with pagination and sorting parameters
+ fetchUsers(): void {
+  const sortField = this.sort?.active || 'name'; // Default to sorting by 'name'
+  const sortDirection = this.sort?.direction || 'asc'; // Default to ascending sort
+
+  // Construct the pageable parameters
+  const pageable = {
+    page: this.pageIndex,
+    size: this.pageSize,
+    sort: [`${sortField},${sortDirection}`]  // Combine field and direction
+  };
+  const headers = this.tokenService.getAuthHeaders();
+  headers['Content-Type'] = 'application/json';
+
+  this.userService.getUsers({ pageable }, { headers })
+    .then((response: any) => {
+      this.users = response.content; 
+      this.totalItems = response.totalElements; 
+
+      this.dataSource = new MatTableDataSource(this.users);
+
+      this.dataSource.paginator = this.paginator;
+      
+      this.dataSource.sort = this.sort;
+    })
+    .catch(error => {
+      console.error('Error fetching users:', error);
+      
+    });
+}
 
 applyFilter(event: Event): void {
   const filterValue = (event.target as HTMLInputElement).value;

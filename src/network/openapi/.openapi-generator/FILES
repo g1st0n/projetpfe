@@ -28,6 +28,7 @@ models/PageOrderResponseDTO.ts
 models/PageProductResponse.ts
 models/PageRawMaterialResponseDTO.ts
 models/PageSubCategoryResponseDTO.ts
+models/PageUserResponseDTO.ts
 models/PageWorkshopResponseDTO.ts
 models/Pageable.ts
 models/PageableObject.ts
