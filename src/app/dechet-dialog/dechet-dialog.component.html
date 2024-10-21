@@ -1,0 +1,18 @@
+<h2 mat-dialog-title>Dechet Information</h2>
+
+<mat-dialog-content>
+  <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+    <mat-form-field appearance="fill">
+      <mat-label>Dechet</mat-label>
+      <input matInput formControlName="dechet" placeholder="Enter dechet" required>
+      <mat-error *ngIf="formGroup.get('dechet')?.hasError('required')">
+        Dechet is required
+      </mat-error>
+    </mat-form-field>
+
+    <div mat-dialog-actions>
+      <button mat-button (click)="onCancel()">Cancel</button>
+      <button mat-button type="submit" color="primary">Submit</button>
+    </div>
+  </form>
+</mat-dialog-content>

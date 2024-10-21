@@ -15,6 +15,9 @@ import { FullLayoutComponent } from "./layouts/full/full-layout.component";
 import { MatModule } from './appModules/mat.module';
 
 
+import { DechetDialogComponent } from "../app/dechet-dialog/dechet-dialog.component";
+
+
 
 
 
