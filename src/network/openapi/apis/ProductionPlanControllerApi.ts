@@ -33,7 +33,7 @@ export interface DeleteProductionPlanRequest {
     idPlanning: number;
 }
 
-export interface GeneratePdf5Request {
+export interface GeneratePdf4Request {
     productionPlanId: number;
 }
 
@@ -117,11 +117,11 @@ export class ProductionPlanControllerApi extends runtime.BaseAPI {
 
     /**
      */
-    async generatePdf5Raw(requestParameters: GeneratePdf5Request, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<string>> {
+    async generatePdf4Raw(requestParameters: GeneratePdf4Request, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<string>> {
         if (requestParameters['productionPlanId'] == null) {
             throw new runtime.RequiredError(
                 'productionPlanId',
-                'Required parameter "productionPlanId" was null or undefined when calling generatePdf5().'
+                'Required parameter "productionPlanId" was null or undefined when calling generatePdf4().'
             );
         }
 
@@ -145,8 +145,8 @@ export class ProductionPlanControllerApi extends runtime.BaseAPI {
 
     /**
      */
-    async generatePdf5(requestParameters: GeneratePdf5Request, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<string> {
-        const response = await this.generatePdf5Raw(requestParameters, initOverrides);
+    async generatePdf4(requestParameters: GeneratePdf4Request, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<string> {
+        const response = await this.generatePdf4Raw(requestParameters, initOverrides);
         return await response.value();
     }
 

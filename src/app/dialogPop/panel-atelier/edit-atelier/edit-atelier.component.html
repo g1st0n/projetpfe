@@ -1,1 +1,50 @@
-<p>edit-atelier works!</p>
+<h1 mat-dialog-title class="dialog-title">{{ data ? 'Modifier un client' : 'Ajouter un Nouveau client' }}</h1>
+
+<mat-dialog-content class="dialog-content">
+  <!-- Bind formGroup to the form -->
+  <form [formGroup]="formGroup" (ngSubmit)="onSubmit()" class="form-grid" enctype="multipart/form-data">
+
+    <!-- Form Fields -->
+    <mat-form-field appearance="fill" class="form-field">
+      <mat-label>numéro atelier</mat-label>
+      <input matInput type="number" formControlName="NumAtelier" required>
+      <mat-error *ngIf="formGroup.get('NumAtelier')?.hasError('required')">
+        Le nom est obligatoire.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="form-field">
+      <mat-label>Capacité</mat-label>
+      <input matInput type="number" formControlName="Capacite" required>
+      <mat-error *ngIf="formGroup.get('Capacite')?.hasError('required')">
+        Le type de client est obligatoire.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="form-field">
+      <mat-label>Numéro machine</mat-label>
+      <input matInput type="number" formControlName="NbMachine" required>
+      <mat-error *ngIf="formGroup.get('NbMachine')?.hasError('required')">
+        Veuillez entrer un e-mail valide.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="form-field">
+      <mat-label>cout machine</mat-label>
+      <input matInput type="number" formControlName="CoutMachine" required>
+      <mat-error *ngIf="formGroup.get('CoutMachine')?.hasError('required')">
+        L'adresse est obligatoire.
+      </mat-error>
+    </mat-form-field>
+
+   
+
+    <div mat-dialog-actions class="action-row full-width">
+      <button mat-button mat-dialog-close class="btn-cancel">Annuler</button>
+      <button mat-button type="submit" color="primary" class="btn-submit" [disabled]="formGroup.invalid">
+        {{ data ? 'Modifier' : 'Ajouter' }}
+      </button>
+    </div>
+
+  </form>
+</mat-dialog-content>

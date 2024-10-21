@@ -43,13 +43,13 @@ export interface PageWorkshopResponseDTO {
      * @type {number}
      * @memberof PageWorkshopResponseDTO
      */
-    totalPages?: number;
+    totalElements?: number;
     /**
      * 
      * @type {number}
      * @memberof PageWorkshopResponseDTO
      */
-    totalElements?: number;
+    totalPages?: number;
     /**
      * 
      * @type {number}
@@ -76,12 +76,6 @@ export interface PageWorkshopResponseDTO {
     sort?: Array<SortObject>;
     /**
      * 
-     * @type {number}
-     * @memberof PageWorkshopResponseDTO
-     */
-    numberOfElements?: number;
-    /**
-     * 
      * @type {boolean}
      * @memberof PageWorkshopResponseDTO
      */
@@ -92,6 +86,12 @@ export interface PageWorkshopResponseDTO {
      * @memberof PageWorkshopResponseDTO
      */
     last?: boolean;
+    /**
+     * 
+     * @type {number}
+     * @memberof PageWorkshopResponseDTO
+     */
+    numberOfElements?: number;
     /**
      * 
      * @type {PageableObject}
@@ -123,19 +123,15 @@ export function PageWorkshopResponseDTOFromJSONTyped(json: any, ignoreDiscrimina
     }
     return {
         
-        'totalPages': json['totalPages'] == null ? undefined : json['totalPages'],
         'totalElements': json['totalElements'] == null ? undefined : json['totalElements'],
+        'totalPages': json['totalPages'] == null ? undefined : json['totalPages'],
         'size': json['size'] == null ? undefined : json['size'],
         'content': json['content'] == null ? undefined : ((json['content'] as Array<any>).map(WorkshopResponseDTOFromJSON)),
         'number': json['number'] == null ? undefined : json['number'],
-       'sort': Array.isArray(json['sort']) 
-            ? json['sort'].map(SortObjectFromJSON) 
-            : json['sort'] != null && typeof json['sort'] === 'object'
-                ? [SortObjectFromJSON(json['sort'])] // Wrap the object in an array
-                : [],
-        'numberOfElements': json['numberOfElements'] == null ? undefined : json['numberOfElements'],
-        'first': json['first'] == null ? undefined : json['first'],
+
+        'sort': Array.isArray(json['sort']) ? json['sort'].map(SortObjectFromJSON) : [SortObjectFromJSON(json['sort'])],        'first': json['first'] == null ? undefined : json['first'],
         'last': json['last'] == null ? undefined : json['last'],
+        'numberOfElements': json['numberOfElements'] == null ? undefined : json['numberOfElements'],
         'pageable': json['pageable'] == null ? undefined : PageableObjectFromJSON(json['pageable']),
         'empty': json['empty'] == null ? undefined : json['empty'],
     };
@@ -147,15 +143,15 @@ export function PageWorkshopResponseDTOToJSON(value?: PageWorkshopResponseDTO | 
     }
     return {
         
-        'totalPages': value['totalPages'],
         'totalElements': value['totalElements'],
+        'totalPages': value['totalPages'],
         'size': value['size'],
         'content': value['content'] == null ? undefined : ((value['content'] as Array<any>).map(WorkshopResponseDTOToJSON)),
         'number': value['number'],
         'sort': value['sort'] == null ? undefined : ((value['sort'] as Array<any>).map(SortObjectToJSON)),
-        'numberOfElements': value['numberOfElements'],
         'first': value['first'],
         'last': value['last'],
+        'numberOfElements': value['numberOfElements'],
         'pageable': PageableObjectToJSON(value['pageable']),
         'empty': value['empty'],
     };

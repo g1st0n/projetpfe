@@ -4,11 +4,12 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';  
 import { MatButtonModule } from '@angular/material/button';  
 import { ReactiveFormsModule } from '@angular/forms';  
-import { CategorieControllerApi, ClientControllerApi } from 'src/network/openapi/apis/';  // Adjust the import to your sous-categorie API
+import { CategorieControllerApi, ClientControllerApi, WorkshopControllerApi } from 'src/network/openapi/apis/';  // Adjust the import to your sous-categorie API
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatDialogModule } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';  // Import HttpClient
+import { TokenService } from 'src/network/openapi/apis/tokenService';
 @Component({
   selector: 'app-add-atelier',
   standalone: true,
@@ -21,7 +22,7 @@ import { HttpClient } from '@angular/common/http';  // Import HttpClient
     CommonModule
   ],
   providers: [
-    ClientControllerApi  // Provide your sous-categorie API service here
+    WorkshopControllerApi  // Provide your sous-categorie API service here
   ],
   templateUrl: './add-atelier.component.html',
   styleUrl: './add-atelier.component.scss'
@@ -32,46 +33,43 @@ export class AddAtelierComponent {
 
   constructor(
     private fb: FormBuilder,
-    private sousCategorieService: ClientControllerApi,
+    private workShopService: WorkshopControllerApi,
     public dialogRef: MatDialogRef<AddAtelierComponent>,
     private http: HttpClient,
+    private tokenService: TokenService,
+
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     // Initialize the form
     this.formGroup = this.fb.group({
-      reference: [data?.reference || '', Validators.required],
-      subCategory: [data?.subCategory || '', Validators.required],
-      typeMatiere: [data?.typeMatiere || '', Validators.required]
+      NumAtelier: [data?.workshopNumber || '', Validators.required],
+      Capacite: [data?.productionCapacity || '', Validators.required],
+      NbMachine: [data?.machineCount || '', Validators.required],
+      CoutMachine: [data?.machineCost || '', Validators.required]
+
     });
   }
 
   // Function to handle sous-categorie submission
   onSubmit(): void {
-    const sousCategorieData = this.formGroup.value;  // Get form data
+    const workshopRequestDTO ={ 
 
-    // Determine if this is an update or a new sous-catégorie
-    if (this.data?.id) {
-      // If updating, use PUT method and send the sous-catégorie ID
-      this.http.put(`http://localhost:8080/api/sous-categories/${this.data.id}`, sousCategorieData).subscribe(
-        (response: any) => {
-          console.log('Sous-catégorie updated successfully:', response);
-          this.dialogRef.close({ success: true, data: response });  // Close dialog with success
-        },
-        (error) => {
-          console.error('Error updating sous-catégorie:', error);
-        }
-      );
-    } else {
-      // If adding a new sous-catégorie, use POST method
-      this.http.post('http://localhost:8080/api/sous-categories/add', sousCategorieData).subscribe(
-        (response: any) => {
-          console.log('Sous-catégorie saved successfully:', response);
-          this.dialogRef.close({ success: true, data: response });  // Close dialog with success
-        },
-        (error) => {
-          console.error('Error saving sous-catégorie:', error);
-        }
-      );
-    }
+      workshopNumber: this.formGroup.get('NumAtelier')?.value,
+      productionCapacity: this.formGroup.get('Capacite')?.value,
+      machineCount: this.formGroup.get('NbMachine')?.value,
+      machineCost: this.formGroup.get('CoutMachine')?.value
+
+  
+      };
+
+        this.workShopService.createWorkshop({ workshopRequestDTO })
+        .then((response) => {
+          console.log('Client created successfully:', response);
+          this.dialogRef.close({ success: true, data: response });
+        })
+        .catch((error) => {
+          console.error('Error creating client:', error);
+        });
+    
   }
 }

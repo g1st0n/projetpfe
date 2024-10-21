@@ -39,7 +39,7 @@ export interface DeleteRawMaterialRequest {
     idMaterial: number;
 }
 
-export interface GeneratePdf3Request {
+export interface GeneratePdf2Request {
     rawMaterialId: number;
 }
 
@@ -126,11 +126,11 @@ export class RawMaterialControllerApi extends runtime.BaseAPI {
 
     /**
      */
-    async generatePdf3Raw(requestParameters: GeneratePdf3Request, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<string>> {
+    async generatePdf2Raw(requestParameters: GeneratePdf2Request, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<string>> {
         if (requestParameters['rawMaterialId'] == null) {
             throw new runtime.RequiredError(
                 'rawMaterialId',
-                'Required parameter "rawMaterialId" was null or undefined when calling generatePdf3().'
+                'Required parameter "rawMaterialId" was null or undefined when calling generatePdf2().'
             );
         }
 
@@ -154,8 +154,8 @@ export class RawMaterialControllerApi extends runtime.BaseAPI {
 
     /**
      */
-    async generatePdf3(requestParameters: GeneratePdf3Request, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<string> {
-        const response = await this.generatePdf3Raw(requestParameters, initOverrides);
+    async generatePdf2(requestParameters: GeneratePdf2Request, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<string> {
+        const response = await this.generatePdf2Raw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -187,10 +187,37 @@ export class RawMaterialControllerApi extends runtime.BaseAPI {
         return new runtime.JSONApiResponse(response, (jsonValue) => PageRawMaterialResponseDTOFromJSON(jsonValue));
     }
 
+    /**
+     */
     async getAllRawMaterials(requestParameters: GetAllRawMaterialsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PageRawMaterialResponseDTO> {
         const response = await this.getAllRawMaterialsRaw(requestParameters, initOverrides);
         return await response.value();
     }
+
+    /**
+     */
+    async getAllRawMaterials1Raw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<RawMaterialResponseDTO>>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/api/raw-materials/showAll`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(RawMaterialResponseDTOFromJSON));
+    }
+
+    /**
+     */
+    async getAllRawMaterials1(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<RawMaterialResponseDTO>> {
+        const response = await this.getAllRawMaterials1Raw(initOverrides);
+        return await response.value();
+    }
+
     /**
      */
     async getRawMaterialByIdRaw(requestParameters: GetRawMaterialByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<RawMaterialResponseDTO>> {
@@ -239,7 +266,7 @@ export class RawMaterialControllerApi extends runtime.BaseAPI {
         headerParameters['Content-Type'] = 'application/json';
 
         const response = await this.request({
-            path: `/api/raw-materials/{id}`,
+            path: `/api/raw-materials/{idMaterial}`,
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,

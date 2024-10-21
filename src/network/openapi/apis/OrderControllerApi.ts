@@ -113,7 +113,7 @@ export class OrderControllerApi extends runtime.BaseAPI {
 
     /**
      */
-    async generatePdf6Raw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<string>> {
+    async generatePdf5Raw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<string>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -134,8 +134,8 @@ export class OrderControllerApi extends runtime.BaseAPI {
 
     /**
      */
-    async generatePdf6(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<string> {
-        const response = await this.generatePdf6Raw(initOverrides);
+    async generatePdf5(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<string> {
+        const response = await this.generatePdf5Raw(initOverrides);
         return await response.value();
     }
 

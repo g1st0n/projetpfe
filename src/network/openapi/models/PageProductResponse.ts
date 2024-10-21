@@ -43,13 +43,13 @@ export interface PageProductResponse {
      * @type {number}
      * @memberof PageProductResponse
      */
-    totalPages?: number;
+    totalElements?: number;
     /**
      * 
      * @type {number}
      * @memberof PageProductResponse
      */
-    totalElements?: number;
+    totalPages?: number;
     /**
      * 
      * @type {number}
@@ -76,12 +76,6 @@ export interface PageProductResponse {
     sort?: Array<SortObject>;
     /**
      * 
-     * @type {number}
-     * @memberof PageProductResponse
-     */
-    numberOfElements?: number;
-    /**
-     * 
      * @type {boolean}
      * @memberof PageProductResponse
      */
@@ -92,6 +86,12 @@ export interface PageProductResponse {
      * @memberof PageProductResponse
      */
     last?: boolean;
+    /**
+     * 
+     * @type {number}
+     * @memberof PageProductResponse
+     */
+    numberOfElements?: number;
     /**
      * 
      * @type {PageableObject}
@@ -123,18 +123,14 @@ export function PageProductResponseFromJSONTyped(json: any, ignoreDiscriminator:
     }
     return {
         
-        'totalPages': json['totalPages'] == null ? undefined : json['totalPages'],
         'totalElements': json['totalElements'] == null ? undefined : json['totalElements'],
+        'totalPages': json['totalPages'] == null ? undefined : json['totalPages'],
         'size': json['size'] == null ? undefined : json['size'],
         'content': json['content'] == null ? undefined : ((json['content'] as Array<any>).map(ProductResponseFromJSON)),
         'number': json['number'] == null ? undefined : json['number'],
-'sort': Array.isArray(json['sort']) 
-            ? json['sort'].map(SortObjectFromJSON) 
-            : json['sort'] != null && typeof json['sort'] === 'object'
-                ? [SortObjectFromJSON(json['sort'])] // Wrap the object in an array
-                : [],        'numberOfElements': json['numberOfElements'] == null ? undefined : json['numberOfElements'],
-        'first': json['first'] == null ? undefined : json['first'],
+        'sort': Array.isArray(json['sort']) ? json['sort'].map(SortObjectFromJSON) : [SortObjectFromJSON(json['sort'])],         'first': json['first'] == null ? undefined : json['first'],
         'last': json['last'] == null ? undefined : json['last'],
+        'numberOfElements': json['numberOfElements'] == null ? undefined : json['numberOfElements'],
         'pageable': json['pageable'] == null ? undefined : PageableObjectFromJSON(json['pageable']),
         'empty': json['empty'] == null ? undefined : json['empty'],
     };
@@ -146,17 +142,18 @@ export function PageProductResponseToJSON(value?: PageProductResponse | null): a
     }
     return {
         
-        'totalPages': value['totalPages'],
         'totalElements': value['totalElements'],
+        'totalPages': value['totalPages'],
         'size': value['size'],
         'content': value['content'] == null ? undefined : ((value['content'] as Array<any>).map(ProductResponseToJSON)),
         'number': value['number'],
+
         'sort': value['sort'] == null ? undefined : ((value['sort'] as Array<any>).map(SortObjectToJSON)),
-        'numberOfElements': value['numberOfElements'],
-        'first': value['first'],
+     'first': value['first'],
         'last': value['last'],
+        'numberOfElements': value['numberOfElements'],
         'pageable': PageableObjectToJSON(value['pageable']),
         'empty': value['empty'],
-}
+    };
 }
 

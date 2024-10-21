@@ -39,7 +39,7 @@ export interface EditProductRequest {
     productRequest: ProductRequest;
 }
 
-export interface ProductGeneratePdfRequest  {
+export interface GeneratePdf3Request {
     productId: number;
 }
 
@@ -127,11 +127,11 @@ export class ProductControllerApi extends runtime.BaseAPI {
 
     /**
      */
-    async generatePdfRaw(requestParameters: ProductGeneratePdfRequest , initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<string>> {
+    async generatePdf3Raw(requestParameters: GeneratePdf3Request, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<string>> {
         if (requestParameters['productId'] == null) {
             throw new runtime.RequiredError(
                 'productId',
-                'Required parameter "productId" was null or undefined when calling generatePdf().'
+                'Required parameter "productId" was null or undefined when calling generatePdf3().'
             );
         }
 
@@ -155,8 +155,8 @@ export class ProductControllerApi extends runtime.BaseAPI {
 
     /**
      */
-    async generatePdf(requestParameters: ProductGeneratePdfRequest , initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<string> {
-        const response = await this.generatePdfRaw(requestParameters, initOverrides);
+    async generatePdf3(requestParameters: GeneratePdf3Request, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<string> {
+        const response = await this.generatePdf3Raw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -267,13 +267,12 @@ export class ProductControllerApi extends runtime.BaseAPI {
         }
 
         const headerParameters: runtime.HTTPHeaders = {};
-        headerParameters['Content-Type'] = 'application/json';
+
         const response = await this.request({
             path: `/api/products/add`,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: ProductRequestToJSON(requestParameters['productRequest']),
         }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ProductResponseFromJSON(jsonValue));
