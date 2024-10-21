@@ -66,10 +66,10 @@ fetchRaw(): void {
       sort: [`${sortField},${sortDirection}`]  // Sorting field and direction
   };
 
-  // this.RawMaterialservice.getAllRawMaterials({ pageable })
-  //   .then((response: any) => {
-  //       console.log(response.content)
-  //       this.RawMaterial = response.content;  
+  this.RawMaterialservice.getAllRawMaterials({ pageable })
+    .then((response: any) => {
+        console.log(response.content)
+        this.RawMaterial = response.content;  
 
 
         this.totalItems = response.totalElements ;
