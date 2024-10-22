@@ -64,6 +64,12 @@ export interface ProductionPlan {
     duration?: LocalTime;
     /**
      * 
+     * @type {number}
+     * @memberof ProductionPlan
+     */
+    waste?: number;
+    /**
+     * 
      * @type {Product}
      * @memberof ProductionPlan
      */
@@ -109,6 +115,7 @@ export function ProductionPlanFromJSONTyped(json: any, ignoreDiscriminator: bool
         'date': json['date'] == null ? undefined : (new Date(json['date'])),
         'quantity': json['quantity'] == null ? undefined : json['quantity'],
         'duration': json['duration'] == null ? undefined : LocalTimeFromJSON(json['duration']),
+        'waste': json['waste'] == null ? undefined : json['waste'],
         'product': json['product'] == null ? undefined : ProductFromJSON(json['product']),
         'workshop': json['workshop'] == null ? undefined : WorkshopFromJSON(json['workshop']),
         'workforce': json['workforce'] == null ? undefined : json['workforce'],
@@ -126,6 +133,7 @@ export function ProductionPlanToJSON(value?: ProductionPlan | null): any {
         'date': value['date'] == null ? undefined : ((value['date']).toISOString()),
         'quantity': value['quantity'],
         'duration': LocalTimeToJSON(value['duration']),
+        'waste': value['waste'],
         'product': ProductToJSON(value['product']),
         'workshop': WorkshopToJSON(value['workshop']),
         'workforce': value['workforce'],

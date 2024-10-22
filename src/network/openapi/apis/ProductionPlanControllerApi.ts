@@ -25,6 +25,10 @@ import {
     ProductionPlanResponseDTOToJSON,
 } from '../models/index';
 
+export interface ConfirmProductionPlanRequest {
+    productionPlanRequestDTO: ProductionPlanRequestDTO;
+}
+
 export interface CreateProductionPlanRequest {
     productionPlanRequestDTO: ProductionPlanRequestDTO;
 }
@@ -42,7 +46,6 @@ export interface GetProductionPlanByIdRequest {
 }
 
 export interface UpdateProductionPlanRequest {
-    idPlanning: number;
     productionPlanRequestDTO: ProductionPlanRequestDTO;
 }
 
@@ -50,6 +53,40 @@ export interface UpdateProductionPlanRequest {
  * 
  */
 export class ProductionPlanControllerApi extends runtime.BaseAPI {
+
+    /**
+     */
+    async confirmProductionPlanRaw(requestParameters: ConfirmProductionPlanRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ProductionPlanResponseDTO>> {
+        if (requestParameters['productionPlanRequestDTO'] == null) {
+            throw new runtime.RequiredError(
+                'productionPlanRequestDTO',
+                'Required parameter "productionPlanRequestDTO" was null or undefined when calling confirmProductionPlan().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/api/production-plans/confirm/{idPlanning}`,
+            method: 'PUT',
+            headers: headerParameters,
+            query: queryParameters,
+            body: ProductionPlanRequestDTOToJSON(requestParameters['productionPlanRequestDTO']),
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => ProductionPlanResponseDTOFromJSON(jsonValue));
+    }
+
+    /**
+     */
+    async confirmProductionPlan(requestParameters: ConfirmProductionPlanRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ProductionPlanResponseDTO> {
+        const response = await this.confirmProductionPlanRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
 
     /**
      */
@@ -208,13 +245,6 @@ export class ProductionPlanControllerApi extends runtime.BaseAPI {
     /**
      */
     async updateProductionPlanRaw(requestParameters: UpdateProductionPlanRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ProductionPlanResponseDTO>> {
-        if (requestParameters['idPlanning'] == null) {
-            throw new runtime.RequiredError(
-                'idPlanning',
-                'Required parameter "idPlanning" was null or undefined when calling updateProductionPlan().'
-            );
-        }
-
         if (requestParameters['productionPlanRequestDTO'] == null) {
             throw new runtime.RequiredError(
                 'productionPlanRequestDTO',
@@ -229,7 +259,7 @@ export class ProductionPlanControllerApi extends runtime.BaseAPI {
         headerParameters['Content-Type'] = 'application/json';
 
         const response = await this.request({
-            path: `/api/production-plans/{idPlanning}`.replace(`{${"idPlanning"}}`, encodeURIComponent(String(requestParameters['idPlanning']))),
+            path: `/api/production-plans/{idPlanning}`,
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,

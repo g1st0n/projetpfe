@@ -39,6 +39,12 @@ export interface ProductionPlanResponseDTO {
     quantity?: number;
     /**
      * 
+     * @type {number}
+     * @memberof ProductionPlanResponseDTO
+     */
+    waste?: number;
+    /**
+     * 
      * @type {string}
      * @memberof ProductionPlanResponseDTO
      */
@@ -95,6 +101,7 @@ export function ProductionPlanResponseDTOFromJSONTyped(json: any, ignoreDiscrimi
         'idPlanning': json['idPlanning'] == null ? undefined : json['idPlanning'],
         'date': json['date'] == null ? undefined : json['date'],
         'quantity': json['quantity'] == null ? undefined : json['quantity'],
+        'waste': json['waste'] == null ? undefined : json['waste'],
         'duration': json['duration'] == null ? undefined : json['duration'],
         'productId': json['productId'] == null ? undefined : json['productId'],
         'workshopId': json['workshopId'] == null ? undefined : json['workshopId'],
@@ -113,6 +120,7 @@ export function ProductionPlanResponseDTOToJSON(value?: ProductionPlanResponseDT
         'idPlanning': value['idPlanning'],
         'date': value['date'],
         'quantity': value['quantity'],
+        'waste': value['waste'],
         'duration': value['duration'],
         'productId': value['productId'],
         'workshopId': value['workshopId'],

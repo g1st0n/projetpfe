@@ -303,13 +303,6 @@ paths:
       tags:
       - production-plan-controller
       operationId: updateProductionPlan
-      parameters:
-      - name: idPlanning
-        in: path
-        required: true
-        schema:
-          type: integer
-          format: int64
       requestBody:
         content:
           application/json:
@@ -337,6 +330,24 @@ paths:
       responses:
         "200":
           description: OK
+  /api/production-plans/confirm/{idPlanning}:
+    put:
+      tags:
+      - production-plan-controller
+      operationId: confirmProductionPlan
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductionPlanRequestDTO'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProductionPlanResponseDTO'
   /api/orders/{idOrder}:
     get:
       tags:
@@ -1383,9 +1394,15 @@ components:
     ProductionPlanRequestDTO:
       type: object
       properties:
+        planningId:
+          type: integer
+          format: int64
         date:
           type: string
         quantity:
+          type: integer
+          format: int32
+        waste:
           type: integer
           format: int32
         duration:
@@ -1410,6 +1427,9 @@ components:
         date:
           type: string
         quantity:
+          type: integer
+          format: int32
+        waste:
           type: integer
           format: int32
         duration:
@@ -1658,6 +1678,9 @@ components:
           format: int32
         duration:
           $ref: '#/components/schemas/LocalTime'
+        waste:
+          type: integer
+          format: int32
         product:
           $ref: '#/components/schemas/Product'
         workshop:
@@ -1803,6 +1826,10 @@ components:
         totalPages:
           type: integer
           format: int32
+        first:
+          type: boolean
+        last:
+          type: boolean
         size:
           type: integer
           format: int32
@@ -1822,10 +1849,6 @@ components:
           format: int32
         pageable:
           $ref: '#/components/schemas/PageableObject'
-        first:
-          type: boolean
-        last:
-          type: boolean
         empty:
           type: boolean
     PageableObject:
@@ -1838,16 +1861,16 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/SortObject'
+        pageNumber:
+          type: integer
+          format: int32
+        pageSize:
+          type: integer
+          format: int32
         unpaged:
           type: boolean
         paged:
           type: boolean
-        pageSize:
-          type: integer
-          format: int32
-        pageNumber:
-          type: integer
-          format: int32
     SortObject:
       type: object
       properties:
@@ -1870,6 +1893,10 @@ components:
         totalPages:
           type: integer
           format: int32
+        first:
+          type: boolean
+        last:
+          type: boolean
         size:
           type: integer
           format: int32
@@ -1889,10 +1916,6 @@ components:
           format: int32
         pageable:
           $ref: '#/components/schemas/PageableObject'
-        first:
-          type: boolean
-        last:
-          type: boolean
         empty:
           type: boolean
     PageSubCategoryResponseDTO:
@@ -1904,6 +1927,10 @@ components:
         totalPages:
           type: integer
           format: int32
+        first:
+          type: boolean
+        last:
+          type: boolean
         size:
           type: integer
           format: int32
@@ -1923,10 +1950,6 @@ components:
           format: int32
         pageable:
           $ref: '#/components/schemas/PageableObject'
-        first:
-          type: boolean
-        last:
-          type: boolean
         empty:
           type: boolean
     PageRawMaterialResponseDTO:
@@ -1938,6 +1961,10 @@ components:
         totalPages:
           type: integer
           format: int32
+        first:
+          type: boolean
+        last:
+          type: boolean
         size:
           type: integer
           format: int32
@@ -1957,10 +1984,6 @@ components:
           format: int32
         pageable:
           $ref: '#/components/schemas/PageableObject'
-        first:
-          type: boolean
-        last:
-          type: boolean
         empty:
           type: boolean
     PageProductResponse:
@@ -1972,6 +1995,10 @@ components:
         totalPages:
           type: integer
           format: int32
+        first:
+          type: boolean
+        last:
+          type: boolean
         size:
           type: integer
           format: int32
@@ -1991,10 +2018,6 @@ components:
           format: int32
         pageable:
           $ref: '#/components/schemas/PageableObject'
-        first:
-          type: boolean
-        last:
-          type: boolean
         empty:
           type: boolean
     PageOrderResponseDTO:
@@ -2006,6 +2029,10 @@ components:
         totalPages:
           type: integer
           format: int32
+        first:
+          type: boolean
+        last:
+          type: boolean
         size:
           type: integer
           format: int32
@@ -2025,10 +2052,6 @@ components:
           format: int32
         pageable:
           $ref: '#/components/schemas/PageableObject'
-        first:
-          type: boolean
-        last:
-          type: boolean
         empty:
           type: boolean
     PageClientResponseDTO:
@@ -2040,6 +2063,10 @@ components:
         totalPages:
           type: integer
           format: int32
+        first:
+          type: boolean
+        last:
+          type: boolean
         size:
           type: integer
           format: int32
@@ -2059,9 +2086,5 @@ components:
           format: int32
         pageable:
           $ref: '#/components/schemas/PageableObject'
-        first:
-          type: boolean
-        last:
-          type: boolean
         empty:
           type: boolean
