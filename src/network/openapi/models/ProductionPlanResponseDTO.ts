@@ -39,6 +39,12 @@ export interface ProductionPlanResponseDTO {
     quantity?: number;
     /**
      * 
+     * @type {number}
+     * @memberof ProductionPlanResponseDTO
+     */
+    waste?: number;
+    /**
+     * 
      * @type {string}
      * @memberof ProductionPlanResponseDTO
      */
@@ -73,6 +79,24 @@ export interface ProductionPlanResponseDTO {
      * @memberof ProductionPlanResponseDTO
      */
     status?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ProductionPlanResponseDTO
+     */
+    logo?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ProductionPlanResponseDTO
+     */
+    logoName?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ProductionPlanResponseDTO
+     */
+    logoType?: string;
 }
 
 /**
@@ -95,12 +119,16 @@ export function ProductionPlanResponseDTOFromJSONTyped(json: any, ignoreDiscrimi
         'idPlanning': json['idPlanning'] == null ? undefined : json['idPlanning'],
         'date': json['date'] == null ? undefined : json['date'],
         'quantity': json['quantity'] == null ? undefined : json['quantity'],
+        'waste': json['waste'] == null ? undefined : json['waste'],
         'duration': json['duration'] == null ? undefined : json['duration'],
         'productId': json['productId'] == null ? undefined : json['productId'],
         'workshopId': json['workshopId'] == null ? undefined : json['workshopId'],
         'workforce': json['workforce'] == null ? undefined : json['workforce'],
         'comment': json['comment'] == null ? undefined : json['comment'],
         'status': json['status'] == null ? undefined : json['status'],
+        'logo': json['logo'] == null ? undefined : json['logo'],
+        'logoName': json['logoName'] == null ? undefined : json['logoName'],
+        'logoType': json['logoType'] == null ? undefined : json['logoType'],
     };
 }
 
@@ -113,12 +141,16 @@ export function ProductionPlanResponseDTOToJSON(value?: ProductionPlanResponseDT
         'idPlanning': value['idPlanning'],
         'date': value['date'],
         'quantity': value['quantity'],
+        'waste': value['waste'],
         'duration': value['duration'],
         'productId': value['productId'],
         'workshopId': value['workshopId'],
         'workforce': value['workforce'],
         'comment': value['comment'],
         'status': value['status'],
+        'logo': value['logo'],
+        'logoName': value['logoName'],
+        'logoType': value['logoType'],
     };
 }
 

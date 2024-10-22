@@ -38,14 +38,26 @@ export class CardsComponent implements OnInit {
     });
   }
 
-  onConfirm(): void {
+  onConfirm(data: any): void {
+    console.log(data);
+    if (data && data.idPlanning) {  // Ensure the data and id are valid
       const dialogRef = this.dialog.open(DechetDialogComponent, {
         width: 'auto',
         maxWidth: '90vw',
         height: 'auto',
         maxHeight: '90vh',
         panelClass: 'custom-dialog-container',
+        data: { idPlanning: data.idPlanning }  // Ensure data is passed correctly here
       });
-
+    
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          console.log('Dialog result:', result);
+        }
+      });
+    } else {
+      console.error('Invalid data passed to onConfirm:', data);
+    }
   }
+  
 }

@@ -31,7 +31,7 @@ const COMMANDE = [
   styleUrl: './table-commande.component.scss'
 })
 export class TableCommandeComponent {
-  displayedColumns: string[] = ['clientName', 'productName', 'date', 'quantity'];
+  displayedColumns: string[] = ['select', 'clientName', 'productName', 'date', 'quantity'];
   orders: OrderResponseDTO[] = [];
   dataSource: MatTableDataSource<OrderResponseDTO>;
   totalItems = 0; // For paginator

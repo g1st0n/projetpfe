@@ -4,8 +4,8 @@
   <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
     <mat-form-field appearance="fill">
       <mat-label>Dechet</mat-label>
-      <input matInput formControlName="dechet" placeholder="Enter dechet" required>
-      <mat-error *ngIf="formGroup.get('dechet')?.hasError('required')">
+      <input matInput formControlName="waste" placeholder="Enter dechet" required>
+      <mat-error *ngIf="formGroup.get('waste')?.hasError('required')">
         Dechet is required
       </mat-error>
     </mat-form-field>

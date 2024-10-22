@@ -7,9 +7,6 @@
       <div>
         <h5 class="mb-0">Client List</h5>
       </div>
-      <div class="button-container">
-        <button mat-flat-button color="warn" class="delete-button" (click)="deleteSelected()">Supprimer</button> 
-      </div>
       <div>
         <button mat-icon-button [matMenuTriggerFor]="menu">
           <mat-icon>more_vert</mat-icon>
@@ -46,6 +43,7 @@
             </mat-checkbox>
           </td>
         </ng-container>
+
         <!-- Client Type Column -->
         <ng-container matColumnDef="clientType">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> Client Type </th>
@@ -88,6 +86,12 @@
 
       <!-- Paginator for table -->
       <mat-paginator [length]="totalItems" [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page"></mat-paginator>
+      <div class="button-container mt-3 text-center">
+        <button mat-flat-button color="warn" class="delete-button" (click)="deleteSelected()">Supprimer</button>
+      </div>
     </div>
+
+    <!-- Move the delete button under the paginator -->
+    
   </mat-card-content>
 </mat-card>

@@ -21,6 +21,12 @@ import { mapValues } from '../runtime';
 export interface ProductionPlanRequestDTO {
     /**
      * 
+     * @type {number}
+     * @memberof ProductionPlanRequestDTO
+     */
+    planningId?: number;
+    /**
+     * 
      * @type {string}
      * @memberof ProductionPlanRequestDTO
      */
@@ -31,6 +37,12 @@ export interface ProductionPlanRequestDTO {
      * @memberof ProductionPlanRequestDTO
      */
     quantity?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ProductionPlanRequestDTO
+     */
+    waste?: number;
     /**
      * 
      * @type {string}
@@ -80,8 +92,10 @@ export function ProductionPlanRequestDTOFromJSONTyped(json: any, ignoreDiscrimin
     }
     return {
         
+        'planningId': json['planningId'] == null ? undefined : json['planningId'],
         'date': json['date'] == null ? undefined : json['date'],
         'quantity': json['quantity'] == null ? undefined : json['quantity'],
+        'waste': json['waste'] == null ? undefined : json['waste'],
         'duration': json['duration'] == null ? undefined : json['duration'],
         'productId': json['productId'] == null ? undefined : json['productId'],
         'workshopId': json['workshopId'] == null ? undefined : json['workshopId'],
@@ -96,8 +110,10 @@ export function ProductionPlanRequestDTOToJSON(value?: ProductionPlanRequestDTO 
     }
     return {
         
+        'planningId': value['planningId'],
         'date': value['date'],
         'quantity': value['quantity'],
+        'waste': value['waste'],
         'duration': value['duration'],
         'productId': value['productId'],
         'workshopId': value['workshopId'],

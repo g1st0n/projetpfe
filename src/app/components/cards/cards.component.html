@@ -13,13 +13,16 @@
             <mat-card-title>{{ plan.productName }}</mat-card-title>
             <mat-card-subtitle>{{ plan.productType }}</mat-card-subtitle>
           </mat-card-header>
-          <img mat-card-image src="assets/images/app/gPRO.png" alt="Photo of {{ plan.productName }}" class="card-image">
+          <img *ngIf="plan.logo && plan.logoType" 
+                 [src]="'data:' + plan.logoType + ';base64,' + plan.logo" 
+                 [alt]="plan.logoName" width="80" />
           <mat-card-content class="p-4">
             <p>
               Produit : {{ plan.productName }} <br>
               Quantité : {{ plan.quantity }} <br>
               Durée : {{ plan.duration }} heures <br>
-              Effectif : {{ plan.workforce }}
+              Effectif : {{ plan.workforce }} <br>
+              Dechet : {{ plan.waste ?? 0 }}
             </p>
           </mat-card-content>
           <mat-card-actions>
@@ -45,17 +48,20 @@
             <mat-card-title>{{ plan.productName }}</mat-card-title>
             <mat-card-subtitle>{{ plan.productType }}</mat-card-subtitle>
           </mat-card-header>
-          <img mat-card-image src="assets/images/app/gPRO.png" alt="Photo of {{ plan.productName }}" class="card-image">
+          <img *ngIf="plan.logo && plan.logoType" 
+                 [src]="'data:' + plan.logoType + ';base64,' + plan.logo" 
+                 [alt]="plan.logoName" width="80" />
           <mat-card-content class="p-4">
             <p>
               Produit : {{ plan.productName }} <br>
               Quantité supposée : {{ plan.quantity }} <br>
               Durée : {{ plan.duration }} heures <br>
-              Effectif : {{ plan.workforce }}
+              Effectif : {{ plan.workforce }}<br>
+              Dechet : {{ plan.waste ?? 0 }}
             </p>
           </mat-card-content>
           <mat-card-actions>
-            <button mat-button (click)="onConfirm()">Confirmer</button>
+            <button mat-button (click)="onConfirm(plan)">Confirmer</button>
             <button mat-button>Supprimer</button>
             <div class="card-label mat-light-bg-green">
               <p class="text-green">Terminé</p>
