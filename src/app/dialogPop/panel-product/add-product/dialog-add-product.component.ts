@@ -1,15 +1,20 @@
-import { Component, Inject, Output, EventEmitter } from '@angular/core';
+import { Component, Inject, Output, EventEmitter, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';  
 import { MatInputModule } from '@angular/material/input';  
 import { MatButtonModule } from '@angular/material/button';  
 import { ReactiveFormsModule } from '@angular/forms';  
-import { ProductControllerApi } from 'src/network/openapi/apis/'; 
+import { ProductControllerApi, SubCategoryControllerApi } from 'src/network/openapi/apis/'; 
+import { ProductResponse, SubCategoryRequestDTO, SubCategoryResponseDTO } from 'src/network/openapi/models/';
+
 import { FileStorageControllerApi } from 'src/network/openapi/apis/'; 
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatDialogModule } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';  // Import HttpClient
+import { MatTableDataSource } from '@angular/material/table';
+import { TokenService } from 'src/network/openapi/apis/tokenService';
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'app-dialog-add-product',
@@ -20,31 +25,39 @@ import { HttpClient } from '@angular/common/http';  // Import HttpClient
     MatButtonModule,
     ReactiveFormsModule,
     MatDialogModule,
+    MatSelectModule,
     CommonModule
   ],
   providers: [
     ProductControllerApi,
+    SubCategoryControllerApi,
     FileStorageControllerApi
   ],
   templateUrl: './dialog-add-product.component.html',
   styleUrls: ['./dialog-add-product.component.scss']
 })
 
-export class DialogAddProductComponent {
+export class DialogAddProductComponent implements OnInit {
+
+  dataSource: MatTableDataSource<SubCategoryResponseDTO>;
   @Output() productSaved = new EventEmitter<void>();
   imagePreview: string | ArrayBuffer | null = null;
   selectedFile: File | null = null;  // Store the selected image file
   formGroup: FormGroup;
+  Subcategorie: SubCategoryResponseDTO[] = [];
 
   constructor(
+    private subService : SubCategoryControllerApi,
     private fb: FormBuilder,
     private productService: ProductControllerApi,
     private fileService: FileStorageControllerApi,
+    private tokenService: TokenService,
+
     public dialogRef: MatDialogRef<DialogAddProductComponent>,
     private http: HttpClient,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
-    // Initialize the form
+    this.dataSource = new MatTableDataSource();
     this.formGroup = this.fb.group({
       reference: [data?.reference || '', Validators.required],
       designation: [data?.designation || '', Validators.required],
@@ -64,6 +77,8 @@ export class DialogAddProductComponent {
       this.imagePreview = `data:${data.logoType};base64,${data.logo}`;
     }
   }
+  ngOnInit(): void {
+this.fetchSub();  }
 
   // Handle image file selection
   onImageSelected(event: Event): void {
@@ -91,7 +106,20 @@ export class DialogAddProductComponent {
     const fileInput = document.getElementById('image-upload') as HTMLInputElement;
     fileInput.value = '';
   }
-
+  fetchSub(): void {
+    
+    const headers = this.tokenService.getAuthHeaders();
+    headers['Content-Type'] = 'application/json';
+    // Send pageable object to the OpenAPI-generated getProducts method
+    this.subService.getAllSubCategories({})
+      .then((response: any) => {
+        this.Subcategorie = response; 
+console.log(response)
+      })
+      .catch(error => {
+        console.error('Error fetching products:', error);
+      });
+  }
   // Function to handle product submission and logo upload
   onSubmit(): void {
     const formData = new FormData();  // Create FormData to send as multipart/form-data
@@ -102,10 +130,12 @@ export class DialogAddProductComponent {
     formData.append('color', this.formGroup.get('color')?.value);
     formData.append('weight', this.formGroup.get('weight')?.value);
     formData.append('dimension', this.formGroup.get('dimensions')?.value);
+    formData.append('subCategory', this.formGroup.get('subCategory')?.value);
     formData.append('productionDuration', this.formGroup.get('productionTime')?.value);
     formData.append('price', this.formGroup.get('price')?.value);
     formData.append('quantity', this.formGroup.get('quantity')?.value);
     formData.append('productionCost', this.formGroup.get('productionCost')?.value);
+    console.log('id:',this.formGroup.get('subCategory')?.value);
 
     // If a file (logo) is selected, append it to the form
     if (this.selectedFile) {

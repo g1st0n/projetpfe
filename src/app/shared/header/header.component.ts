@@ -1,7 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { AppIcon } from './app-icon';
 import { SidebarService } from './../sidebar/sidebar.service'
 import { Router } from '@angular/router';
+import { SelectionModel } from '@angular/cdk/collections';
+import { UserControllerApi, UserResponseDTO } from 'src/network/openapi';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatSort, MatSortModule } from '@angular/material/sort';
+import { CommonModule } from '@angular/common';
+import { MatModule } from 'src/app/appModules/mat.module';
+import { MatDialog } from '@angular/material/dialog';
+import { TokenService } from 'src/network/openapi/apis/tokenService';
 
 
 
@@ -9,16 +18,34 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
+  providers: [
+    UserControllerApi
+  ],
   styleUrls: ['./header.component.scss']
 })
 
 export class HeaderComponent implements OnInit {
+  displayedColumns: string[] = [ 'image','Nom','Prenom','Email','tel', 'status'];
+  selection = new SelectionModel<UserResponseDTO>(true, []);
+  dataSource: MatTableDataSource<UserResponseDTO>;
+  users: UserResponseDTO[] = [];
+  totalItems = 0; // To store the total number of products (for paginator)
+  pageSize = 10; // Default page size
+  pageIndex = 0; // Default to the first page
 
-  constructor( 
-    private router: Router,
-    public sidebarservice: SidebarService ) {
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
-  }
+constructor(   
+   public dialog: MatDialog,
+  private tokenService: TokenService,
+  private userService: UserControllerApi ,
+  private router: Router,
+  public sidebarservice: SidebarService 
+){
+  this.dataSource = new MatTableDataSource();
+}
+  
 
   theme_name = 'dark_mode'
 
@@ -56,30 +83,9 @@ export class HeaderComponent implements OnInit {
   }
 
 
-  appIcon: AppIcon[] = [
-    { src: 'assets/images/app/apple.png', name: 'Apple' },
-    { src: 'assets/images/app/behance.png', name: 'Behance' },
-    { src: 'assets/images/app/slack.png', name: 'Slack' },
-    { src: 'assets/images/app/bootstrap.png', name: 'Bootstrap' },
-    { src: 'assets/images/app/google-drive.png', name: 'Drive' },
-    { src: 'assets/images/app/outlook.png', name: 'Outlook' },
-    { src: 'assets/images/app/github.png', name: 'GitHub' },
-    { src: 'assets/images/app/stack-overflow.png', name: 'Overflow' },
-    { src: 'assets/images/app/figma.png', name: 'Figma' },
-    { src: 'assets/images/app/twitter.png', name: 'Twitter' },
-    { src: 'assets/images/app/google-calendar.png', name: 'Calendar' },
-    { src: 'assets/images/app/spotify.png', name: 'Spotify' },
-    { src: 'assets/images/app/google-photos.png', name: 'Photos' },
-    { src: 'assets/images/app/pinterest.png', name: 'Pinterest' },
-    { src: 'assets/images/app/linkedin.png', name: 'linkedin' },
-    { src: 'assets/images/app/dribble.png', name: 'Dribbble' },
-    { src: 'assets/images/app/youtube.png', name: 'YouTube' },
-    { src: 'assets/images/app/google.png', name: 'News' },
-    { src: 'assets/images/app/envato.png', name: 'Envato' },
-    { src: 'assets/images/app/safari.png', name: 'Safari' },
+  
 
-
-  ];
+  
 
 
   ngOnInit() {

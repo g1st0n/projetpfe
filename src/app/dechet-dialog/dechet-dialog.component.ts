@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialogContent, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -11,7 +11,8 @@ import { CommonModule } from '@angular/common';
   selector: 'app-dechet-dialog',
   standalone: true,
   imports: [
-    ReactiveFormsModule, // Include ReactiveFormsModule for formGroup
+    ReactiveFormsModule,
+    MatDialogContent, // Include ReactiveFormsModule for formGroup
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,

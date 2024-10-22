@@ -11,14 +11,14 @@ const routes: Routes = [
         path: 'e-commerce',
         component: ECommerceComponent,
         data: {
-          title: 'e-Commerce'
+          title: 'Analyse-Financier'
         }
       },
       {
         path: 'analytics',
         component: AnalyticsComponent,
         data: {
-          title: 'Analytics'
+          title: 'Analyse-Financiée'
         }
       },
     ]

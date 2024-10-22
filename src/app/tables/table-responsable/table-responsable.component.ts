@@ -79,6 +79,8 @@ ngOnInit(): void {
 
   this.userService.getUsers({ pageable }, { headers })
     .then((response: any) => {
+      console.log(response);
+
       this.users = response.content; 
       this.totalItems = response.totalElements; 
 

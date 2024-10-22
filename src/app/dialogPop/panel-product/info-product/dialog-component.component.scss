@@ -1,130 +1,76 @@
 .product-details {
-  display: flex;
-  gap: 30px;
-  padding: 20px;
-  max-width: 100%;
-  margin: 0 auto;
-  background-color: white;
-  border-radius: 8px;
+  max-height: 400px; /* Adjust this height as needed */
+  overflow-y: scroll;
 }
 
-.product-image {
-  flex: 1;
+/* For WebKit-based browsers (Chrome, Safari) */
+.product-details::-webkit-scrollbar {
+  display: none;
+}
+
+/* For Firefox */
+.product-details {
+  scrollbar-width: none; /* Hide scrollbar in Firefox */
+}
+
+/* For Internet Explorer, Edge */
+.product-details {
+  -ms-overflow-style: none; /* Hide scrollbar in IE and Edge */
+}
+
+.product-image-wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex: 1;
 }
 
-.product-image img {
-  max-width: 100%;
-  height: auto;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+.product-image {
+  border-radius: 12px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .product-info {
   flex: 2;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
 }
 
 .product-row {
   display: flex;
   justify-content: space-between;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #ddd;
+  margin-bottom: 12px;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .label {
   font-weight: bold;
-  font-size: 16px;
+  color: #555;
 }
 
 .value {
-  font-size: 16px;
-  color: #555;
+  color: #333;
+}
+
+.dialog-title {
+  font-size: 24px;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 1rem;
 }
 
 .action-row {
   display: flex;
-  justify-content: center; /* Centers the buttons */
-  gap: 20px; /* Adds space between the buttons */
-  padding: 20px 0;
+  justify-content: flex-end;
+  gap: 10px;
 }
 
-button[mat-button] {
-  background-color: #1976d2;
-  color: white;
-  padding: 10px 20px;
-  text-transform: uppercase;
-  font-weight: bold;
-  border-radius: 4px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  transition: background-color 0.3s ease;
-}
-
-button[mat-button]:hover {
-  background-color: #1565c0;
-}
-.product-details {
+.mat-dialog-actions button {
+  font-size: 14px;
+  padding: 0.6rem 1.5rem;
   display: flex;
-  gap: 30px;
-  padding: 20px;
-  max-width: 100%;
-  margin: 0 auto;
-  background-color: white;
-  border-radius: 8px;
-  overflow-y: auto; /* Allows scrolling */
+  align-items: center;
 }
 
-.product-info {
-  flex: 2;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  max-height: 400px; /* Set max-height to enable scroll if needed */
-  overflow-y: auto; /* Allows vertical scrolling */
-}
-
-/* Hide scrollbar for Chrome, Safari, and Edge */
-.product-info::-webkit-scrollbar {
-  width: 0px;
-  background: transparent; /* Hide scrollbar track */
-}
-
-/* Hide scrollbar for Firefox */
-.product-info {
-  scrollbar-width: none; /* Firefox */
-}
-
-/* Hide scrollbar for Internet Explorer and Edge */
-.product-info {
-  -ms-overflow-style: none; /* IE and Edge */
-}
-.dialog-title {
-  font-size: 24px; /* Larger font size for emphasis */
-  font-weight: 700; /* Bold font */
-  text-align: center; /* Center the title */
-  color: #1976d2; /* Use a primary color (or a color that fits your theme) */
-  margin-bottom: 20px; /* Add space below the title */
-  letter-spacing: 1px; /* Slight spacing between letters for elegance */
-  position: relative; /* Position relative to use pseudo-elements */
-  padding: 10px; /* Add padding for some spacing */
-  background: linear-gradient(90deg, rgba(25,118,210,1) 0%, rgba(33,150,243,1) 100%);
-  color: white; /* White text for contrast */
-  text-transform: uppercase; /* Optional: Make all letters uppercase */
-
-  /* Add a subtle shadow for depth */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-
-  /* Add decorative line/element below the title */
-  &::after {
-    content: '';
-    display: block;
-    width: 80px;
-    height: 3px;
-    background-color: #ff9800; /* Accent color for the line */
-    margin: 10px auto 0;
-  }
+.mat-dialog-actions button mat-icon {
+  margin-right: 6px;
 }

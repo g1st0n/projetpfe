@@ -7,6 +7,8 @@ import { HeaderComponent } from "./header/header.component";
 import { SidebarComponent } from "./sidebar/sidebar.component";
 // import { ColorSwitcherComponent } from './color-switcher/color-switcher.component';
 import { MatModule } from '../appModules/mat.module';
+import { MatSortModule } from '@angular/material/sort';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 
 
@@ -22,7 +24,8 @@ import { MatModule } from '../appModules/mat.module';
     imports: [
         RouterModule,
         CommonModule,
-        MatModule
+        MatModule,
+         MatModule, MatSortModule, MatPaginatorModule 
     ],
     declarations: [
         FooterComponent,

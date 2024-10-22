@@ -8,7 +8,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { DialogComponentComponent } from 'src/app/dialogPop/panel-product/info-product/dialog-component.component';
 import { AddAtelierComponent } from 'src/app/dialogPop/panel-atelier/add-atelier/add-atelier.component';
 import { InfoAtelierComponent } from 'src/app/dialogPop/panel-atelier/info-atelier/info-atelier.component';
-import { WorkshopControllerApi, WorkshopRequestDTO } from 'src/network/openapi';
+import { WorkshopControllerApi, WorkshopRequestDTO, WorkshopResponseDTO } from 'src/network/openapi';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatModule } from 'src/app/appModules/mat.module';
 import { TokenService } from 'src/network/openapi/apis/tokenService';
@@ -31,7 +31,7 @@ export interface ClientData {
   styleUrl: './table-atelier.component.scss'
 })
 export class TableAtelierComponent {
-  displayedColumns: string[] = [ 'NumAtelier','Capacite','NbMachine','CoutMachine'];
+  displayedColumns: string[] = [ 'select','NumAtelier','Capacite','NbMachine','CoutMachine'];
   dataSource: MatTableDataSource<WorkshopRequestDTO>;
   selection = new SelectionModel<WorkshopRequestDTO>(true, []);
   WorkShop: WorkshopRequestDTO[] = [];
@@ -56,20 +56,44 @@ ngOnInit(): void {
   this.fetchShop(); // Fetch the data when the component initializes
 }
 
-toggleSelection(row: any): void {
+toggleRowSelection(row: WorkshopResponseDTO): void {
   this.selection.toggle(row);
 }
 
+// Master toggle for selecting all rows
+masterToggle(): void {
+  this.isAllSelected() ? this.selection.clear() : this.dataSource.data.forEach(row => this.selection.select(row));
+}
+
+// Check if all rows are selected
 isAllSelected(): boolean {
   const numSelected = this.selection.selected.length;
   const numRows = this.dataSource.data.length;
   return numSelected === numRows;
 }
 
-masterToggle(): void {
-  this.isAllSelected() ?
-    this.selection.clear() :
-    this.dataSource.data.forEach(row => this.selection.select(row));
+// Delete selected rows
+deleteSelected(): void {
+  const selectedRows = this.selection.selected;
+  if (selectedRows.length === 0) {
+    return;
+  }
+
+  selectedRows.forEach(row => {
+    // Create the DeleteSubCategoryRequest object for deletion
+    const deleteRequest = {
+      idWorkshop: row.idWorkshop,  // Ensure you're passing the correct 'id' field
+    };
+
+    // Call the delete method with the correct request object
+    this.workShopService.deleteWorkshop(deleteRequest).then(() => {
+      this.fetchShop(); // Refresh the table after deletion
+    }).catch(error => {
+      console.error('Error deleting sous-categorie:', error);
+    });
+  });
+
+  this.selection.clear(); // Clear the selection after deletion
 }
 
 

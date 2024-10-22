@@ -8,7 +8,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ClientControllerApi } from 'src/network/openapi/apis/';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatDialogModule } from '@angular/material/dialog';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http'; // Import HttpClient
 import { TokenService } from '../../../network/openapi/apis/tokenService';
 import { ProductControllerApi } from 'src/network/openapi/apis/';  // Import the API service
@@ -38,7 +38,7 @@ import { MatCardModule } from '@angular/material/card';
   templateUrl: './pricing.component.html',
   styleUrls: ['./pricing.component.scss'],
   standalone: true,
-  providers: [ProductControllerApi, WorkshopControllerApi, ProductionPlanControllerApi]
+  providers: [ProductControllerApi, WorkshopControllerApi, ProductionPlanControllerApi,DatePipe]
 })
 export class PricingComponent implements OnInit {
   @Output() clientSaved = new EventEmitter<void>();
@@ -53,19 +53,19 @@ export class PricingComponent implements OnInit {
     private workshopService: WorkshopControllerApi,
     private productionPlanService: ProductionPlanControllerApi,
     private tokenService: TokenService,
+    private datePipe: DatePipe ,
     private fb: FormBuilder,
   ) {}
 
   ngOnInit(): void {
-    this.fetchProducts();
-    this.fetchWorkshops();
-
+    this.fetchProducts(); 
+this.fetchWorkshops() ; 
     this.formGroup = this.fb.group({
       date: ['', Validators.required],
       productId: [null, Validators.required],
       workshopId: [null, Validators.required],
       quantity: ['', Validators.required],
-      duration: ['', Validators.required],
+    
       workforce: ['', Validators.required],
       comment: [''],
       checkbox: [false]
@@ -78,9 +78,10 @@ export class PricingComponent implements OnInit {
     const headers = this.tokenService.getAuthHeaders();
     headers['Content-Type'] = 'application/json';
 
-    this.productService.getProducts({ pageable }, { headers })
+    this.productService.getAllProduct({  })
       .then((response: any) => {
-        this.products = response.content;
+        console.log
+        this.products = response;
       })
       .catch(error => {
         console.error('Error fetching products:', error);
@@ -94,9 +95,10 @@ export class PricingComponent implements OnInit {
     const headers = this.tokenService.getAuthHeaders();
     headers['Content-Type'] = 'application/json';
 
-    this.workshopService.getAllWorkshops({ pageable }, { headers })
+    this.workshopService.getAllWorkshops1()
       .then((response: any) => {
         this.workshops = response;
+        console.log(response)
       })
       .catch(error => {
         console.error('Error fetching workshops:', error);
@@ -104,12 +106,9 @@ export class PricingComponent implements OnInit {
   }
 
   onSubmit(): void {
-    if (this.formGroup.invalid) {
-      console.log('Form is invalid:', this.formGroup.value);
-      return;
-    }
-  
-    // Ensure form values are properly set before sending
+
+
+
     const productionPlanRequestDTO = {
       date: this.formGroup.get('date')?.value,
       productId: this.formGroup.get('productId')?.value,
@@ -119,6 +118,7 @@ export class PricingComponent implements OnInit {
       workforce: this.formGroup.get('workforce')?.value,
       comment: this.formGroup.get('comment')?.value,
     };
+  
   
     const headers = this.tokenService.getAuthHeaders();
     headers['Content-Type'] = 'application/json';
@@ -136,17 +136,39 @@ export class PricingComponent implements OnInit {
       });
   }  
 
-  getSelectedProductDetails(): ProductResponse | null {
-    if (this.selectedProduct && this.selectedProduct.logoType && this.selectedProduct.logo) {
-      return this.selectedProduct;
-    }
-    return null;
+  getSelectedProductDetails() {
+    const selectedProductId = this.formGroup.get('productId')?.value;
+    const selectedProduct = this.products.find(product => product.id === selectedProductId);
+    console.log('Selected Product:', selectedProduct);  // Debugging the selected product data
+    return selectedProduct;
   }
 
   onReset(): void {
     this.formGroup.reset();
     this.selectedProduct = null;
     this.selectedWorkshop = null;
+  }
+  formatDuration(duration: string): string {
+    const durationParts = duration.split(' '); // Example input: '45 minutes'
+    if (durationParts.length === 2 && durationParts[1] === 'minutes') {
+      const minutes = parseInt(durationParts[0], 10);
+      return this.convertMinutesToHHMMSS(minutes);
+    }
+    return duration; // Return the duration as it is if the format doesn't match
+  }
+
+  // Convert the minutes to 'HH:mm:ss' format
+  convertMinutesToHHMMSS(minutes: number): string {
+    const hours = Math.floor(minutes / 60);
+    const mins = minutes % 60;
+    return `${this.pad(hours, 2)}:${this.pad(mins, 2)}:00`; // Assuming no seconds
+  }
+
+  // Helper method to pad numbers to 2 digits
+  pad(num: number, size: number): string {
+    let s = num + '';
+    while (s.length < size) s = '0' + s;
+    return s;
   }
 }
 

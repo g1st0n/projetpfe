@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatModule } from 'src/app/appModules/mat.module';
 
@@ -48,7 +48,7 @@ export type ChartOptions = {
   styleUrl: './apex-charts.component.scss'
 })
 
-export class ApexChartsComponent {
+export class ApexChartsComponent implements OnInit {
   @ViewChild("chart") chart: ChartComponent;
 
   public AreachartOptions: Partial<ChartOptions>;
@@ -57,7 +57,16 @@ export class ApexChartsComponent {
   public MultiColumnchartOptions: Partial<ChartOptions>;
   public SimplePiechartOptions: Partial<ChartOptions>;
   public SimpleDonutchartOptions: Partial<ChartOptions>;
+  private weeklyData = [120, 150, 90, 100, 140, 80, 130]; // Orders for each day of the week
+  private monthlyData = [1450, 1600, 1750, 1400, 1500, 1650, 1800, 1700, 1750, 1850, 2000, 1900]; // Orders for each month
+  private yearlyData = [18000, 17500, 19000, 18500, 19500, 20000, 21000, 21500, 22000, 22500, 23000, 24000]; // Orders for each year
 
+  // X-axis categories for Week, Month, Year
+  private weeklyCategories = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+  private monthlyCategories = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  private yearlyCategories = ["2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023"];
+
+ 
 
   constructor() {
     // chart 1
@@ -112,12 +121,10 @@ export class ApexChartsComponent {
 
     // chart 2
     this.LinechartOptions = {
-      series: [
-        {
-          name: "Desktops",
-          data: [14, 3, 10, 9, 29, 19, 22, 9, 12, 7, 19, 5]
-        }
-      ],
+      series: [{
+        name: "Desktops",
+        data: this.yearlyData
+      }],
       chart: {
         height: 350,
         type: "line",
@@ -125,7 +132,7 @@ export class ApexChartsComponent {
           enabled: false
         },
         toolbar: {
-          show: !1
+          show: false
         },
       },
       dataLabels: {
@@ -163,26 +170,14 @@ export class ApexChartsComponent {
         strokeDashArray: 4,
       },
       xaxis: {
-        categories: [
-          "Jan",
-          "Feb",
-          "Mar",
-          "Apr",
-          "May",
-          "Jun",
-          "Jul",
-          "Aug",
-          "Sep",
-          "oct",
-          "Nov",
-          "Dec"
-        ]
+        categories: this.yearlyCategories // Default to yearly categories
       },
       tooltip: {
         theme: "dark",
       }
     };
-
+  
+  
 
     // chart 3
     this.BarchartOptions = {
@@ -342,7 +337,7 @@ export class ApexChartsComponent {
         height: 380,
         type: "pie"
       },
-      labels: ["Team A", "Team B", "Team C", "Team D", "Team E"],
+      labels: ["Robe en jean", "Robe en sois", "chemise en sois", "t-shirt en cotton", "Robe en cotton"],
       colors: ["#ee226e", "#7343be", "#03b3f5", "#fe6225", "#00a294"],
       responsive: [
         {
@@ -366,7 +361,7 @@ export class ApexChartsComponent {
         height: 380,
         type: "donut"
       },
-      labels: ["Team A", "Team B", "Team C", "Team D", "Team E"],
+      labels: ["pantalon", "Robe", "chemise", "T-shirt", "Boxer"],
       colors: ["#ee226e", "#7343be", "#03b3f5", "#fe6225", "#00a294"],
       responsive: [
         {
@@ -387,5 +382,54 @@ export class ApexChartsComponent {
 
 
   }
+  ngOnInit(): void {
+    // The chart is initialized with yearly data by default.
+  }
+
+  // Function to update the chart with weekly data
+  loadWeeklyData() {
+    this.LinechartOptions.series = [{
+      name: "Desktops",
+      data: this.weeklyData
+    }];
+    this.LinechartOptions.xaxis = {
+      categories: this.weeklyCategories
+    };
+  }
+
+  // Function to update the chart with monthly data
+  loadMonthlyData() {
+    this.LinechartOptions.series = [{
+      name: "Desktops",
+      data: this.monthlyData
+    }];
+    this.LinechartOptions.xaxis = {
+      categories: this.monthlyCategories
+    };
+  }
+
+  // Function to update the chart with yearly data
+  loadYearlyData() {
+    this.LinechartOptions.series = [{
+      name: "Desktops",
+      data: this.yearlyData
+    }];
+    this.LinechartOptions.xaxis = {
+      categories: this.yearlyCategories
+    };
+  }
+
+  // Event handler for changing the time range
+  onTimeRangeChange(timeRange: string) {
+    if (timeRange === 'week') {
+      this.loadWeeklyData();
+    } else if (timeRange === 'month') {
+      this.loadMonthlyData();
+    } else if (timeRange === 'year') {
+      this.loadYearlyData();
+    }
+  }
+
 }
+
 

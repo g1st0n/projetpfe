@@ -6,7 +6,7 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogAddProductComponent } from 'src/app/dialogPop/panel-product/add-product/dialog-add-product.component';
 import { MatTableDataSource } from '@angular/material/table';
-import { ProductResponse, SubCategoryResponseDTO } from 'src/network/openapi/models/';
+import { ProductResponse, SubCategoryRequestDTO, SubCategoryResponseDTO } from 'src/network/openapi/models/';
 import { DialogComponentComponent } from 'src/app/dialogPop/panel-product/info-product/dialog-component.component';
 import { SousCategorieAddComponent } from 'src/app/dialogPop/panel-sous-produit/add-sous-categorie/sous-categorie-add.component';
 import { DialogsouscategorieComponent } from 'src/app/dialogPop/panel-sous-produit/info-sous-categorie/dialogsouscategorie.component';
@@ -30,7 +30,7 @@ export interface subCategory {
   styleUrl: './table-sous-categorie.component.scss'
 })
 export class TableSousCategorieComponent {
-  displayedColumns: string[] = [ 'reference','Nom'];
+  displayedColumns: string[] = [ "select",'reference','Nom'];
   dataSource: MatTableDataSource<SubCategoryResponseDTO>;
   Subcategorie: SubCategoryResponseDTO[] = [];
   totalItems = 0; // For paginator
@@ -47,6 +47,7 @@ constructor(
 ){
   this.dataSource = new MatTableDataSource();
 }
+
 ngOnInit(): void {
   this.fetchSub(); // Fetch the data when the component initializes
 }
@@ -134,4 +135,45 @@ openDialog(row: any): void {
     }
   });
 }
+toggleRowSelection(row: SubCategoryRequestDTO): void {
+  this.selection.toggle(row);
+}
+
+// Master toggle for selecting all rows
+masterToggle(): void {
+  this.isAllSelected() ? this.selection.clear() : this.dataSource.data.forEach(row => this.selection.select(row));
+}
+
+// Check if all rows are selected
+isAllSelected(): boolean {
+  const numSelected = this.selection.selected.length;
+  const numRows = this.dataSource.data.length;
+  return numSelected === numRows;
+}
+
+// Delete selected rows
+deleteSelected(): void {
+  const selectedRows = this.selection.selected;
+  if (selectedRows.length === 0) {
+    return;
+  }
+
+  selectedRows.forEach(row => {
+    // Create the DeleteSubCategoryRequest object for deletion
+    const deleteRequest = {
+      id: row.idSubCategory,  // Ensure you're passing the correct 'id' field
+    };
+
+    // Call the delete method with the correct request object
+    this.subService.deleteSubCategory(deleteRequest).then(() => {
+      this.fetchSub(); // Refresh the table after deletion
+    }).catch(error => {
+      console.error('Error deleting sous-categorie:', error);
+    });
+  });
+
+  this.selection.clear(); // Clear the selection after deletion
+}
+
+
 }

@@ -61,6 +61,16 @@ export class AnalyticsComponent implements OnInit {
   public AnalyticsChart8: Partial<ChartOptions>;
   public AnalyticsChart9: Partial<ChartOptions>;
 
+  private weeklyData = [25, 66, 41, 59, 25, 44, 12, 36, 9, 21];
+  private monthlyData = [120, 150, 180, 110, 140, 130, 160, 170, 190, 220, 210, 230];
+  private yearlyData = [1300, 1250, 1400, 1350, 1500, 1600, 1700, 1800, 1900, 2100, 2200, 2300];
+
+  // X-axis categories for Week, Month, Year
+  private weeklyCategories = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+  private monthlyCategories = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  private yearlyCategories = ["2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023"];
+
+
   constructor() {
 
 
@@ -381,22 +391,19 @@ export class AnalyticsComponent implements OnInit {
 
     // chart 5
     this.AnalyticsChart5 = {
-      series: [
-        {
-          name: "Views",
-          data: [0, 7, 18, 10, 18, 14, 40, 30, 56, 13, 18, 2]
-        }
-      ],
+      series: [{
+        name: "Commande",
+        data: this.yearlyData
+      }],
       chart: {
-        foreColor: "#9ba7b2",
         height: 370,
         type: "area",
         zoom: {
           enabled: false
         },
-        toolbar: {
-          show: !1
-        },
+      },
+      xaxis: {
+        categories: this.yearlyCategories
       },
       dataLabels: {
         enabled: false
@@ -411,13 +418,10 @@ export class AnalyticsComponent implements OnInit {
           shade: "dark",
           gradientToColors: ["#6a11cb"],
           shadeIntensity: 1,
-          type: "vertical",
           opacityFrom: 0.9,
-          opacityTo: 0.1,
-          stops: [0, 100, 100, 100]
+          opacityTo: 0.1
         }
       },
-      colors: ["#495bbd"],
       markers: {
         size: 5,
         colors: ["#fff"],
@@ -427,32 +431,8 @@ export class AnalyticsComponent implements OnInit {
           size: 7,
         }
       },
-      legend: {
-        show: false,
-      },
-      grid: {
-        show: true,
-        borderColor: 'rgba(0, 0, 0, 0.15)',
-        strokeDashArray: 4,
-      },
-      xaxis: {
-        categories: [
-          "Jan",
-          "Feb",
-          "Mar",
-          "Apr",
-          "May",
-          "Jun",
-          "Jul",
-          "Aug",
-          "Sep",
-          "Oct",
-          "Nov",
-          "Dec"
-        ]
-      },
       tooltip: {
-        theme: "dark",
+        theme: "dark"
       }
     };
 
@@ -698,7 +678,50 @@ export class AnalyticsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // $.getScript('./assets/js/analytics-dashboard.js');
+    // The chart is initialized with yearly data by default.
   }
 
+  // Function to update the chart with weekly data
+  loadWeeklyData() {
+    this.AnalyticsChart5.series = [{
+      name: "Commande",
+      data: this.weeklyData
+    }];
+    this.AnalyticsChart5.xaxis = {
+      categories: this.weeklyCategories
+    };
+  }
+
+  // Function to update the chart with monthly data
+  loadMonthlyData() {
+    this.AnalyticsChart5.series = [{
+      name: "Commande",
+      data: this.monthlyData
+    }];
+    this.AnalyticsChart5.xaxis = {
+      categories: this.monthlyCategories
+    };
+  }
+
+  // Function to update the chart with yearly data
+  loadYearlyData() {
+    this.AnalyticsChart5.series = [{
+      name: "Commande",
+      data: this.yearlyData
+    }];
+    this.AnalyticsChart5.xaxis = {
+      categories: this.yearlyCategories
+    };
+  }
+
+  // Event handler for changing the time range
+  onTimeRangeChange(timeRange: string) {
+    if (timeRange === 'week') {
+      this.loadWeeklyData();
+    } else if (timeRange === 'month') {
+      this.loadMonthlyData();
+    } else if (timeRange === 'year') {
+      this.loadYearlyData();
+    }
+  }
 }

@@ -66,7 +66,9 @@ constructor(    public dialog: MatDialog,
 }
 
 ngOnInit(): void {
-  this.fetchOrders(); // Fetch the data when the component initializes
+  this.fetchOrders(); 
+  console.log('Error fetching clients:');
+  // Fetch the data when the component initializes
 }
 
 ngAfterViewInit() {
@@ -83,7 +85,7 @@ ngAfterViewInit() {
 }
 
 fetchOrders(): void {
-  const sortField = this.sort?.active || 'fullName'; // Default sorting field
+  const sortField = this.sort?.active || 'Client'; // Default sorting field
   const sortDirection = this.sort?.direction || 'asc'; // Default sorting direction
 
   // Construct the pageable parameters
@@ -98,7 +100,10 @@ fetchOrders(): void {
   this.orderService.getOrders({ pageable }, {headers})
     .then((response: any) => {
       if (response && response.content) {
-        this.orders = response.content; // Extract content from the response
+        this.orders = response.content;
+        console.log(this.orders);
+
+        // Extract content from the response
         this.totalItems = response.totalElements || 0; // Extract total items
         this.dataSource = new MatTableDataSource(this.orders);
         this.dataSource.paginator = this.paginator;
@@ -133,5 +138,44 @@ openDialog(row: any): void {
       this.fetchOrders(); // Refresh the client list after editing
     }
   });
+}
+toggleRowSelection(row: OrderResponseDTO): void {
+  this.selection.toggle(row);
+}
+
+// Master toggle for selecting all rows
+masterToggle(): void {
+  this.isAllSelected() ? this.selection.clear() : this.dataSource.data.forEach(row => this.selection.select(row));
+}
+
+// Check if all rows are selected
+isAllSelected(): boolean {
+  const numSelected = this.selection.selected.length;
+  const numRows = this.dataSource.data.length;
+  return numSelected === numRows;
+}
+
+// Delete selected rows
+deleteSelected(): void {
+  const selectedRows = this.selection.selected;
+  if (selectedRows.length === 0) {
+    return;
+  }
+
+  selectedRows.forEach(row => {
+    // Create the DeleteSubCategoryRequest object for deletion
+    const deleteRequest = {
+      idOrder: row.idOrder,  // Ensure you're passing the correct 'id' field
+    };
+
+    // Call the delete method with the correct request object
+    this.orderService.deleteOrder(deleteRequest).then(() => {
+      this.fetchOrders(); // Refresh the table after deletion
+    }).catch(error => {
+      console.error('Error deleting sous-categorie:', error);
+    });
+  });
+
+  this.selection.clear(); // Clear the selection after deletion
 }
 }

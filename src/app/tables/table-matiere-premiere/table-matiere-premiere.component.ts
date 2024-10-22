@@ -37,7 +37,7 @@ export interface rawMaterial {
   styleUrl: './table-matiere-premiere.component.scss'
 })
 export class TableMatierePremiereComponent implements AfterViewInit, OnInit {
-  displayedColumns: string[] = [ 'Nom','TypeMatiere','PrixUni','Origine','Couleur','unite','QuantiteDispo'];
+  displayedColumns: string[] = [ 'select','Nom','TypeMatiere','PrixUni','Origine','Couleur','unite','QuantiteDispo'];
   dataSource: MatTableDataSource<RawMaterialRequestDTO>;
   RawMaterial: RawMaterialRequestDTO[] = [];
   totalItems = 0; // To store the total number of products (for paginator)
@@ -88,23 +88,7 @@ fetchRaw(): void {
     });
 
 }
-toggleRowSelection(row: RawMaterialRequestDTO): void {
-  this.selection.toggle(row);
-}
 
-// Checkbox master toggle for selecting all rows
-masterToggle() {
-  this.isAllSelected() ?
-    this.selection.clear() :
-    this.dataSource.data.forEach(row => this.selection.select(row));
-}
-
-// Check if all rows are selected
-isAllSelected() {
-  const numSelected = this.selection.selected.length;
-  const numRows = this.dataSource.data.length;
-  return numSelected === numRows;
-}
 ngAfterViewInit() {
   this.paginator.page.subscribe(() => {
     this.pageIndex = this.paginator.pageIndex;
@@ -162,5 +146,44 @@ applyFilter(event: Event): void {
   if (this.dataSource.paginator) {
     this.dataSource.paginator.firstPage();
   }
+}
+toggleRowSelection(row: RawMaterialRequestDTO): void {
+  this.selection.toggle(row);
+}
+
+// Master toggle for selecting all rows
+masterToggle(): void {
+  this.isAllSelected() ? this.selection.clear() : this.dataSource.data.forEach(row => this.selection.select(row));
+}
+
+// Check if all rows are selected
+isAllSelected(): boolean {
+  const numSelected = this.selection.selected.length;
+  const numRows = this.dataSource.data.length;
+  return numSelected === numRows;
+}
+
+// Delete selected rows
+deleteSelected(): void {
+  const selectedRows = this.selection.selected;
+  if (selectedRows.length === 0) {
+    return;
+  }
+
+  selectedRows.forEach(row => {
+    // Create the DeleteSubCategoryRequest object for deletion
+    const deleteRequest = {
+      idMaterial: row.idMaterial,  // Ensure you're passing the correct 'id' field
+    };
+
+    // Call the delete method with the correct request object
+    this.RawMaterialservice.deleteRawMaterial(deleteRequest).then(() => {
+      this.fetchRaw(); // Refresh the table after deletion
+    }).catch(error => {
+      console.error('Error deleting sous-categorie:', error);
+    });
+  });
+
+  this.selection.clear(); // Clear the selection after deletion
 }
 }

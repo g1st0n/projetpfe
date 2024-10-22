@@ -36,7 +36,7 @@ export interface ClientData {
   styleUrls: ['./table-client.component.scss']
 })
 export class TableClientComponent implements AfterViewInit, OnInit {
-  displayedColumns: string[] = ['clientType', 'fullName', 'email', 'address', 'telephone'];
+  displayedColumns: string[] = ['select','clientType', 'fullName', 'email', 'address', 'telephone'];
   dataSource: MatTableDataSource<ClientResponseDTO>;
   clients: ClientResponseDTO[] = [];
   totalItems = 0; // For paginator
@@ -141,6 +141,45 @@ export class TableClientComponent implements AfterViewInit, OnInit {
       .catch(error => {
         console.error('Error fetching clients:', error);
       });
+  }
+  toggleRowSelection(row: ClientResponseDTO): void {
+    this.selection.toggle(row);
+  }
+  
+  // Master toggle for selecting all rows
+  masterToggle(): void {
+    this.isAllSelected() ? this.selection.clear() : this.dataSource.data.forEach(row => this.selection.select(row));
+  }
+  
+  // Check if all rows are selected
+  isAllSelected(): boolean {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.dataSource.data.length;
+    return numSelected === numRows;
+  }
+  
+  // Delete selected rows
+  deleteSelected(): void {
+    const selectedRows = this.selection.selected;
+    if (selectedRows.length === 0) {
+      return;
+    }
+  
+    selectedRows.forEach(row => {
+      // Create the DeleteSubCategoryRequest object for deletion
+      const deleteRequest = {
+        id: row.idClient,  // Ensure you're passing the correct 'id' field
+      };
+  
+      // Call the delete method with the correct request object
+      this.clientService.deleteClient(deleteRequest).then(() => {
+        this.fetchClients(); // Refresh the table after deletion
+      }).catch(error => {
+        console.error('Error deleting sous-categorie:', error);
+      });
+    });
+  
+    this.selection.clear(); // Clear the selection after deletion
   }
   
   

@@ -7,7 +7,7 @@ import { MatModule } from 'src/app/appModules/mat.module';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogComponentComponent } from 'src/app/dialogPop/panel-product/info-product/dialog-component.component';
 import { ProductControllerApi } from 'src/network/openapi/apis/';  // Import the API service
-import { ProductResponse } from 'src/network/openapi/models/';
+import { ProductRequest, ProductResponse } from 'src/network/openapi/models/';
 import { DialogAddProductComponent } from 'src/app/dialogPop/panel-product/add-product/dialog-add-product.component';
 import { SelectionModel } from '@angular/cdk/collections';
 import { TokenService } from 'src/network/openapi/apis/tokenService';
@@ -24,7 +24,7 @@ import { TokenService } from 'src/network/openapi/apis/tokenService';
   styleUrls: ['./sorting-table.component.scss']
 })
 export class SortingTableComponent implements AfterViewInit, OnInit {
-  displayedColumns: string[] = ['id', 'designation', 'reference', 'price', 'productionDuration'];
+  displayedColumns: string[] = ['select','id', 'designation', 'reference', 'price', 'productionDuration'];
   dataSource: MatTableDataSource<ProductResponse>;
   products: ProductResponse[] = [];
   totalItems = 0; // To store the total number of products (for paginator)
@@ -34,6 +34,7 @@ export class SortingTableComponent implements AfterViewInit, OnInit {
   selection = new SelectionModel<ProductResponse>(true, []);
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
+  selectedFile: Blob | null = null;  // Store selected file (Blob)
 
   constructor(
     private tokenService: TokenService,
@@ -95,7 +96,7 @@ export class SortingTableComponent implements AfterViewInit, OnInit {
 
   openDialog(row: any): void {
     const dialogRef = this.dialog.open(DialogComponentComponent, {
-      width: '30vw',
+      width: '50vw',
       maxWidth: '90vw',
       height: 'auto',
       maxHeight: '90vh',
@@ -138,5 +139,43 @@ export class SortingTableComponent implements AfterViewInit, OnInit {
       this.dataSource.paginator.firstPage();
     }
   }
+  toggleRowSelection(row: ProductResponse): void {
+    this.selection.toggle(row);
+  }
   
+  // Master toggle for selecting all rows
+  masterToggle(): void {
+    this.isAllSelected() ? this.selection.clear() : this.dataSource.data.forEach(row => this.selection.select(row));
+  }
+  
+  // Check if all rows are selected
+  isAllSelected(): boolean {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.dataSource.data.length;
+    return numSelected === numRows;
+  }
+  
+  // Delete selected rows
+  deleteSelected(): void {
+    const selectedRows = this.selection.selected;
+    if (selectedRows.length === 0) {
+      return;
+    }
+  
+    selectedRows.forEach(row => {
+      // Create the DeleteSubCategoryRequest object for deletion
+      const deleteRequest = {
+        id: row.id,  // Ensure you're passing the correct 'id' field
+      };
+  
+      // Call the delete method with the correct request object
+      this.productService.deleteProduct(deleteRequest).then(() => {
+        this.fetchProducts(); // Refresh the table after deletion
+      }).catch(error => {
+        console.error('Error deleting sous-categorie:', error);
+      });
+    });
+  
+    this.selection.clear(); // Clear the selection after deletion
+  }
 }
