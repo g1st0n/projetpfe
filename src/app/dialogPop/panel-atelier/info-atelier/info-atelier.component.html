@@ -1,44 +1,31 @@
-<h1 mat-dialog-title class="dialog-title">{{data?.workshopName || 'Atelier'}}</h1>
 
+<h1 mat-dialog-title  class="dialog-title">Atelier Details</h1>
 <div mat-dialog-content class="product-details">
-  <!-- Workshop Info -->
+
   <div class="product-info">
 
     <!-- Identification -->
     <div class="product-row">
-      <span class="label">Numéro Atelier:</span>
-      <span class="value">{{data?.workshopNumber}}</span>
+      <span class="label">Numéro Atelier:</span> <span class="value">{{data?.workshopNumber}}</span>
     </div>
-
-    <!-- Production Capacity -->
     <div class="product-row">
-      <span class="label">Capacité:</span>
-      <span class="value">{{data?.productionCapacity}} unités</span>
+      <span class="label">Capacité:</span> <span class="value">{{data?.productionCapacity}}</span>
     </div>
-
-    <!-- Machine Count -->
     <div class="product-row">
-      <span class="label">Nombre de Machines:</span>
-      <span class="value">{{data?.machineCount}} machines</span>
+      <span class="label">Nombre de Machine:</span> <span class="value">{{data?.machineCount}}</span>
     </div>
-
-    <!-- Machine Cost -->
     <div class="product-row">
-      <span class="label">Coût par Machine:</span>
-      <span class="value">{{data?.machineCost}} TND</span>
-    </div>
-
-    <!-- Additional Workshop Information (optional) -->
-    <div class="product-row" *ngIf="data?.additionalInfo">
-      <span class="label">Informations Supplémentaires:</span>
-      <span class="value">{{data?.additionalInfo}}</span>
-    </div>
+        <span class="label">Coût Machine: </span> <span class="value">{{data?.machineCost}}</span>
+      </div>
+     
+   
 
   </div>
 </div>
 
-<!-- Dialog actions with centered buttons -->
+<!-- Dialog actions -->
 <div mat-dialog-actions class="action-row">
+  <button mat-button >Imprimer</button>
   <button mat-button (click)="onEdit()">Modifier</button>
   <button mat-button (click)="onClose()">Fermer</button>
 </div>

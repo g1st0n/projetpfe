@@ -1,16 +1,14 @@
 import { Component, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA,  MatDialog,  MatDialogRef } from '@angular/material/dialog';
-
+import { CommonModule } from '@angular/common';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { HttpClient } from '@angular/common/http';
+import { AddAtelierComponent } from '../add-atelier/add-atelier.component';
 import { EditAtelierComponent } from '../edit-atelier/edit-atelier.component';
-import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatIconModule } from '@angular/material/icon';
 @Component({
   selector: 'app-info-atelier',
   standalone: true,
+  imports: [CommonModule],
   templateUrl: './info-atelier.component.html',
-
   styleUrl: './info-atelier.component.scss'
 })
 export class InfoAtelierComponent {

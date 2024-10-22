@@ -125,7 +125,7 @@ applyFilter(event: Event): void {
 }
 openDialog(row: any): void {
   const dialogRef = this.dialog.open(InfoCommandeComponent, {
-    width: '30vw',
+    width: '50vw',
     maxWidth: '90vw',
     height: 'auto',
     maxHeight: '90vh',

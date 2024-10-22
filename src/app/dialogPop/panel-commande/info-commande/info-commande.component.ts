@@ -6,8 +6,7 @@ import { AddCommandeComponent } from '../add-commande/add-commande.component';
 
 @Component({
   selector: 'app-info-commande',
-  standalone: true,
-  imports: [CommonModule],
+
   templateUrl: './info-commande.component.html',
   styleUrl: './info-commande.component.scss'
 })
