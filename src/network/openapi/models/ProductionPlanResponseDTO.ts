@@ -79,6 +79,24 @@ export interface ProductionPlanResponseDTO {
      * @memberof ProductionPlanResponseDTO
      */
     status?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ProductionPlanResponseDTO
+     */
+    logo?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ProductionPlanResponseDTO
+     */
+    logoName?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ProductionPlanResponseDTO
+     */
+    logoType?: string;
 }
 
 /**
@@ -108,6 +126,9 @@ export function ProductionPlanResponseDTOFromJSONTyped(json: any, ignoreDiscrimi
         'workforce': json['workforce'] == null ? undefined : json['workforce'],
         'comment': json['comment'] == null ? undefined : json['comment'],
         'status': json['status'] == null ? undefined : json['status'],
+        'logo': json['logo'] == null ? undefined : json['logo'],
+        'logoName': json['logoName'] == null ? undefined : json['logoName'],
+        'logoType': json['logoType'] == null ? undefined : json['logoType'],
     };
 }
 
@@ -127,6 +148,9 @@ export function ProductionPlanResponseDTOToJSON(value?: ProductionPlanResponseDT
         'workforce': value['workforce'],
         'comment': value['comment'],
         'status': value['status'],
+        'logo': value['logo'],
+        'logoName': value['logoName'],
+        'logoType': value['logoType'],
     };
 }
 
