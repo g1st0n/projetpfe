@@ -122,4 +122,28 @@ openDialog(row: any): void {
     }
   });
 }
+
+// Delete selected rows
+deleteSelected(): void {
+  const selectedRows = this.selection.selected;
+  if (selectedRows.length === 0) {
+    return;
+  }
+
+  selectedRows.forEach(row => {
+    // Create the DeleteSubCategoryRequest object for deletion
+    const deleteRequest = {
+      id: row.id,  // Ensure you're passing the correct 'id' field
+    };
+
+    // Call the delete method with the correct request object
+    this.userService.deleteUser(deleteRequest).then(() => {
+      this.fetchUsers(); // Refresh the table after deletion
+    }).catch(error => {
+      console.error('Error deleting Responsable:', error);
+    });
+  });
+
+  this.selection.clear(); // Clear the selection after deletion
+}
 }

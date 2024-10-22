@@ -7,9 +7,6 @@
       <div class="">
         <h5 class="">Matiére Premiére</h5>
       </div>
-      <div class="button-container">
-        <button mat-flat-button color="warn" class="delete-button" (click)="deleteSelected()">Supprimer</button> 
-      </div>
       <div>
         <button mat-icon-button [matMenuTriggerFor]="menu">
           <mat-icon>more_vert</mat-icon>
@@ -96,6 +93,9 @@
       </table>
 
       <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+    </div>
+    <div class="button-container mt-3 text-center">
+      <button mat-flat-button color="warn" (click)="deleteSelected()">Supprimer</button>
     </div>
   </mat-card-content>
 </mat-card>
