@@ -51,10 +51,10 @@ export interface ProductionPlanResponseDTO {
     duration?: string;
     /**
      * 
-     * @type {number}
+     * @type {string}
      * @memberof ProductionPlanResponseDTO
      */
-    productId?: number;
+    productName?: string;
     /**
      * 
      * @type {number}
@@ -121,7 +121,7 @@ export function ProductionPlanResponseDTOFromJSONTyped(json: any, ignoreDiscrimi
         'quantity': json['quantity'] == null ? undefined : json['quantity'],
         'waste': json['waste'] == null ? undefined : json['waste'],
         'duration': json['duration'] == null ? undefined : json['duration'],
-        'productId': json['productId'] == null ? undefined : json['productId'],
+        'productName': json['productName'] == null ? undefined : json['productName'],
         'workshopId': json['workshopId'] == null ? undefined : json['workshopId'],
         'workforce': json['workforce'] == null ? undefined : json['workforce'],
         'comment': json['comment'] == null ? undefined : json['comment'],
@@ -143,7 +143,7 @@ export function ProductionPlanResponseDTOToJSON(value?: ProductionPlanResponseDT
         'quantity': value['quantity'],
         'waste': value['waste'],
         'duration': value['duration'],
-        'productId': value['productId'],
+        'productName': value['productName'],
         'workshopId': value['workshopId'],
         'workforce': value['workforce'],
         'comment': value['comment'],

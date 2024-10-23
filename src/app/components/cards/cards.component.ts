@@ -35,6 +35,7 @@ export class CardsComponent implements OnInit {
       // Filter the plans based on their status
       this.inProgressPlans = plans.filter(plan => plan.status === 'EN_COURS');
       this.completedPlans = plans.filter(plan => plan.status === 'TERMINE');
+      console.log(this.inProgressPlans);
     });
   }
 
