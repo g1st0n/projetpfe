@@ -101,3 +101,37 @@
 
     left: 0px !important;
 }
+
+.user-profile-container {
+    padding: 10px;
+    text-align: center;
+  }
+  
+  .profile-image {
+    border-radius: 50%;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .username {
+    font-weight: bold;
+    font-size: 1.1rem;
+  }
+  
+  .logout-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    font-size: 1rem;
+  }
+  
+  .logout-icon {
+    margin-right: 8px;
+    color: #ff4d4f; /* Red tone for emphasis */
+  }
+  
+  .mat-menu-panel {
+    border-radius: 10px;
+    box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.15); /* Adds depth */
+  }
+  

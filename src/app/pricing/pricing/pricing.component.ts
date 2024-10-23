@@ -65,7 +65,7 @@ this.fetchWorkshops() ;
       productId: [null, Validators.required],
       workshopId: [null, Validators.required],
       quantity: ['', Validators.required],
-    
+      duration: ['', Validators.required],
       workforce: ['', Validators.required],
       comment: [''],
       checkbox: [false]
@@ -123,6 +123,9 @@ this.fetchWorkshops() ;
     const headers = this.tokenService.getAuthHeaders();
     headers['Content-Type'] = 'application/json';
   
+    console.log(this.formGroup);
+    console.log('******************************************************');
+    console.log(productionPlanRequestDTO);
     // Send the production plan request to the API
     this.productionPlanService.createProductionPlan({ productionPlanRequestDTO }, { headers })
       .then((response) => {

@@ -1,10 +1,18 @@
-<h1 mat-dialog-title class="dialog-title">{{ data ? 'Modifier un client' : 'Ajouter un Nouveau client' }}</h1>
+<h1 mat-dialog-title class="dialog-title">{{ data ? 'Modifier une Sous-Catégorie' : 'Ajouter une Nouvelle Sous-Catégorie' }}</h1>
 
 <mat-dialog-content class="dialog-content">
   <!-- Bind formGroup to the form -->
   <form [formGroup]="formGroup" (ngSubmit)="onSubmit()" class="form-grid" enctype="multipart/form-data">
 
     <!-- Form Fields -->
+    <mat-form-field appearance="fill" class="form-field">
+      <mat-label>reference</mat-label>
+      <input matInput type="text" formControlName="reference" required>
+      <mat-error *ngIf="formGroup.get('reference')?.hasError('required')">
+        La reference est obligatoire.
+      </mat-error>
+    </mat-form-field>
+    
     <mat-form-field appearance="fill" class="form-field">
       <mat-label>Nom</mat-label>
       <input matInput type="text" formControlName="Nom" required>
@@ -13,13 +21,7 @@
       </mat-error>
     </mat-form-field>
 
-    <mat-form-field appearance="fill" class="form-field">
-      <mat-label>reference</mat-label>
-      <input matInput type="text" formControlName="reference" required>
-      <mat-error *ngIf="formGroup.get('reference')?.hasError('required')">
-        La reference est obligatoire.
-      </mat-error>
-    </mat-form-field>
+
 
     <div mat-dialog-actions class="action-row full-width">
       <button mat-button mat-dialog-close class="btn-cancel">Annuler</button>

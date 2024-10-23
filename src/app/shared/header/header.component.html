@@ -48,23 +48,23 @@
       <mat-icon class="material-icons-outlined">account_circle</mat-icon>
     </button>
     <mat-menu #UserProfile class="rounded-4 dropdown-userprofile">
-      <button mat-menu-item class="d-flex align-items-center justify-content-center text-center py-2">
-        <div>
-          <img src="assets/images/avatars/avatar-1.png" width="80" height="80" class="rounded-circle" alt="">
-        </div>
-        <div>
-          <h4 class="username mb-0">Hi, codervent!</h4>
-          <p class="mb-0">coderventxyz.com</p>
-        </div>
-      </button>
+      <div class="d-flex align-items-center justify-content-center flex-column py-3 user-profile-container">
+        <img  
+          class="profile-image"
+          [src]="'data:' + user.logoType + ';base64,' + user.logo" 
+          [alt]="user.logoName"
+          width="80"
+        />
+        <h4 class="username mt-2 mb-0">Hi, {{user.firstName}}!</h4>
+      </div>
+    
       <mat-divider></mat-divider>
       
-      <mat-divider></mat-divider>
-      <button mat-menu-item (click)="logout()">
-        <mat-icon class="material-icons-outlined" >logout</mat-icon>
+      <button mat-menu-item class="logout-btn" (click)="logout()">
+        <mat-icon class="material-icons-outlined logout-icon">logout</mat-icon>
         <span>Logout</span>
       </button>
-    </mat-menu>
+    </mat-menu>    
   </div>
 </header>
 

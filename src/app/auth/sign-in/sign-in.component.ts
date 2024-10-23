@@ -50,7 +50,6 @@ export class SignInComponent implements OnInit {
 
     // Call the AuthService to perform login
     this.authService.login({ jwtRequest }).then((response) => {
-      console.log('login success:', response);
       const token = response?.jwtToken;  // Extract token from response
       const role = response?.role;       // Extract role from response (modify based on your API)
 

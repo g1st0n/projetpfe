@@ -187,6 +187,30 @@ export class UserControllerApi extends runtime.BaseAPI {
 
     /**
      */
+    async getAuthenticatedUserRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<UserResponseDTO>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/api/users/authenticatedUser`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => UserResponseDTOFromJSON(jsonValue));
+    }
+
+    /**
+     */
+    async getAuthenticatedUser(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<UserResponseDTO> {
+        const response = await this.getAuthenticatedUserRaw(initOverrides);
+        return await response.value();
+    }
+
+    /**
+     */
     async getUserByIdRaw(requestParameters: GetUserByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<UserResponseDTO>> {
         if (requestParameters['id'] == null) {
             throw new runtime.RequiredError(
