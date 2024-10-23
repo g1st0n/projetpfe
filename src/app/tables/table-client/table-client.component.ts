@@ -90,7 +90,7 @@ export class TableClientComponent implements AfterViewInit, OnInit {
 
   openDialog(row: ClientData): void {
     const dialogRef = this.dialog.open(InfoClientComponent, {
-      width: '30vw',
+      width: '50vw',
       maxWidth: '90vw',
       height: 'auto',
       maxHeight: '90vh',
