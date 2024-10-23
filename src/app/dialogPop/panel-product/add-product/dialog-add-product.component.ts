@@ -4,8 +4,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';  
 import { MatButtonModule } from '@angular/material/button';  
 import { ReactiveFormsModule } from '@angular/forms';  
-import { ProductControllerApi, SubCategoryControllerApi } from 'src/network/openapi/apis/'; 
-import { ProductResponse, SubCategoryRequestDTO, SubCategoryResponseDTO } from 'src/network/openapi/models/';
+import { ProductControllerApi, SubCategoryControllerApi,RawMaterialControllerApi } from 'src/network/openapi/apis/'; 
+import { ProductResponse, RawMaterialResponseDTO, SubCategoryRequestDTO, SubCategoryResponseDTO } from 'src/network/openapi/models/';
 
 import { FileStorageControllerApi } from 'src/network/openapi/apis/'; 
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
@@ -31,7 +31,8 @@ import { MatSelectModule } from '@angular/material/select';
   providers: [
     ProductControllerApi,
     SubCategoryControllerApi,
-    FileStorageControllerApi
+    FileStorageControllerApi,
+    RawMaterialControllerApi
   ],
   templateUrl: './dialog-add-product.component.html',
   styleUrls: ['./dialog-add-product.component.scss']
@@ -45,9 +46,11 @@ export class DialogAddProductComponent implements OnInit {
   selectedFile: File | null = null;  // Store the selected image file
   formGroup: FormGroup;
   Subcategorie: SubCategoryResponseDTO[] = [];
+  rawMaterials: RawMaterialResponseDTO[] = [];
 
   constructor(
     private subService : SubCategoryControllerApi,
+    private rawMaterialService : RawMaterialControllerApi,
     private fb: FormBuilder,
     private productService: ProductControllerApi,
     private fileService: FileStorageControllerApi,
@@ -78,7 +81,9 @@ export class DialogAddProductComponent implements OnInit {
     }
   }
   ngOnInit(): void {
-this.fetchSub();  }
+this.fetchSub();  
+this.fetchRawMat();
+}
 
   // Handle image file selection
   onImageSelected(event: Event): void {
@@ -120,6 +125,21 @@ console.log(response)
         console.error('Error fetching products:', error);
       });
   }
+
+  fetchRawMat(): void {
+    
+      const headers = this.tokenService.getAuthHeaders();
+      headers['Content-Type'] = 'application/json';
+      // Send pageable object to the OpenAPI-generated getProducts method
+      this.rawMaterialService.getAllRawMaterials1({headers})
+        .then((response: any) => {
+          this.rawMaterials = response; 
+          console.log(response)
+        })
+        .catch(error => {
+          console.error('Error fetching raw materials:', error);
+        });
+  }
   // Function to handle product submission and logo upload
   onSubmit(): void {
     const formData = new FormData();  // Create FormData to send as multipart/form-data
@@ -131,6 +151,7 @@ console.log(response)
     formData.append('weight', this.formGroup.get('weight')?.value);
     formData.append('dimension', this.formGroup.get('dimensions')?.value);
     formData.append('subCategory', this.formGroup.get('subCategory')?.value);
+    formData.append('rawMaterial', this.formGroup.get('rawMaterial')?.value);
     formData.append('productionDuration', this.formGroup.get('productionTime')?.value);
     formData.append('price', this.formGroup.get('price')?.value);
     formData.append('quantity', this.formGroup.get('quantity')?.value);

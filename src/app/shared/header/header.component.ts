@@ -14,7 +14,6 @@ import { TokenService } from 'src/network/openapi/apis/tokenService';
 
 
 
-
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -25,10 +24,11 @@ import { TokenService } from 'src/network/openapi/apis/tokenService';
 })
 
 export class HeaderComponent implements OnInit {
-  displayedColumns: string[] = [ 'image','Nom','Prenom','Email','tel', 'status'];
+  displayedColumns: string[] = [ 'logo','logoType','firstName','logoName','tel', 'status'];
   selection = new SelectionModel<UserResponseDTO>(true, []);
   dataSource: MatTableDataSource<UserResponseDTO>;
   users: UserResponseDTO[] = [];
+  user: UserResponseDTO ;
   totalItems = 0; // To store the total number of products (for paginator)
   pageSize = 10; // Default page size
   pageIndex = 0; // Default to the first page
@@ -89,14 +89,28 @@ constructor(
 
 
   ngOnInit() {
-  
-
+    this.fetchAuthenticatedUser();
   }
+
+
+  fetchAuthenticatedUser(): void {
+    const headers = this.tokenService.getAuthHeaders(); // Ensure the token is correct and valid
+    headers['Content-Type'] = 'application/json';
+    this.userService.getAuthenticatedUser({ headers })
+      .then((response: any) => {
+        this.user = response;  // Map the response to the user object
+      })
+      .catch(error => {
+        console.error('Error fetching user:', error);
+        // Handle token expiration or invalid token error
+          console.log('Unauthorized. Redirecting to login...');
+          this.router.navigate(['/auth/sign-in']);
+      });
+  }  
+
   logout(){
     this.router.navigate(['/auth/sign-in']);
     localStorage.removeItem('jwtToken');
     localStorage.removeItem('userRole');
-
-    console.log(localStorage)
   }
 }
