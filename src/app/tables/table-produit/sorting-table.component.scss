@@ -10,6 +10,11 @@ table {
   td, th {
     width: 25%;
   }
+  .button-container {
+    display: flex;
+    justify-content: flex-end; /* Right-align the button */
+    margin-bottom: 20px; /* Add some space below the button */
+  }
   
   
   

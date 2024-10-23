@@ -63,9 +63,9 @@ fetchSub(): void {
   };
 
   // Send pageable object to the OpenAPI-generated getProducts method
-  this.subService.getSubCategories({ pageable })
+  this.subService.getAllSubCategories({  })
     .then((response: any) => {
-      this.Subcategorie = response.content; 
+      this.Subcategorie = response; 
       this.totalItems = response.totalElements; // The total number of products
 console.log(response.content)
       // Assign data to the table data source
@@ -121,7 +121,7 @@ applyFilter(event: Event): void {
 
 openDialog(row: any): void {
   const dialogRef = this.dialog.open(DialogsouscategorieComponent, {
-    width: '30vw',
+    width: '50vw',
     maxWidth: '90vw',
     height: 'auto',
     maxHeight: '90vh',

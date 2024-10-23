@@ -108,7 +108,7 @@ applyFilter(event: Event): void {
 openDialog(row: any): void {
   console.log(row);
   const dialogRef = this.dialog.open(InfoResponsableComponent, {
-    width: '70vw',
+    width: '50vw',
     maxWidth: '90vw',
     height: 'auto',
     maxHeight: '90vh',
